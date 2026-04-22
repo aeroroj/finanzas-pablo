@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#1E3A5F">
+<title>Finanzas Pablo</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --header: #1E3A5F;
+  --row-alt: #E8EEF7;
+  --total-bg: #D0DCF0;
+  --gain-bg: #E6F4EC; --gain: #1A7A3C;
+  --loss-bg: #FDE8E8; --loss: #C0392B;
+  --warn-bg: #FEF3CD; --warn: #8A6000;
+  --page-bg: #F0F4FA;
+  --accent: #3B82F6;
+  --sidebar-dark: #1A2F4E;
+  --text-mid: #64748B;
+  --text-dark: #1A2B45;
+  --card-radius: 14px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:var(--page-bg);
+  color:var(--text-dark);
+  overflow:hidden;
+  height:100dvh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* ── LOGIN ── */
+#login {
+  position:fixed; inset:0; z-index:1000;
+  background:linear-gradient(135deg,#1E3A5F 0%,#1A2F4E 100%);
+  display:flex; align-items:center; justify-content:center;
+  flex-direction:column; gap:24px;
+}
+#login.hidden { display:none; }
+#login h1 { color:#fff; font-size:24px; font-weight:700; letter-spacing:-0.5px; }
+#login p { color:rgba(255,255,255,.6); font-size:13px; }
+#login input {
+  width:260px; padding:14px 18px; border-radius:12px; border:2px solid rgba(255,255,255,.15);
+  background:rgba(255,255,255,.08); color:#fff; font-size:16px;
+  font-family:inherit; outline:none; text-align:center;
+  transition:border-color .2s;
+}
+#login input:focus { border-color:var(--accent); }
+#login input::placeholder { color:rgba(255,255,255,.35); }
+#login button {
+  padding:14px 48px; border-radius:12px; border:none;
+  background:var(--accent); color:#fff; font-size:15px;
+  font-weight:600; font-family:inherit; cursor:pointer;
+  transition:transform .15s,opacity .15s;
+}
+#login button:active { transform:scale(.96); opacity:.85; }
+#login .login-err { color:#f87171; font-size:13px; min-height:18px; }
+
+/* ── HEADER (mobile) ── */
+header.mobile-header {
+  background:linear-gradient(135deg,#1E3A5F,#1A2F4E);
+  padding:12px 20px; padding-top:calc(12px + env(safe-area-inset-top,0px));
+  display:flex; align-items:center; justify-content:space-between;
+}
+header.mobile-header h1 { color:#fff; font-size:17px; font-weight:700; }
+header.mobile-header .date { color:rgba(255,255,255,.55); font-size:12px; }
+.refresh-btn {
+  background:rgba(255,255,255,.12); border:none; border-radius:8px;
+  width:34px; height:34px; display:flex; align-items:center; justify-content:center;
+  cursor:pointer; color:#fff; transition:background .2s;
+}
+.refresh-btn:hover { background:rgba(255,255,255,.2); }
+.refresh-btn svg { width:18px; height:18px; }
+.refresh-btn.spinning svg { animation:spin .8s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+
+/* ── MAIN CONTENT ── */
+main {
+  flex:1; overflow-y:auto; overflow-x:hidden;
+  padding:16px; padding-bottom:calc(72px + var(--safe-b) + 16px);
+  -webkit-overflow-scrolling:touch;
+}
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* ── BOTTOM NAV (mobile) ── */
+nav.bottom-nav {
+  position:fixed; bottom:0; left:0; right:0;
+  background:#fff; border-top:1px solid #e2e8f0;
+  display:flex; justify-content:space-around; align-items:center;
+  padding:6px 0; padding-bottom:calc(6px + var(--safe-b));
+  z-index:100;
+}
+nav.bottom-nav button {
+  display:flex; flex-direction:column; align-items:center; gap:2px;
+  background:none; border:none; cursor:pointer;
+  color:var(--text-mid); font-size:10px; font-family:inherit;
+  font-weight:500; padding:4px 8px; border-radius:8px;
+  transition:color .2s;
+}
+nav.bottom-nav button.active { color:var(--accent); }
+nav.bottom-nav button svg { width:22px; height:22px; }
+
+/* ── SIDEBAR (tablet/desktop) ── */
+.sidebar {
+  display:none; position:fixed; left:0; top:0; bottom:0;
+  background:linear-gradient(180deg,#1E3A5F 0%,#1A2F4E 100%);
+  z-index:200; flex-direction:column;
+}
+.sidebar .logo { padding:20px; text-align:center; }
+.sidebar .logo h2 { color:#fff; font-size:16px; font-weight:700; }
+.sidebar .logo span { color:rgba(255,255,255,.45); font-size:11px; }
+.sidebar button {
+  display:flex; align-items:center; gap:12px;
+  background:none; border:none; cursor:pointer;
+  color:rgba(255,255,255,.6); font-size:14px; font-family:inherit;
+  font-weight:500; padding:12px 20px; width:100%;
+  transition:all .2s; border-left:3px solid transparent;
+}
+.sidebar button:hover { background:rgba(255,255,255,.06); }
+.sidebar button.active {
+  color:#fff; background:rgba(255,255,255,.1);
+  border-left-color:var(--accent);
+}
+.sidebar button svg { width:20px; height:20px; flex-shrink:0; }
+
+/* ── KPI BAR (tablet/desktop) ── */
+.kpi-bar {
+  display:none; background:#fff; border-bottom:1px solid #e2e8f0;
+  padding:12px 20px; gap:16px; flex-wrap:wrap; align-items:center;
+}
+.kpi-item { text-align:center; }
+.kpi-item .label { font-size:11px; color:var(--text-mid); font-weight:500; }
+.kpi-item .value { font-size:18px; font-weight:700; color:var(--text-dark); }
+
+/* ── CARDS ── */
+.card {
+  background:#fff; border-radius:var(--card-radius);
+  padding:16px; margin-bottom:12px;
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
+}
+.card-title {
+  font-size:13px; font-weight:700; color:var(--text-mid);
+  text-transform:uppercase; letter-spacing:.5px;
+  margin-bottom:12px; display:flex; align-items:center; gap:8px;
+}
+.card-title svg { width:16px; height:16px; color:var(--accent); }
+
+/* ── ROWS ── */
+.row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; border-bottom:1px solid #f1f5f9;
+}
+.row:last-child { border-bottom:none; }
+.row .name { font-size:14px; font-weight:500; }
+.row .val { font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; }
+.row-total {
+  background:var(--total-bg); border-radius:8px;
+  padding:10px 12px; margin-top:8px;
+  display:flex; justify-content:space-between;
+  font-weight:700; font-size:15px;
+}
+.chip {
+  display:inline-flex; padding:2px 8px; border-radius:6px;
+  font-size:11px; font-weight:600; margin-left:8px;
+}
+.chip.up { background:var(--gain-bg); color:var(--gain); }
+.chip.down { background:var(--loss-bg); color:var(--loss); }
+
+/* ── BANCOS EDIT ── */
+.bank-input-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; border-bottom:1px solid #f1f5f9;
+}
+.bank-input-row:last-child { border-bottom:none; }
+.bank-input-row .name { font-size:14px; font-weight:500; flex:1; }
+.bank-input-row input {
+  width:110px; padding:8px 12px; border:1.5px solid #e2e8f0;
+  border-radius:8px; font-size:14px; font-family:inherit;
+  font-weight:600; text-align:right; outline:none;
+  transition:border-color .2s;
+}
+.bank-input-row input:focus { border-color:var(--accent); }
+.save-btn {
+  width:100%; padding:14px; border:none; border-radius:10px;
+  background:var(--accent); color:#fff; font-size:15px;
+  font-weight:600; font-family:inherit; cursor:pointer;
+  margin-top:12px; transition:opacity .2s;
+}
+.save-btn:active { opacity:.8; }
+.save-btn:disabled { opacity:.5; cursor:not-allowed; }
+.save-msg {
+  text-align:center; font-size:13px; margin-top:8px;
+  min-height:20px; font-weight:500;
+}
+
+/* ── DEUDA ── */
+.donut-container {
+  display:flex; align-items:center; gap:20px;
+  padding:12px 0;
+}
+.donut-container canvas { flex-shrink:0; }
+.donut-info .amount { font-size:22px; font-weight:700; }
+.donut-info .sub { font-size:12px; color:var(--text-mid); margin-top:2px; }
+.progress-bar-wrap {
+  background:#e2e8f0; border-radius:8px; height:10px;
+  overflow:hidden; margin:6px 0;
+}
+.progress-bar-fill {
+  height:100%; border-radius:8px;
+  transition:width .6s ease;
+}
+.deuda-detail {
+  display:flex; justify-content:space-between;
+  font-size:13px; color:var(--text-mid); margin-top:4px;
+}
+
+/* ── GRAFICAS ── */
+.chart-wrap { position:relative; margin:0 auto; }
+.chart-wrap canvas { width:100%!important; max-height:260px; }
+.legend-row {
+  display:flex; align-items:center; gap:8px;
+  padding:6px 0; font-size:13px;
+}
+.legend-dot {
+  width:10px; height:10px; border-radius:50%; flex-shrink:0;
+}
+
+/* ── SKELETON ── */
+.skeleton {
+  background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);
+  background-size:200% 100%;
+  animation:shimmer 1.5s infinite;
+  border-radius:6px; height:16px;
+}
+@keyframes shimmer { to { background-position:-200% 0; } }
+
+/* ── RESPONSIVE: Tablet ── */
+@media(min-width:768px) {
+  .sidebar { display:flex; width:72px; }
+  .sidebar .label { display:none; }
+  .sidebar .logo h2 { font-size:0; }
+  .sidebar .logo h2::first-letter { font-size:22px; }
+  .sidebar .logo span { display:none; }
+  .sidebar button { justify-content:center; padding:14px; }
+  .sidebar button gap { gap:0; }
+  nav.bottom-nav { display:none; }
+  header.mobile-header { display:none; }
+  .kpi-bar { display:flex; margin-left:72px; }
+  main { margin-left:72px; padding-bottom:20px; }
+  .tab-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .tab-grid .card { margin-bottom:0; }
+}
+
+/* ── RESPONSIVE: Desktop ── */
+@media(min-width:1100px) {
+  .sidebar { width:220px; }
+  .sidebar .label { display:inline; }
+  .sidebar .logo h2 { font-size:18px; }
+  .sidebar .logo h2::first-letter { font-size:18px; }
+  .sidebar .logo span { display:block; }
+  .kpi-bar { margin-left:220px; }
+  main { margin-left:220px; }
+}
+
+/* ── TOAST ── */
+.toast {
+  position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
+  background:var(--text-dark); color:#fff; padding:10px 20px;
+  border-radius:10px; font-size:13px; font-weight:500;
+  opacity:0; transition:opacity .3s; pointer-events:none; z-index:300;
+}
+.toast.show { opacity:1; }
+@media(min-width:768px) { .toast { bottom:30px; } }
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login">
+  <h1>Finanzas Pablo</h1>
+  <p>Introduce tu contraseña</p>
+  <input type="password" id="passInput" placeholder="Contraseña" autocomplete="off">
+  <button onclick="tryLogin()">Entrar</button>
+  <div class="login-err" id="loginErr"></div>
+</div>
+
+<!-- HEADER mobile -->
+<header class="mobile-header" id="mobileHeader">
+  <div>
+    <h1>Finanzas Pablo</h1>
+    <div class="date" id="headerDate">—</div>
+  </div>
+  <button class="refresh-btn" onclick="loadAll()" id="refreshBtn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+  </button>
+</header>
+
+<!-- SIDEBAR tablet/desktop -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo"><h2>Finanzas Pablo</h2><span id="sideDate">—</span></div>
+  <button class="active" onclick="switchTab('inicio',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <span class="label">Inicio</span>
+  </button>
+  <button onclick="switchTab('cartera',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <span class="label">Cartera</span>
+  </button>
+  <button onclick="switchTab('bancos',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    <span class="label">Bancos</span>
+  </button>
+  <button onclick="switchTab('deuda',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <span class="label">Deuda</span>
+  </button>
+  <button onclick="switchTab('graficas',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    <span class="label">Gráficas</span>
+  </button>
+</aside>
+
+<!-- KPI BAR -->
+<div class="kpi-bar" id="kpiBar">
+  <div class="kpi-item"><div class="label">Patrimonio neto</div><div class="value" id="kpiNet">—</div></div>
+  <div class="kpi-item"><div class="label">Bancos</div><div class="value" id="kpiBanks">—</div></div>
+  <div class="kpi-item"><div class="label">Inversiones</div><div class="value" id="kpiInv">—</div></div>
+  <div class="kpi-item"><div class="label">Deuda</div><div class="value" id="kpiDebt">—</div></div>
+</div>
+
+<!-- MAIN CONTENT -->
+<main id="mainContent">
+
+  <!-- TAB INICIO -->
+  <div class="tab-content active" id="tab-inicio">
+    <div class="tab-grid">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+          Saldos bancarios
+        </div>
+        <div id="inicioBancos"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+          Resumen inversiones
+        </div>
+        <div id="inicioInv"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-2 .5-3 2-3 3.5 0 1.5 1 2.5 2.5 2.5s2.5-1 2.5-2.5c0-1.5-1-2.5-2.5-2.5"/><path d="M2 2l20 20"/></svg>
+          Huchas
+        </div>
+        <div id="inicioHuchas"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB CARTERA -->
+  <div class="tab-content" id="tab-cartera">
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>
+        Fondos de inversión
+      </div>
+      <div id="carteraFondos"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+        Planes de pensiones
+      </div>
+      <div id="carteraPensiones"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        Criptomonedas
+      </div>
+      <div id="carteraCripto"></div>
+    </div>
+  </div>
+
+  <!-- TAB BANCOS -->
+  <div class="tab-content" id="tab-bancos">
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Editar saldos
+      </div>
+      <div id="bancosEdit"></div>
+      <button class="save-btn" id="saveBtn" onclick="saveAllBanks()">Guardar cambios</button>
+      <div class="save-msg" id="saveMsg"></div>
+    </div>
+  </div>
+
+  <!-- TAB DEUDA -->
+  <div class="tab-content" id="tab-deuda">
+    <div class="tab-grid">
+      <div class="card" id="deudaHipoteca"></div>
+      <div class="card" id="deudaPrestamo"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Amortización anticipada 2026
+      </div>
+      <div id="amortInfo"></div>
+    </div>
+  </div>
+
+  <!-- TAB GRAFICAS -->
+  <div class="tab-content" id="tab-graficas">
+    <div class="tab-grid">
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+          Distribución del patrimonio
+        </div>
+        <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
+        <div id="donutLegend"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+          Inversiones por tipo
+        </div>
+        <div class="chart-wrap"><canvas id="chartBars"></canvas></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- BOTTOM NAV mobile -->
+<nav class="bottom-nav" id="bottomNav">
+  <button class="active" onclick="switchTab('inicio',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    Inicio
+  </button>
+  <button onclick="switchTab('cartera',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    Cartera
+  </button>
+  <button onclick="switchTab('bancos',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+    Bancos
+  </button>
+  <button onclick="switchTab('deuda',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    Deuda
+  </button>
+  <button onclick="switchTab('graficas',this)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    Gráficas
+  </button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─── CONFIG ─── */
+const API = "https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
+let PASS = "";
+let DATA = null;
+
+/* ─── UTILS ─── */
+const fmt = n => n == null ? "—" : n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}) + " €";
+const fmtPct = n => (n>=0?"+":"") + n.toFixed(2) + "%";
+const chipHtml = pct => `<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
+const $ = id => document.getElementById(id);
+
+function toast(msg) {
+  const t = $("toast"); t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"),2500);
+}
+
+/* ─── LOGIN ─── */
+$("passInput").addEventListener("keydown", e => { if(e.key==="Enter") tryLogin(); });
+
+async function tryLogin() {
+  PASS = $("passInput").value.trim();
+  if(!PASS) return;
+  $("loginErr").textContent = "Verificando...";
+  try {
+    const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);
+    const d = await r.json();
+    if(d.error) { $("loginErr").textContent = "Contraseña incorrecta"; PASS=""; return; }
+    DATA = d;
+    $("login").classList.add("hidden");
+    renderAll();
+    // also fetch prices
+    fetchPrices();
+  } catch(e) {
+    $("loginErr").textContent = "Error de conexión";
+    PASS = "";
+  }
+}
+
+/* ─── DATA LOADING ─── */
+async function loadAll() {
+  const btn = $("refreshBtn");
+  if(btn) btn.classList.add("spinning");
+  try {
+    const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);
+    DATA = await r.json();
+    if(DATA.error) { toast("Error: " + DATA.error); return; }
+    renderAll();
+    fetchPrices();
+    toast("Datos actualizados");
+  } catch(e) { toast("Error de conexión"); }
+  finally { if(btn) setTimeout(()=>btn.classList.remove("spinning"),500); }
+}
+
+async function fetchPrices() {
+  try {
+    const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getPrices`);
+    const prices = await r.json();
+    // prices are for display info only — real values come from Sheet
+    // We could use these for extra features later
+  } catch(e) {}
+}
+
+/* ─── TAB SWITCHING ─── */
+function switchTab(id, btn) {
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  $("tab-"+id).classList.add("active");
+  // bottom nav
+  document.querySelectorAll("nav.bottom-nav button").forEach(b => b.classList.remove("active"));
+  // sidebar
+  document.querySelectorAll(".sidebar button").forEach(b => b.classList.remove("active"));
+  if(btn) btn.classList.add("active");
+  // sync both navs
+  const idx = ["inicio","cartera","bancos","deuda","graficas"].indexOf(id);
+  const bnBtns = document.querySelectorAll("nav.bottom-nav button");
+  const sbBtns = document.querySelectorAll(".sidebar button");
+  if(bnBtns[idx]) bnBtns[idx].classList.add("active");
+  if(sbBtns[idx]) sbBtns[idx].classList.add("active");
+
+  if(id==="graficas") setTimeout(renderCharts,100);
+}
+
+/* ─── RENDER ALL ─── */
+function renderAll() {
+  if(!DATA) return;
+  const d = DATA;
+
+  // Date
+  let dateStr = "—";
+  if(d.fecha) {
+    try { dateStr = new Date(d.fecha).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"}); } catch(e) { dateStr = String(d.fecha); }
+  }
+  $("headerDate").textContent = dateStr;
+  $("sideDate").textContent = dateStr;
+
+  // Totals
+  const totalBancos = Object.values(d.bancos).reduce((a,b)=>a+b,0);
+  const totalHuchas = Object.values(d.huchas).reduce((a,b)=>a+b,0);
+  const totalInvActual = Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
+  const totalDeuda = d.deuda.Hipoteca.pendiente + d.deuda.Prestamo.pendiente;
+  const patrimonioNeto = totalBancos + totalHuchas + totalInvActual - totalDeuda;
+
+  // KPIs
+  $("kpiNet").textContent = fmt(patrimonioNeto);
+  $("kpiBanks").textContent = fmt(totalBancos);
+  $("kpiInv").textContent = fmt(totalInvActual);
+  $("kpiDebt").textContent = fmt(totalDeuda);
+
+  renderInicio(d, totalBancos, totalHuchas, totalInvActual);
+  renderCartera(d);
+  renderBancos(d);
+  renderDeuda(d);
+}
+
+/* ─── TAB: INICIO ─── */
+function renderInicio(d, totalBancos, totalHuchas, totalInvActual) {
+  // Bancos
+  let html = "";
+  Object.entries(d.bancos).forEach(([name,val]) => {
+    html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
+  });
+  html += `<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
+  $("inicioBancos").innerHTML = html;
+
+  // Inversiones resumen por tipo
+  const byType = {fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
+  Object.values(d.inversiones).forEach(i => {
+    byType[i.tipo].ini += i.inicial;
+    byType[i.tipo].act += i.actual;
+  });
+  const labels = {fondo:"Fondos",pension:"Pensiones",cripto:"Cripto"};
+  html = "";
+  Object.entries(byType).forEach(([tipo,v]) => {
+    const pct = v.ini ? ((v.act-v.ini)/v.ini)*100 : 0;
+    html += `<div class="row"><span class="name">${labels[tipo]}</span><span class="val">${fmt(v.act)}${chipHtml(pct)}</span></div>`;
+  });
+  const totalInvIni = Object.values(d.inversiones).reduce((a,i)=>a+i.inicial,0);
+  const pctTotal = totalInvIni ? ((totalInvActual-totalInvIni)/totalInvIni)*100 : 0;
+  html += `<div class="row-total"><span>Total</span><span>${fmt(totalInvActual)}${chipHtml(pctTotal)}</span></div>`;
+  $("inicioInv").innerHTML = html;
+
+  // Huchas
+  html = "";
+  Object.entries(d.huchas).forEach(([name,val]) => {
+    html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
+  });
+  html += `<div class="row-total"><span>Total</span><span>${fmt(totalHuchas)}</span></div>`;
+  $("inicioHuchas").innerHTML = html;
+}
+
+/* ─── TAB: CARTERA ─── */
+function renderCartera(d) {
+  const render = (container, items) => {
+    let html = "";
+    let totalIni = 0, totalAct = 0;
+    items.forEach(([name,i]) => {
+      const pct = i.inicial ? ((i.actual-i.inicial)/i.inicial)*100 : 0;
+      totalIni += i.inicial; totalAct += i.actual;
+      html += `<div class="row">
+        <div>
+          <div class="name">${name}</div>
+          <div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div>
+        </div>
+        <div style="text-align:right">
+          <div class="val">${fmt(i.actual)}</div>
+          <div>${chipHtml(pct)}</div>
+        </div>
+      </div>`;
+    });
+    const pctT = totalIni ? ((totalAct-totalIni)/totalIni)*100 : 0;
+    html += `<div class="row-total"><span>Total</span><span>${fmt(totalAct)}${chipHtml(pctT)}</span></div>`;
+    $(container).innerHTML = html;
+  };
+
+  const inv = Object.entries(d.inversiones);
+  render("carteraFondos", inv.filter(([,i])=>i.tipo==="fondo"));
+  render("carteraPensiones", inv.filter(([,i])=>i.tipo==="pension"));
+  render("carteraCripto", inv.filter(([,i])=>i.tipo==="cripto"));
+}
+
+/* ─── TAB: BANCOS ─── */
+function renderBancos(d) {
+  let html = "";
+  Object.entries(d.bancos).forEach(([name,val]) => {
+    html += `<div class="bank-input-row">
+      <span class="name">${name}</span>
+      <input type="number" step="0.01" data-bank="${name}" value="${val.toFixed(2)}">
+    </div>`;
+  });
+  $("bancosEdit").innerHTML = html;
+  $("saveMsg").textContent = "";
+}
+
+async function saveAllBanks() {
+  const btn = $("saveBtn");
+  btn.disabled = true;
+  btn.textContent = "Guardando...";
+  $("saveMsg").textContent = "";
+  const inputs = document.querySelectorAll("#bancosEdit input");
+  let ok = 0, errors = 0;
+
+  for(const inp of inputs) {
+    try {
+      const r = await fetch(API, {
+        method:"POST",
+        headers:{"Content-Type":"text/plain"},
+        body:JSON.stringify({pass:PASS, action:"updateBank", bank:inp.dataset.bank, value:parseFloat(inp.value)})
+      });
+      const res = await r.json();
+      if(res.ok) ok++; else errors++;
+    } catch(e) { errors++; }
+  }
+
+  btn.disabled = false;
+  btn.textContent = "Guardar cambios";
+  if(errors===0) {
+    $("saveMsg").innerHTML = `<span style="color:var(--gain)">✓ ${ok} saldos actualizados</span>`;
+    toast("Saldos guardados");
+    loadAll(); // refresh
+  } else {
+    $("saveMsg").innerHTML = `<span style="color:var(--loss)">✗ ${errors} error(es)</span>`;
+  }
+}
+
+/* ─── TAB: DEUDA ─── */
+function renderDeuda(d) {
+  ["Hipoteca","Prestamo"].forEach(key => {
+    const debt = d.deuda[key];
+    const paid = debt.totalOriginal - debt.pendiente;
+    const pctPaid = (paid / debt.totalOriginal) * 100;
+    const container = key === "Hipoteca" ? $("deudaHipoteca") : $("deudaPrestamo");
+    const color = key === "Hipoteca" ? "var(--accent)" : "#8B5CF6";
+    const label = key === "Hipoteca" ? "Hipoteca" : "Préstamo";
+
+    container.innerHTML = `
+      <div class="card-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        ${label}
+      </div>
+      <div class="donut-container">
+        <canvas id="donut${key}" width="90" height="90"></canvas>
+        <div class="donut-info">
+          <div class="amount" style="color:var(--loss)">${fmt(debt.pendiente)}</div>
+          <div class="sub">pendiente de ${fmt(debt.totalOriginal)}</div>
+          <div class="sub">Cuota: ${fmt(debt.cuota)}/mes · Fin: ${debt.fin}</div>
+        </div>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" style="width:${pctPaid}%;background:${color}"></div>
+      </div>
+      <div class="deuda-detail">
+        <span>Pagado: ${fmt(paid)} (${pctPaid.toFixed(1)}%)</span>
+        <span>Pendiente: ${pctPaid < 100 ? (100-pctPaid).toFixed(1) : 0}%</span>
+      </div>
+    `;
+    drawMiniDonut(`donut${key}`, pctPaid, color);
+  });
+
+  // Amortización
+  const minAmort = 646.98;
+  $("amortInfo").innerHTML = `
+    <div class="row">
+      <span class="name">Mínimo amortización 2026</span>
+      <span class="val" style="color:var(--warn)">${fmt(minAmort)}</span>
+    </div>
+    <div style="font-size:12px;color:var(--text-mid);margin-top:8px;padding:10px;background:var(--warn-bg);border-radius:8px;">
+      Para mantener la deducción fiscal, debes amortizar al menos ${fmt(minAmort)} antes de fin de año.
+    </div>
+  `;
+}
+
+function drawMiniDonut(canvasId, pct, color) {
+  const c = document.getElementById(canvasId);
+  if(!c) return;
+  const ctx = c.getContext("2d");
+  const s = c.width; const cx=s/2; const cy=s/2; const r=s/2-8; const lw=10;
+  ctx.clearRect(0,0,s,s);
+  // bg
+  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
+  ctx.strokeStyle="#e2e8f0"; ctx.lineWidth=lw; ctx.stroke();
+  // fill
+  ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(Math.PI*2*pct/100));
+  ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.lineCap="round"; ctx.stroke();
+  // text
+  ctx.fillStyle="#1A2B45"; ctx.font="bold 16px 'Plus Jakarta Sans',sans-serif";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText(pct.toFixed(0)+"%",cx,cy);
+}
+
+/* ─── TAB: GRAFICAS ─── */
+function renderCharts() {
+  if(!DATA) return;
+  renderDonutChart();
+  renderBarChart();
+}
+
+function renderDonutChart() {
+  const c = $("chartDonut");
+  if(!c) return;
+  const ctx = c.getContext("2d");
+  const totalBancos = Object.values(DATA.bancos).reduce((a,b)=>a+b,0);
+  const totalHuchas = Object.values(DATA.huchas).reduce((a,b)=>a+b,0);
+  const byType = {fondo:0,pension:0,cripto:0};
+  Object.values(DATA.inversiones).forEach(i => byType[i.tipo] += i.actual);
+
+  const segments = [
+    {label:"Bancos",value:totalBancos,color:"#3B82F6"},
+    {label:"Huchas",value:totalHuchas,color:"#F59E0B"},
+    {label:"Fondos",value:byType.fondo,color:"#10B981"},
+    {label:"Pensiones",value:byType.pension,color:"#8B5CF6"},
+    {label:"Cripto",value:byType.cripto,color:"#F97316"},
+  ];
+  const total = segments.reduce((a,s)=>a+s.value,0);
+
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.parentElement.clientWidth;
+  const h = 240;
+  c.width = w * dpr; c.height = h * dpr;
+  c.style.width = w+"px"; c.style.height = h+"px";
+  ctx.scale(dpr,dpr);
+
+  const cx = w/2; const cy = h/2; const r = Math.min(w,h)/2 - 20; const lw = 36;
+  let angle = -Math.PI/2;
+
+  segments.forEach(s => {
+    const slice = (s.value/total)*Math.PI*2;
+    ctx.beginPath(); ctx.arc(cx,cy,r,angle,angle+slice);
+    ctx.strokeStyle=s.color; ctx.lineWidth=lw; ctx.lineCap="butt"; ctx.stroke();
+    angle += slice;
+  });
+
+  // center text
+  ctx.fillStyle="#1A2B45"; ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";
+  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillText(fmt(total),cx,cy-8);
+  ctx.font="12px 'Plus Jakarta Sans',sans-serif"; ctx.fillStyle="#64748B";
+  ctx.fillText("Total",cx,cy+12);
+
+  // legend
+  let legend = "";
+  segments.forEach(s => {
+    const pct = ((s.value/total)*100).toFixed(1);
+    legend += `<div class="legend-row"><span class="legend-dot" style="background:${s.color}"></span><span style="flex:1">${s.label}</span><span style="font-weight:600">${fmt(s.value)}</span><span style="color:var(--text-mid);width:50px;text-align:right">${pct}%</span></div>`;
+  });
+  $("donutLegend").innerHTML = legend;
+}
+
+function renderBarChart() {
+  const c = $("chartBars");
+  if(!c) return;
+  const ctx = c.getContext("2d");
+  const byType = {fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
+  Object.values(DATA.inversiones).forEach(i => {
+    byType[i.tipo].ini += i.inicial;
+    byType[i.tipo].act += i.actual;
+  });
+
+  const groups = [
+    {label:"Fondos",...byType.fondo,color:"#10B981"},
+    {label:"Pensiones",...byType.pension,color:"#8B5CF6"},
+    {label:"Cripto",...byType.cripto,color:"#F97316"},
+  ];
+
+  const dpr = window.devicePixelRatio || 1;
+  const w = c.parentElement.clientWidth;
+  const h = 240;
+  c.width = w * dpr; c.height = h * dpr;
+  c.style.width = w+"px"; c.style.height = h+"px";
+  ctx.scale(dpr,dpr);
+
+  const max = Math.max(...groups.map(g=>Math.max(g.ini,g.act))) * 1.15;
+  const pad = {t:20,b:40,l:10,r:10};
+  const chartW = w - pad.l - pad.r;
+  const chartH = h - pad.t - pad.b;
+  const groupW = chartW / groups.length;
+  const barW = groupW * 0.3;
+
+  groups.forEach((g,i) => {
+    const x = pad.l + i * groupW + groupW/2;
+    // Invertido bar
+    const h1 = (g.ini/max)*chartH;
+    ctx.fillStyle = "#CBD5E1";
+    ctx.beginPath();
+    roundRect(ctx, x - barW - 2, pad.t + chartH - h1, barW, h1, 4);
+    ctx.fill();
+    // Actual bar
+    const h2 = (g.act/max)*chartH;
+    ctx.fillStyle = g.color;
+    ctx.beginPath();
+    roundRect(ctx, x + 2, pad.t + chartH - h2, barW, h2, 4);
+    ctx.fill();
+    // label
+    ctx.fillStyle = "#64748B"; ctx.font = "12px 'Plus Jakarta Sans',sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(g.label, x, h - 10);
+  });
+
+  // mini legend
+  ctx.fillStyle="#CBD5E1"; ctx.fillRect(w-140,8,10,10);
+  ctx.fillStyle="#64748B"; ctx.font="11px 'Plus Jakarta Sans',sans-serif"; ctx.textAlign="left";
+  ctx.fillText("Invertido",w-126,17);
+  ctx.fillStyle="#10B981"; ctx.fillRect(w-60,8,10,10);
+  ctx.fillText("Actual",w-46,17);
+}
+
+function roundRect(ctx,x,y,w,h,r) {
+  ctx.moveTo(x+r,y);
+  ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h); ctx.lineTo(x,y+h);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+}
+
+/* ─── PWA REGISTER ─── */
+if("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(()=>{});
+}
+</script>
+</body>
+</html>
