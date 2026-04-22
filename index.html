@@ -673,11 +673,8 @@ async function saveAllBanks() {
 
   for(const inp of inputs) {
     try {
-      const r = await fetch(API, {
-        method:"POST",
-        headers:{"Content-Type":"text/plain"},
-        body:JSON.stringify({pass:PASS, action:"updateBank", bank:inp.dataset.bank, value:parseFloat(inp.value)})
-      });
+      const url = `${API}?pass=${encodeURIComponent(PASS)}&action=updateBank&bank=${encodeURIComponent(inp.dataset.bank)}&value=${parseFloat(inp.value)}`;
+      const r = await fetch(url);
       const res = await r.json();
       if(res.ok) ok++; else errors++;
     } catch(e) { errors++; }
