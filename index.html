@@ -411,13 +411,7 @@ nav.bottom-nav button svg { width:22px; height:22px; }
       <div class="card" id="deudaHipoteca"></div>
       <div class="card" id="deudaPrestamo"></div>
     </div>
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        Amortización anticipada 2026
-      </div>
-      <div id="amortInfo"></div>
-    </div>
+
   </div>
 
   <!-- TAB GRAFICAS -->
@@ -724,18 +718,6 @@ function renderDeuda(d) {
     `;
     drawMiniDonut(`donut${key}`, pctPaid, color);
   });
-
-  // Amortización
-  const minAmort = 646.98;
-  $("amortInfo").innerHTML = `
-    <div class="row">
-      <span class="name">Mínimo amortización 2026</span>
-      <span class="val" style="color:var(--warn)">${fmt(minAmort)}</span>
-    </div>
-    <div style="font-size:12px;color:var(--text-mid);margin-top:8px;padding:10px;background:var(--warn-bg);border-radius:8px;">
-      Para mantener la deducción fiscal, debes amortizar al menos ${fmt(minAmort)} antes de fin de año.
-    </div>
-  `;
 }
 
 function drawMiniDonut(canvasId, pct, color) {
