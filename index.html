@@ -66,6 +66,9 @@ nav.bottom-nav button svg{width:22px;height:22px}
 .chip{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;margin-left:8px}
 .chip.up{background:var(--gain-bg);color:var(--gain)}
 .chip.down{background:var(--loss-bg);color:var(--loss)}
+.summary-stats{display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;padding:8px 12px;margin-top:6px;background:#F8FAFC;border-radius:8px;font-size:12px;color:var(--text-mid)}
+.summary-stats .stat-label{font-weight:500}
+.summary-stats .stat-value{text-align:right;font-weight:600}
 .donut-container{display:flex;align-items:center;gap:20px;padding:12px 0}
 .donut-container canvas{flex-shrink:0}
 .donut-info .amount{font-size:22px;font-weight:700}
@@ -82,6 +85,9 @@ nav.bottom-nav button svg{width:22px;height:22px}
 .chart-wrap canvas{width:100%!important}
 .legend-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
 .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.block-header{font-size:14px;font-weight:700;color:var(--text-dark);margin-top:16px;margin-bottom:4px;padding-bottom:4px;border-bottom:2px solid #e2e8f0}
+.block-header:first-child{margin-top:0}
+.block-summary{font-size:11px;color:var(--text-mid);margin-bottom:12px;line-height:1.6}
 @media(min-width:768px){
   .sidebar{display:flex;width:72px}.sidebar .label{display:none}
   .sidebar .logo h2{font-size:0}.sidebar .logo h2::first-letter{font-size:22px}
@@ -166,7 +172,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
       </div>
       <div class="card">
         <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Inversiones detalle</div>
-        <div class="chart-wrap"><canvas id="chartInvBars"></canvas></div>
+        <div id="invDetailBlocks"></div>
       </div>
     </div>
   </div>
@@ -187,10 +193,21 @@ let PASS="",DATA=null,PRICES=null;
 const fmt=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
 const fmtShort=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+" €";
 const fmtPct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
-const fmtDiff=n=>(n>=0?"+":"")+n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+"€";
+const fmtDiff=n=>(n>=0?"+":"")+n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
 const chipHtml=pct=>`<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
 const $=id=>document.getElementById(id);
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500)}
+
+function summaryStatsHtml(tIni,tAct){
+  const gain=tAct-tIni;const pct=tIni?((gain)/tIni)*100:0;
+  const gc=gain>=0?"var(--gain)":"var(--loss)";
+  return `<div class="summary-stats">
+    <span class="stat-label">Dinero Invertido</span><span class="stat-value">${fmt(tIni)}</span>
+    <span class="stat-label">Dinero Actual</span><span class="stat-value">${fmt(tAct)}</span>
+    <span class="stat-label">Ganancia Neta</span><span class="stat-value" style="color:${gc}">${fmtDiff(gain)}</span>
+    <span class="stat-label">Porcentaje</span><span class="stat-value" style="color:${gc}">${fmtPct(pct)}</span>
+  </div>`;
+}
 
 $("passInput").addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin()});
 
@@ -294,6 +311,7 @@ function renderCartera(d){
     });
     const pT=tI?((tA-tI)/tI)*100:0;
     h+=`<div class="row-total"><span>Total</span><span>${fmt(tA)}${chipHtml(pT)}</span></div>`;
+    h+=summaryStatsHtml(tI,tA);
     $(container).innerHTML=h;
   };
   const inv=Object.entries(d.inversiones);
@@ -394,94 +412,62 @@ function renderDonutChart(){
 }
 
 function renderInvBars(){
-  const c=$("chartInvBars");if(!c)return;const ctx=c.getContext("2d");
   const inv=Object.entries(DATA.inversiones);
-  const n=inv.length;
-
   const colorMap={
     "Fondo BSG":"#047857","Fondo 75":"#059669","Fondo AI+75":"#10B981",
     "Amundi S&P 500":"#34D399","Amundi Nasdaq 100":"#6EE7B7","Amundi MSCI":"#A7F3D0",
     "PP ING":"#7C3AED","PP NN":"#A78BFA",
     "Cronos":"#C2410C","Bitcoin":"#EA580C","Ethereum":"#F97316"
   };
-
   const maxVal=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)))*1.1;
-  const dpr=window.devicePixelRatio||1;
-  const w=c.parentElement.clientWidth;
-  const barH=20;const barGap=4;const rowH=barH*2+barGap+34;
-  const padT=5;const padB=10;
-  const h=padT+n*rowH+padB;
 
-  c.width=w*dpr;c.height=h*dpr;
-  c.style.width=w+"px";c.style.height=h+"px";
-  ctx.scale(dpr,dpr);
+  const blocks=[
+    {title:"Fondos de Inversión",tipo:"fondo"},
+    {title:"Planes de Pensiones",tipo:"pension"},
+    {title:"Criptomonedas",tipo:"cripto"}
+  ];
 
-  const chartW=w;
-  const fontBar="bold 11px 'Plus Jakarta Sans',sans-serif";
-  const fontLabel="bold 12px 'Plus Jakarta Sans',sans-serif";
-  const fontSub="11px 'Plus Jakarta Sans',sans-serif";
+  let html="";
 
-  inv.forEach(([name,item],idx)=>{
-    const y=padT+idx*rowH;
-    const col=colorMap[name]||"#64748B";
-    const diff=item.actual-item.inicial;
-    const pct=item.inicial?((diff)/item.inicial)*100:0;
-    const diffSign=diff>=0?"+":"";
-    const pctColor=diff>=0?"#1A7A3C":"#C0392B";
+  blocks.forEach(block=>{
+    const items=inv.filter(([,i])=>i.tipo===block.tipo);
+    if(!items.length)return;
 
-    // Title line: "Fondo BSG: +971€ +24,99%"
-    ctx.fillStyle="#1A2B45";ctx.font=fontLabel;ctx.textAlign="left";ctx.textBaseline="top";
-    const titleBase=name+": ";
-    const titleW=ctx.measureText(titleBase).width;
-    ctx.fillText(titleBase,0,y);
-    ctx.fillStyle=pctColor;ctx.font=fontSub;
-    ctx.fillText(diffSign+Math.round(diff)+"€  "+fmtPct(pct),titleW,y+1);
+    const tIni=items.reduce((a,[,i])=>a+i.inicial,0);
+    const tAct=items.reduce((a,[,i])=>a+i.actual,0);
+    const tGain=tAct-tIni;
+    const tPct=tIni?((tGain)/tIni)*100:0;
+    const gc=tGain>=0?"var(--gain)":"var(--loss)";
 
-    // Actual bar
-    const bY1=y+18;
-    const wAct=Math.max((item.actual/maxVal)*chartW,4);
-    ctx.fillStyle=col;
-    roundRectFill(ctx,0,bY1,wAct,barH,5);
+    html+=`<div class="block-header">${block.title}</div>`;
+    html+=`<div class="block-summary">Invertido: ${fmt(tIni)} · Actual: ${fmt(tAct)} · <span style="color:${gc};font-weight:600">Ganancia: ${fmtDiff(tGain)} (${fmtPct(tPct)})</span></div>`;
 
-    // Text inside or outside actual bar
-    const actTxt=fmtShort(item.actual);
-    ctx.font=fontBar;
-    const actTxtW=ctx.measureText(actTxt).width;
-    if(actTxtW+10<wAct){
-      ctx.fillStyle="#fff";ctx.textAlign="left";ctx.textBaseline="middle";
-      ctx.fillText(actTxt,6,bY1+barH/2);
-    } else {
-      ctx.fillStyle=col;ctx.textAlign="left";ctx.textBaseline="middle";
-      ctx.fillText(actTxt,wAct+4,bY1+barH/2);
-    }
+    items.forEach(([name,item])=>{
+      const col=colorMap[name]||"#64748B";
+      const diff=item.actual-item.inicial;
+      const pct=item.inicial?((diff)/item.inicial)*100:0;
+      const sign=diff>=0?"+":"";
+      const pc=diff>=0?"var(--gain)":"var(--loss)";
+      const wAct=Math.max((item.actual/maxVal)*100,1);
+      const wIni=Math.max((item.inicial/maxVal)*100,1);
+      const actInside=wAct>25;
+      const iniInside=wIni>20;
 
-    // Invested bar
-    const bY2=bY1+barH+barGap;
-    const wIni=Math.max((item.inicial/maxVal)*chartW,4);
-    ctx.fillStyle=col+"44";
-    roundRectFill(ctx,0,bY2,wIni,barH,5);
-
-    // Text inside or outside invested bar
-    const iniTxt=fmtShort(item.inicial);
-    ctx.font=fontBar;
-    const iniTxtW=ctx.measureText(iniTxt).width;
-    if(iniTxtW+10<wIni){
-      ctx.fillStyle="#555";ctx.textAlign="left";ctx.textBaseline="middle";
-      ctx.fillText(iniTxt,6,bY2+barH/2);
-    } else {
-      ctx.fillStyle="#64748B";ctx.textAlign="left";ctx.textBaseline="middle";
-      ctx.fillText(iniTxt,wIni+4,bY2+barH/2);
-    }
+      html+=`<div style="margin-bottom:14px">
+        <div style="font-size:13px;font-weight:600;margin-bottom:3px">${name}: <span style="color:${pc}">${sign}${Math.round(diff)}€ ${fmtPct(pct)}</span></div>
+        <div style="position:relative;background:#e2e8f0;border-radius:5px;height:22px;margin-bottom:3px;overflow:visible">
+          <div style="width:${wAct}%;background:${col};height:100%;border-radius:5px;position:absolute;top:0;left:0"></div>
+          <span style="position:absolute;${actInside?"left:6px;color:#fff":"left:"+wAct+"%;margin-left:6px;color:"+col};top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;white-space:nowrap">${fmtShort(item.actual)}</span>
+        </div>
+        <div style="position:relative;background:#f1f5f9;border-radius:5px;height:18px;overflow:visible">
+          <div style="width:${wIni}%;background:${col}44;height:100%;border-radius:5px;position:absolute;top:0;left:0"></div>
+          <span style="position:absolute;${iniInside?"left:6px;color:#555":"left:"+wIni+"%;margin-left:6px;color:var(--text-mid)"};top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;white-space:nowrap">${fmtShort(item.inicial)}</span>
+        </div>
+      </div>`;
+    });
   });
-}
 
-function roundRectFill(ctx,x,y,w,h,r){
-  ctx.beginPath();
-  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
-  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
-  ctx.fill();
+  $("invDetailBlocks").innerHTML=html;
 }
 
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
