@@ -317,7 +317,8 @@ function renderCartera(d){
     items.forEach(([n,i])=>{
       const p=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;tI+=i.inicial;tA+=i.actual;
       const pv=PRICES&&PRICES[n]!=null?fmt(PRICES[n]):"—";
-      h+=`<div class="row"><div><div class="name">${n}</div><div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div><div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${pv}</div></div><div style="text-align:right"><div class="val">${fmt(i.actual)}</div><div>${chipHtml(p)}</div></div></div>`;
+      const diff=i.actual-i.inicial;const diffSign=diff>=0?"+":"";const diffColor=diff>=0?"var(--gain)":"var(--loss)";const diffBg=diff>=0?"var(--gain-bg)":"var(--loss-bg)";
+      h+=`<div class="row"><div><div class="name">${n}</div><div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div><div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${pv}</div></div><div style="text-align:right"><div class="val">${fmt(i.actual)}</div><div><span class="chip ${diff>=0?"up":"down"}">${diffSign}${Math.abs(diff).toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})} €</span></div><div>${chipHtml(p)}</div></div></div>`;
     });
     const pT=tI?((tA-tI)/tI)*100:0;
     h+=`<div class="row-total"><span>Total</span><span>${fmt(tA)}${chipHtml(pT)}</span></div>`;
