@@ -692,7 +692,7 @@ function renderDeuda(d) {
     const paid = debt.totalOriginal - debt.pendiente;
     const pctPaid = (paid / debt.totalOriginal) * 100;
     const container = key === "Hipoteca" ? $("deudaHipoteca") : $("deudaPrestamo");
-    const color = key === "Hipoteca" ? "var(--accent)" : "#8B5CF6";
+    const color = key === "Hipoteca" ? "#3B82F6" : "#8B5CF6";
     const label = key === "Hipoteca" ? "Hipoteca" : "Préstamo";
 
     container.innerHTML = `
