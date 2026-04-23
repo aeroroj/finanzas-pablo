@@ -82,11 +82,6 @@ nav.bottom-nav button svg{width:22px;height:22px}
 .chart-wrap canvas{width:100%!important}
 .legend-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
 .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-.inv-legend-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:12px}
-.inv-legend-item:last-child{border-bottom:none}
-.inv-legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
-.inv-legend-name{font-weight:600;font-size:13px;flex:1}
-.inv-legend-data{text-align:right;color:var(--text-mid);line-height:1.5}
 @media(min-width:768px){
   .sidebar{display:flex;width:72px}.sidebar .label{display:none}
   .sidebar .logo h2{font-size:0}.sidebar .logo h2::first-letter{font-size:22px}
@@ -172,7 +167,6 @@ nav.bottom-nav button svg{width:22px;height:22px}
       <div class="card">
         <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Inversiones detalle</div>
         <div class="chart-wrap"><canvas id="chartInvBars"></canvas></div>
-        <div id="invLegend"></div>
       </div>
     </div>
   </div>
@@ -191,7 +185,9 @@ nav.bottom-nav button svg{width:22px;height:22px}
 const API="https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
 let PASS="",DATA=null,PRICES=null;
 const fmt=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+const fmtShort=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+" €";
 const fmtPct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
+const fmtDiff=n=>(n>=0?"+":"")+n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+"€";
 const chipHtml=pct=>`<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
 const $=id=>document.getElementById(id);
 function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500)}
@@ -317,13 +313,8 @@ function renderDeuda(d){
 
   $("deudaResumen").innerHTML=`
     <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen total deuda</div>
-    <div class="donut-container">
-      <canvas id="donutTotal" width="100" height="100"></canvas>
-      <div class="donut-info">
-        <div class="amount" style="color:var(--loss)">${fmt(totalPend)}</div>
-        <div class="sub">pendiente de ${fmt(totalOrig)}</div>
-        <div class="sub" style="margin-top:6px;color:var(--gain)">Pagado: ${fmt(totalPaid)} (${pctPaidTotal.toFixed(1)}%)</div>
-      </div>
+    <div class="donut-container"><canvas id="donutTotal" width="100" height="100"></canvas>
+      <div class="donut-info"><div class="amount" style="color:var(--loss)">${fmt(totalPend)}</div><div class="sub">pendiente de ${fmt(totalOrig)}</div><div class="sub" style="margin-top:6px;color:var(--gain)">Pagado: ${fmt(totalPaid)} (${pctPaidTotal.toFixed(1)}%)</div></div>
     </div>
     <div class="progress-bar-wrap"><div style="display:flex;height:100%;border-radius:8px;overflow:hidden"><div style="width:${(hipPaid/totalOrig)*100}%;background:#3B82F6;height:100%"></div><div style="width:${(prePaid/totalOrig)*100}%;background:#8B5CF6;height:100%"></div></div></div>
     <div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--text-mid)">
@@ -407,75 +398,81 @@ function renderInvBars(){
   const inv=Object.entries(DATA.inversiones);
   const n=inv.length;
 
-  // Colors per type — shades
   const colorMap={
-    "Fondo BSG":"#059669","Fondo 75":"#10B981","Fondo AI+75":"#34D399",
-    "Amundi S&P 500":"#6EE7B7","Amundi Nasdaq 100":"#A7F3D0","Amundi MSCI":"#D1FAE5",
+    "Fondo BSG":"#047857","Fondo 75":"#059669","Fondo AI+75":"#10B981",
+    "Amundi S&P 500":"#34D399","Amundi Nasdaq 100":"#6EE7B7","Amundi MSCI":"#A7F3D0",
     "PP ING":"#7C3AED","PP NN":"#A78BFA",
-    "Cronos":"#EA580C","Bitcoin":"#F97316","Ethereum":"#FB923C"
+    "Cronos":"#C2410C","Bitcoin":"#EA580C","Ethereum":"#F97316"
   };
 
-  const maxVal=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)));
+  const maxVal=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)))*1.1;
   const dpr=window.devicePixelRatio||1;
   const w=c.parentElement.clientWidth;
-  const barH=16;const gap=6;const rowH=barH*2+gap+30;
-  const padL=0;const padR=10;const padT=10;const padB=30;
+  const barH=20;const barGap=4;const rowH=barH*2+barGap+34;
+  const padT=5;const padB=10;
   const h=padT+n*rowH+padB;
 
   c.width=w*dpr;c.height=h*dpr;
   c.style.width=w+"px";c.style.height=h+"px";
   ctx.scale(dpr,dpr);
 
-  const chartL=padL;const chartW=w-chartL-padR;
-
-  // X axis grid lines
-  const steps=5;
-  ctx.textAlign="center";ctx.textBaseline="top";
-  for(let i=0;i<=steps;i++){
-    const x=chartL+(chartW/steps)*i;
-    const val=(maxVal/steps)*i;
-    ctx.strokeStyle="#f1f5f9";ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(x,padT);ctx.lineTo(x,padT+n*rowH);ctx.stroke();
-    ctx.fillStyle="#94A3B8";ctx.font="10px 'Plus Jakarta Sans',sans-serif";
-    if(val>=1000)ctx.fillText((val/1000).toFixed(1)+"k",x,padT+n*rowH+4);
-    else ctx.fillText(val.toFixed(0)+"€",x,padT+n*rowH+4);
-  }
+  const chartW=w;
+  const fontBar="bold 11px 'Plus Jakarta Sans',sans-serif";
+  const fontLabel="bold 12px 'Plus Jakarta Sans',sans-serif";
+  const fontSub="11px 'Plus Jakarta Sans',sans-serif";
 
   inv.forEach(([name,item],idx)=>{
     const y=padT+idx*rowH;
     const col=colorMap[name]||"#64748B";
-    const colLight=col+"55";
+    const diff=item.actual-item.inicial;
+    const pct=item.inicial?((diff)/item.inicial)*100:0;
+    const diffSign=diff>=0?"+":"";
+    const pctColor=diff>=0?"#1A7A3C":"#C0392B";
 
-    // Label
-    ctx.fillStyle="#1A2B45";ctx.font="bold 12px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="left";ctx.textBaseline="top";
-    ctx.fillText(name,chartL,y);
+    // Title line: "Fondo BSG: +971€ +24,99%"
+    ctx.fillStyle="#1A2B45";ctx.font=fontLabel;ctx.textAlign="left";ctx.textBaseline="top";
+    const titleBase=name+": ";
+    const titleW=ctx.measureText(titleBase).width;
+    ctx.fillText(titleBase,0,y);
+    ctx.fillStyle=pctColor;ctx.font=fontSub;
+    ctx.fillText(diffSign+Math.round(diff)+"€  "+fmtPct(pct),titleW,y+1);
 
     // Actual bar
-    const wAct=Math.max((item.actual/maxVal)*chartW,2);
+    const bY1=y+18;
+    const wAct=Math.max((item.actual/maxVal)*chartW,4);
     ctx.fillStyle=col;
-    roundRectFill(ctx,chartL,y+16,wAct,barH,4);
+    roundRectFill(ctx,0,bY1,wAct,barH,5);
 
-    // Invested bar (lighter)
-    const wIni=Math.max((item.inicial/maxVal)*chartW,2);
-    ctx.fillStyle=colLight;
-    roundRectFill(ctx,chartL,y+16+barH+gap,wIni,barH,4);
-  });
+    // Text inside or outside actual bar
+    const actTxt=fmtShort(item.actual);
+    ctx.font=fontBar;
+    const actTxtW=ctx.measureText(actTxt).width;
+    if(actTxtW+10<wAct){
+      ctx.fillStyle="#fff";ctx.textAlign="left";ctx.textBaseline="middle";
+      ctx.fillText(actTxt,6,bY1+barH/2);
+    } else {
+      ctx.fillStyle=col;ctx.textAlign="left";ctx.textBaseline="middle";
+      ctx.fillText(actTxt,wAct+4,bY1+barH/2);
+    }
 
-  // Legend below
-  let legend="";
-  inv.forEach(([name,item])=>{
-    const col=colorMap[name]||"#64748B";
-    const pct=item.inicial?((item.actual-item.inicial)/item.inicial)*100:0;
-    legend+=`<div class="inv-legend-item">
-      <span class="inv-legend-dot" style="background:${col}"></span>
-      <span class="inv-legend-name">${name}</span>
-      <span class="inv-legend-data">
-        Inv: ${fmt(item.inicial)}<br>
-        Act: ${fmt(item.actual)} ${chipHtml(pct)}
-      </span>
-    </div>`;
+    // Invested bar
+    const bY2=bY1+barH+barGap;
+    const wIni=Math.max((item.inicial/maxVal)*chartW,4);
+    ctx.fillStyle=col+"44";
+    roundRectFill(ctx,0,bY2,wIni,barH,5);
+
+    // Text inside or outside invested bar
+    const iniTxt=fmtShort(item.inicial);
+    ctx.font=fontBar;
+    const iniTxtW=ctx.measureText(iniTxt).width;
+    if(iniTxtW+10<wIni){
+      ctx.fillStyle="#555";ctx.textAlign="left";ctx.textBaseline="middle";
+      ctx.fillText(iniTxt,6,bY2+barH/2);
+    } else {
+      ctx.fillStyle="#64748B";ctx.textAlign="left";ctx.textBaseline="middle";
+      ctx.fillText(iniTxt,wIni+4,bY2+barH/2);
+    }
   });
-  $("invLegend").innerHTML=legend;
 }
 
 function roundRectFill(ctx,x,y,w,h,r){
