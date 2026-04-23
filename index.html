@@ -36,8 +36,6 @@ body {
   display:flex;
   flex-direction:column;
 }
-
-/* ── LOGIN ── */
 #login {
   position:fixed; inset:0; z-index:1000;
   background:linear-gradient(135deg,#1E3A5F 0%,#1A2F4E 100%);
@@ -50,8 +48,7 @@ body {
 #login input {
   width:260px; padding:14px 18px; border-radius:12px; border:2px solid rgba(255,255,255,.15);
   background:rgba(255,255,255,.08); color:#fff; font-size:16px;
-  font-family:inherit; outline:none; text-align:center;
-  transition:border-color .2s;
+  font-family:inherit; outline:none; text-align:center; transition:border-color .2s;
 }
 #login input:focus { border-color:var(--accent); }
 #login input::placeholder { color:rgba(255,255,255,.35); }
@@ -63,8 +60,6 @@ body {
 }
 #login button:active { transform:scale(.96); opacity:.85; }
 #login .login-err { color:#f87171; font-size:13px; min-height:18px; }
-
-/* ── HEADER (mobile) ── */
 header.mobile-header {
   background:linear-gradient(135deg,#1E3A5F,#1A2F4E);
   padding:12px 20px; padding-top:calc(12px + env(safe-area-inset-top,0px));
@@ -81,8 +76,6 @@ header.mobile-header .date { color:rgba(255,255,255,.55); font-size:12px; }
 .refresh-btn svg { width:18px; height:18px; }
 .refresh-btn.spinning svg { animation:spin .8s linear infinite; }
 @keyframes spin { to { transform:rotate(360deg); } }
-
-/* ── MAIN CONTENT ── */
 main {
   flex:1; overflow-y:auto; overflow-x:hidden;
   padding:16px; padding-bottom:calc(72px + var(--safe-b) + 16px);
@@ -90,26 +83,20 @@ main {
 }
 .tab-content { display:none; }
 .tab-content.active { display:block; }
-
-/* ── BOTTOM NAV (mobile) ── */
 nav.bottom-nav {
   position:fixed; bottom:0; left:0; right:0;
   background:#fff; border-top:1px solid #e2e8f0;
   display:flex; justify-content:space-around; align-items:center;
-  padding:6px 0; padding-bottom:calc(6px + var(--safe-b));
-  z-index:100;
+  padding:6px 0; padding-bottom:calc(6px + var(--safe-b)); z-index:100;
 }
 nav.bottom-nav button {
   display:flex; flex-direction:column; align-items:center; gap:2px;
   background:none; border:none; cursor:pointer;
   color:var(--text-mid); font-size:10px; font-family:inherit;
-  font-weight:500; padding:4px 8px; border-radius:8px;
-  transition:color .2s;
+  font-weight:500; padding:4px 8px; border-radius:8px; transition:color .2s;
 }
 nav.bottom-nav button.active { color:var(--accent); }
 nav.bottom-nav button svg { width:22px; height:22px; }
-
-/* ── SIDEBAR (tablet/desktop) ── */
 .sidebar {
   display:none; position:fixed; left:0; top:0; bottom:0;
   background:linear-gradient(180deg,#1E3A5F 0%,#1A2F4E 100%);
@@ -126,13 +113,8 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   transition:all .2s; border-left:3px solid transparent;
 }
 .sidebar button:hover { background:rgba(255,255,255,.06); }
-.sidebar button.active {
-  color:#fff; background:rgba(255,255,255,.1);
-  border-left-color:var(--accent);
-}
+.sidebar button.active { color:#fff; background:rgba(255,255,255,.1); border-left-color:var(--accent); }
 .sidebar button svg { width:20px; height:20px; flex-shrink:0; }
-
-/* ── KPI BAR (tablet/desktop) ── */
 .kpi-bar {
   display:none; background:#fff; border-bottom:1px solid #e2e8f0;
   padding:12px 20px; gap:16px; flex-wrap:wrap; align-items:center;
@@ -140,8 +122,6 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 .kpi-item { text-align:center; }
 .kpi-item .label { font-size:11px; color:var(--text-mid); font-weight:500; }
 .kpi-item .value { font-size:18px; font-weight:700; color:var(--text-dark); }
-
-/* ── CARDS ── */
 .card {
   background:#fff; border-radius:var(--card-radius);
   padding:16px; margin-bottom:12px;
@@ -153,8 +133,6 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   margin-bottom:12px; display:flex; align-items:center; gap:8px;
 }
 .card-title svg { width:16px; height:16px; color:var(--accent); }
-
-/* ── ROWS ── */
 .row {
   display:flex; justify-content:space-between; align-items:center;
   padding:10px 0; border-bottom:1px solid #f1f5f9;
@@ -168,82 +146,48 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   display:flex; justify-content:space-between;
   font-weight:700; font-size:15px;
 }
+.row-extra {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 12px; font-size:13px; color:var(--text-mid);
+}
+.row-extra .val { font-weight:600; color:var(--text-mid); font-size:13px; }
+.row-mes {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 12px; margin-bottom:8px; border-radius:8px;
+  font-weight:600; font-size:14px;
+}
+.row-mes.positive { background:var(--gain-bg); color:var(--gain); }
+.row-mes.negative { background:var(--loss-bg); color:var(--loss); }
+.row-medeben {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:8px 12px; font-size:13px; margin-top:4px;
+  background:var(--warn-bg); border-radius:8px; color:var(--warn); font-weight:600;
+}
 .chip {
   display:inline-flex; padding:2px 8px; border-radius:6px;
   font-size:11px; font-weight:600; margin-left:8px;
 }
 .chip.up { background:var(--gain-bg); color:var(--gain); }
 .chip.down { background:var(--loss-bg); color:var(--loss); }
-
-/* ── BANCOS EDIT ── */
-.bank-input-row {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 0; border-bottom:1px solid #f1f5f9;
-}
-.bank-input-row:last-child { border-bottom:none; }
-.bank-input-row .name { font-size:14px; font-weight:500; flex:1; }
-.bank-input-row input {
-  width:110px; padding:8px 12px; border:1.5px solid #e2e8f0;
-  border-radius:8px; font-size:14px; font-family:inherit;
-  font-weight:600; text-align:right; outline:none;
-  transition:border-color .2s;
-}
-.bank-input-row input:focus { border-color:var(--accent); }
-.save-btn {
-  width:100%; padding:14px; border:none; border-radius:10px;
-  background:var(--accent); color:#fff; font-size:15px;
-  font-weight:600; font-family:inherit; cursor:pointer;
-  margin-top:12px; transition:opacity .2s;
-}
-.save-btn:active { opacity:.8; }
-.save-btn:disabled { opacity:.5; cursor:not-allowed; }
-.save-msg {
-  text-align:center; font-size:13px; margin-top:8px;
-  min-height:20px; font-weight:500;
-}
-
-/* ── DEUDA ── */
-.donut-container {
-  display:flex; align-items:center; gap:20px;
-  padding:12px 0;
-}
+.donut-container { display:flex; align-items:center; gap:20px; padding:12px 0; }
 .donut-container canvas { flex-shrink:0; }
 .donut-info .amount { font-size:22px; font-weight:700; }
 .donut-info .sub { font-size:12px; color:var(--text-mid); margin-top:2px; }
-.progress-bar-wrap {
-  background:#e2e8f0; border-radius:8px; height:10px;
-  overflow:hidden; margin:6px 0;
+.progress-bar-wrap { background:#e2e8f0; border-radius:8px; height:10px; overflow:hidden; margin:6px 0; }
+.progress-bar-fill { height:100%; border-radius:8px; transition:width .6s ease; }
+.deuda-detail { display:flex; justify-content:space-between; font-size:13px; color:var(--text-mid); margin-top:4px; }
+.deuda-summary-row {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; border-bottom:1px solid #f1f5f9;
 }
-.progress-bar-fill {
-  height:100%; border-radius:8px;
-  transition:width .6s ease;
-}
-.deuda-detail {
-  display:flex; justify-content:space-between;
-  font-size:13px; color:var(--text-mid); margin-top:4px;
-}
-
-/* ── GRAFICAS ── */
+.deuda-summary-row:last-child { border-bottom:none; }
+.deuda-summary-row .name { font-size:14px; font-weight:500; }
+.deuda-summary-row .val { font-size:14px; font-weight:600; color:var(--loss); }
+.deuda-summary-row .sub { font-size:11px; color:var(--text-mid); }
 .chart-wrap { position:relative; margin:0 auto; }
 .chart-wrap canvas { width:100%!important; max-height:260px; }
-.legend-row {
-  display:flex; align-items:center; gap:8px;
-  padding:6px 0; font-size:13px;
-}
-.legend-dot {
-  width:10px; height:10px; border-radius:50%; flex-shrink:0;
-}
-
-/* ── SKELETON ── */
-.skeleton {
-  background:linear-gradient(90deg,#e2e8f0 25%,#f1f5f9 50%,#e2e8f0 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
-  border-radius:6px; height:16px;
-}
-@keyframes shimmer { to { background-position:-200% 0; } }
-
-/* ── RESPONSIVE: Tablet ── */
+.legend-row { display:flex; align-items:center; gap:8px; padding:6px 0; font-size:13px; }
+.legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
 @media(min-width:768px) {
   .sidebar { display:flex; width:72px; }
   .sidebar .label { display:none; }
@@ -251,7 +195,6 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   .sidebar .logo h2::first-letter { font-size:22px; }
   .sidebar .logo span { display:none; }
   .sidebar button { justify-content:center; padding:14px; }
-  .sidebar button gap { gap:0; }
   nav.bottom-nav { display:none; }
   header.mobile-header { display:none; }
   .kpi-bar { display:flex; margin-left:72px; }
@@ -259,8 +202,6 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   .tab-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .tab-grid .card { margin-bottom:0; }
 }
-
-/* ── RESPONSIVE: Desktop ── */
 @media(min-width:1100px) {
   .sidebar { width:220px; }
   .sidebar .label { display:inline; }
@@ -270,8 +211,6 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   .kpi-bar { margin-left:220px; }
   main { margin-left:220px; }
 }
-
-/* ── TOAST ── */
 .toast {
   position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
   background:var(--text-dark); color:#fff; padding:10px 20px;
@@ -284,7 +223,6 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 </head>
 <body>
 
-<!-- LOGIN -->
 <div id="login">
   <h1>Finanzas Pablo</h1>
   <p>Introduce tu contraseña</p>
@@ -293,8 +231,7 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   <div class="login-err" id="loginErr"></div>
 </div>
 
-<!-- HEADER mobile -->
-<header class="mobile-header" id="mobileHeader">
+<header class="mobile-header">
   <div>
     <h1>Finanzas Pablo</h1>
     <div class="date" id="headerDate">—</div>
@@ -304,43 +241,35 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   </button>
 </header>
 
-<!-- SIDEBAR tablet/desktop -->
-<aside class="sidebar" id="sidebar">
+<aside class="sidebar">
   <div class="logo"><h2>Finanzas Pablo</h2><span id="sideDate">—</span></div>
   <button class="active" onclick="switchTab('inicio',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     <span class="label">Inicio</span>
   </button>
   <button onclick="switchTab('cartera',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
     <span class="label">Cartera</span>
   </button>
-  <button onclick="switchTab('bancos',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-    <span class="label">Bancos</span>
-  </button>
   <button onclick="switchTab('deuda',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     <span class="label">Deuda</span>
   </button>
   <button onclick="switchTab('graficas',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
     <span class="label">Gráficas</span>
   </button>
 </aside>
 
-<!-- KPI BAR -->
-<div class="kpi-bar" id="kpiBar">
+<div class="kpi-bar">
   <div class="kpi-item"><div class="label">Patrimonio neto</div><div class="value" id="kpiNet">—</div></div>
   <div class="kpi-item"><div class="label">Bancos</div><div class="value" id="kpiBanks">—</div></div>
   <div class="kpi-item"><div class="label">Inversiones</div><div class="value" id="kpiInv">—</div></div>
   <div class="kpi-item"><div class="label">Deuda</div><div class="value" id="kpiDebt">—</div></div>
 </div>
 
-<!-- MAIN CONTENT -->
-<main id="mainContent">
-
-  <!-- TAB INICIO -->
+<main>
+  <!-- INICIO -->
   <div class="tab-content active" id="tab-inicio">
     <div class="tab-grid">
       <div class="card">
@@ -352,6 +281,13 @@ nav.bottom-nav button svg { width:22px; height:22px; }
       </div>
       <div class="card">
         <div class="card-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
+          Huchas
+        </div>
+        <div id="inicioHuchas"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           Resumen inversiones
         </div>
@@ -359,15 +295,15 @@ nav.bottom-nav button svg { width:22px; height:22px; }
       </div>
       <div class="card">
         <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 5c-1.5 0-2.8 1.4-3 2-2 .5-3 2-3 3.5 0 1.5 1 2.5 2.5 2.5s2.5-1 2.5-2.5c0-1.5-1-2.5-2.5-2.5"/><path d="M2 2l20 20"/></svg>
-          Huchas
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Resumen deuda
         </div>
-        <div id="inicioHuchas"></div>
+        <div id="inicioDeuda"></div>
       </div>
     </div>
   </div>
 
-  <!-- TAB CARTERA -->
+  <!-- CARTERA -->
   <div class="tab-content" id="tab-cartera">
     <div class="card">
       <div class="card-title">
@@ -392,29 +328,15 @@ nav.bottom-nav button svg { width:22px; height:22px; }
     </div>
   </div>
 
-  <!-- TAB BANCOS -->
-  <div class="tab-content" id="tab-bancos">
-    <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
-        Editar saldos
-      </div>
-      <div id="bancosEdit"></div>
-      <button class="save-btn" id="saveBtn" onclick="saveAllBanks()">Guardar cambios</button>
-      <div class="save-msg" id="saveMsg"></div>
-    </div>
-  </div>
-
-  <!-- TAB DEUDA -->
+  <!-- DEUDA -->
   <div class="tab-content" id="tab-deuda">
     <div class="tab-grid">
       <div class="card" id="deudaHipoteca"></div>
       <div class="card" id="deudaPrestamo"></div>
     </div>
-
   </div>
 
-  <!-- TAB GRAFICAS -->
+  <!-- GRAFICAS -->
   <div class="tab-content" id="tab-graficas">
     <div class="tab-grid">
       <div class="card">
@@ -434,29 +356,23 @@ nav.bottom-nav button svg { width:22px; height:22px; }
       </div>
     </div>
   </div>
-
 </main>
 
-<!-- BOTTOM NAV mobile -->
-<nav class="bottom-nav" id="bottomNav">
+<nav class="bottom-nav">
   <button class="active" onclick="switchTab('inicio',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
     Inicio
   </button>
   <button onclick="switchTab('cartera',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
     Cartera
   </button>
-  <button onclick="switchTab('bancos',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-    Bancos
-  </button>
   <button onclick="switchTab('deuda',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
     Deuda
   </button>
   <button onclick="switchTab('graficas',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
     Gráficas
   </button>
 </nav>
@@ -464,12 +380,11 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 <div class="toast" id="toast"></div>
 
 <script>
-/* ─── CONFIG ─── */
 const API = "https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
 let PASS = "";
 let DATA = null;
+let PRICES = null;
 
-/* ─── UTILS ─── */
 const fmt = n => n == null ? "—" : n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}) + " €";
 const fmtPct = n => (n>=0?"+":"") + n.toFixed(2) + "%";
 const chipHtml = pct => `<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
@@ -481,7 +396,6 @@ function toast(msg) {
   setTimeout(()=>t.classList.remove("show"),2500);
 }
 
-/* ─── LOGIN ─── */
 $("passInput").addEventListener("keydown", e => { if(e.key==="Enter") tryLogin(); });
 
 async function tryLogin() {
@@ -495,7 +409,6 @@ async function tryLogin() {
     DATA = d;
     $("login").classList.add("hidden");
     renderAll();
-    // also fetch prices
     fetchPrices();
   } catch(e) {
     $("loginErr").textContent = "Error de conexión";
@@ -503,7 +416,6 @@ async function tryLogin() {
   }
 }
 
-/* ─── DATA LOADING ─── */
 async function loadAll() {
   const btn = $("refreshBtn");
   if(btn) btn.classList.add("spinning");
@@ -521,37 +433,28 @@ async function loadAll() {
 async function fetchPrices() {
   try {
     const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getPrices`);
-    const prices = await r.json();
-    // prices are for display info only — real values come from Sheet
-    // We could use these for extra features later
+    PRICES = await r.json();
+    if(PRICES && !PRICES.error) renderCartera(DATA);
   } catch(e) {}
 }
 
-/* ─── TAB SWITCHING ─── */
 function switchTab(id, btn) {
   document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
   $("tab-"+id).classList.add("active");
-  // bottom nav
   document.querySelectorAll("nav.bottom-nav button").forEach(b => b.classList.remove("active"));
-  // sidebar
   document.querySelectorAll(".sidebar button").forEach(b => b.classList.remove("active"));
   if(btn) btn.classList.add("active");
-  // sync both navs
-  const idx = ["inicio","cartera","bancos","deuda","graficas"].indexOf(id);
+  const idx = ["inicio","cartera","deuda","graficas"].indexOf(id);
   const bnBtns = document.querySelectorAll("nav.bottom-nav button");
   const sbBtns = document.querySelectorAll(".sidebar button");
   if(bnBtns[idx]) bnBtns[idx].classList.add("active");
   if(sbBtns[idx]) sbBtns[idx].classList.add("active");
-
   if(id==="graficas") setTimeout(renderCharts,100);
 }
 
-/* ─── RENDER ALL ─── */
 function renderAll() {
   if(!DATA) return;
   const d = DATA;
-
-  // Date
   let dateStr = "—";
   if(d.fecha) {
     try { dateStr = new Date(d.fecha).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"}); } catch(e) { dateStr = String(d.fecha); }
@@ -559,36 +462,51 @@ function renderAll() {
   $("headerDate").textContent = dateStr;
   $("sideDate").textContent = dateStr;
 
-  // Totals
   const totalBancos = Object.values(d.bancos).reduce((a,b)=>a+b,0);
   const totalHuchas = Object.values(d.huchas).reduce((a,b)=>a+b,0);
   const totalInvActual = Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
   const totalDeuda = d.deuda.Hipoteca.pendiente + d.deuda.Prestamo.pendiente;
   const patrimonioNeto = totalBancos + totalHuchas + totalInvActual - totalDeuda;
 
-  // KPIs
   $("kpiNet").textContent = fmt(patrimonioNeto);
   $("kpiBanks").textContent = fmt(totalBancos);
   $("kpiInv").textContent = fmt(totalInvActual);
   $("kpiDebt").textContent = fmt(totalDeuda);
 
-  renderInicio(d, totalBancos, totalHuchas, totalInvActual);
+  renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda);
   renderCartera(d);
-  renderBancos(d);
   renderDeuda(d);
 }
 
-/* ─── TAB: INICIO ─── */
-function renderInicio(d, totalBancos, totalHuchas, totalInvActual) {
-  // Bancos
+function renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda) {
+  // ── Bancos ──
   let html = "";
+  const mesVal = d.mesAlCorriente || 0;
+  const mesClass = mesVal >= 0 ? "positive" : "negative";
+  html += `<div class="row-mes ${mesClass}"><span>Mes al Corriente</span><span>${fmt(mesVal)}</span></div>`;
   Object.entries(d.bancos).forEach(([name,val]) => {
     html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
   });
   html += `<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
+  if(d.cuentasExtra) {
+    Object.entries(d.cuentasExtra).forEach(([name,val]) => {
+      html += `<div class="row-extra"><span>${name}</span><span class="val">${fmt(val)}</span></div>`;
+    });
+  }
   $("inicioBancos").innerHTML = html;
 
-  // Inversiones resumen por tipo
+  // ── Huchas ──
+  html = "";
+  Object.entries(d.huchas).forEach(([name,val]) => {
+    html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
+  });
+  html += `<div class="row-total"><span>Total</span><span>${fmt(totalHuchas)}</span></div>`;
+  if(d.meDeben != null) {
+    html += `<div class="row-medeben"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
+  }
+  $("inicioHuchas").innerHTML = html;
+
+  // ── Inversiones resumen ──
   const byType = {fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
   Object.values(d.inversiones).forEach(i => {
     byType[i.tipo].ini += i.inicial;
@@ -605,16 +523,22 @@ function renderInicio(d, totalBancos, totalHuchas, totalInvActual) {
   html += `<div class="row-total"><span>Total</span><span>${fmt(totalInvActual)}${chipHtml(pctTotal)}</span></div>`;
   $("inicioInv").innerHTML = html;
 
-  // Huchas
+  // ── Resumen deuda ──
   html = "";
-  Object.entries(d.huchas).forEach(([name,val]) => {
-    html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
-  });
-  html += `<div class="row-total"><span>Total</span><span>${fmt(totalHuchas)}</span></div>`;
-  $("inicioHuchas").innerHTML = html;
+  const hip = d.deuda.Hipoteca;
+  const pre = d.deuda.Prestamo;
+  html += `<div class="deuda-summary-row">
+    <div><div class="name">Hipoteca</div><div class="sub">Cuota: ${fmt(hip.cuota)}/mes · Fin: ${hip.fin}</div></div>
+    <div class="val">${fmt(hip.pendiente)}</div>
+  </div>`;
+  html += `<div class="deuda-summary-row">
+    <div><div class="name">Préstamo</div><div class="sub">Cuota: ${fmt(pre.cuota)}/mes · Fin: ${pre.fin}</div></div>
+    <div class="val">${fmt(pre.pendiente)}</div>
+  </div>`;
+  html += `<div class="row-total"><span>Total deuda</span><span style="color:var(--loss)">${fmt(totalDeuda)}</span></div>`;
+  $("inicioDeuda").innerHTML = html;
 }
 
-/* ─── TAB: CARTERA ─── */
 function renderCartera(d) {
   const render = (container, items) => {
     let html = "";
@@ -622,10 +546,12 @@ function renderCartera(d) {
     items.forEach(([name,i]) => {
       const pct = i.inicial ? ((i.actual-i.inicial)/i.inicial)*100 : 0;
       totalIni += i.inicial; totalAct += i.actual;
+      const priceVal = PRICES && PRICES[name] != null ? fmt(PRICES[name]) : "—";
       html += `<div class="row">
         <div>
           <div class="name">${name}</div>
           <div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div>
+          <div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${priceVal}</div>
         </div>
         <div style="text-align:right">
           <div class="val">${fmt(i.actual)}</div>
@@ -637,55 +563,12 @@ function renderCartera(d) {
     html += `<div class="row-total"><span>Total</span><span>${fmt(totalAct)}${chipHtml(pctT)}</span></div>`;
     $(container).innerHTML = html;
   };
-
   const inv = Object.entries(d.inversiones);
   render("carteraFondos", inv.filter(([,i])=>i.tipo==="fondo"));
   render("carteraPensiones", inv.filter(([,i])=>i.tipo==="pension"));
   render("carteraCripto", inv.filter(([,i])=>i.tipo==="cripto"));
 }
 
-/* ─── TAB: BANCOS ─── */
-function renderBancos(d) {
-  let html = "";
-  Object.entries(d.bancos).forEach(([name,val]) => {
-    html += `<div class="bank-input-row">
-      <span class="name">${name}</span>
-      <input type="number" step="0.01" data-bank="${name}" value="${val.toFixed(2)}">
-    </div>`;
-  });
-  $("bancosEdit").innerHTML = html;
-  $("saveMsg").textContent = "";
-}
-
-async function saveAllBanks() {
-  const btn = $("saveBtn");
-  btn.disabled = true;
-  btn.textContent = "Guardando...";
-  $("saveMsg").textContent = "";
-  const inputs = document.querySelectorAll("#bancosEdit input");
-  let ok = 0, errors = 0;
-
-  for(const inp of inputs) {
-    try {
-      const url = `${API}?pass=${encodeURIComponent(PASS)}&action=updateBank&bank=${encodeURIComponent(inp.dataset.bank)}&value=${parseFloat(inp.value)}`;
-      const r = await fetch(url);
-      const res = await r.json();
-      if(res.ok) ok++; else errors++;
-    } catch(e) { errors++; }
-  }
-
-  btn.disabled = false;
-  btn.textContent = "Guardar cambios";
-  if(errors===0) {
-    $("saveMsg").innerHTML = `<span style="color:var(--gain)">✓ ${ok} saldos actualizados</span>`;
-    toast("Saldos guardados");
-    loadAll(); // refresh
-  } else {
-    $("saveMsg").innerHTML = `<span style="color:var(--loss)">✗ ${errors} error(es)</span>`;
-  }
-}
-
-/* ─── TAB: DEUDA ─── */
 function renderDeuda(d) {
   ["Hipoteca","Prestamo"].forEach(key => {
     const debt = d.deuda[key];
@@ -694,7 +577,6 @@ function renderDeuda(d) {
     const container = key === "Hipoteca" ? $("deudaHipoteca") : $("deudaPrestamo");
     const color = key === "Hipoteca" ? "#3B82F6" : "#8B5CF6";
     const label = key === "Hipoteca" ? "Hipoteca" : "Préstamo";
-
     container.innerHTML = `
       <div class="card-title">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -726,19 +608,15 @@ function drawMiniDonut(canvasId, pct, color) {
   const ctx = c.getContext("2d");
   const s = c.width; const cx=s/2; const cy=s/2; const r=s/2-8; const lw=10;
   ctx.clearRect(0,0,s,s);
-  // bg
   ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
   ctx.strokeStyle="#e2e8f0"; ctx.lineWidth=lw; ctx.stroke();
-  // fill
   ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(Math.PI*2*pct/100));
   ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.lineCap="round"; ctx.stroke();
-  // text
   ctx.fillStyle="#1A2B45"; ctx.font="bold 16px 'Plus Jakarta Sans',sans-serif";
   ctx.textAlign="center"; ctx.textBaseline="middle";
   ctx.fillText(pct.toFixed(0)+"%",cx,cy);
 }
 
-/* ─── TAB: GRAFICAS ─── */
 function renderCharts() {
   if(!DATA) return;
   renderDonutChart();
@@ -753,7 +631,6 @@ function renderDonutChart() {
   const totalHuchas = Object.values(DATA.huchas).reduce((a,b)=>a+b,0);
   const byType = {fondo:0,pension:0,cripto:0};
   Object.values(DATA.inversiones).forEach(i => byType[i.tipo] += i.actual);
-
   const segments = [
     {label:"Bancos",value:totalBancos,color:"#3B82F6"},
     {label:"Huchas",value:totalHuchas,color:"#F59E0B"},
@@ -762,32 +639,25 @@ function renderDonutChart() {
     {label:"Cripto",value:byType.cripto,color:"#F97316"},
   ];
   const total = segments.reduce((a,s)=>a+s.value,0);
-
   const dpr = window.devicePixelRatio || 1;
   const w = c.parentElement.clientWidth;
   const h = 240;
   c.width = w * dpr; c.height = h * dpr;
   c.style.width = w+"px"; c.style.height = h+"px";
   ctx.scale(dpr,dpr);
-
   const cx = w/2; const cy = h/2; const r = Math.min(w,h)/2 - 20; const lw = 36;
   let angle = -Math.PI/2;
-
   segments.forEach(s => {
     const slice = (s.value/total)*Math.PI*2;
     ctx.beginPath(); ctx.arc(cx,cy,r,angle,angle+slice);
     ctx.strokeStyle=s.color; ctx.lineWidth=lw; ctx.lineCap="butt"; ctx.stroke();
     angle += slice;
   });
-
-  // center text
   ctx.fillStyle="#1A2B45"; ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";
   ctx.textAlign="center"; ctx.textBaseline="middle";
   ctx.fillText(fmt(total),cx,cy-8);
   ctx.font="12px 'Plus Jakarta Sans',sans-serif"; ctx.fillStyle="#64748B";
   ctx.fillText("Total",cx,cy+12);
-
-  // legend
   let legend = "";
   segments.forEach(s => {
     const pct = ((s.value/total)*100).toFixed(1);
@@ -805,48 +675,34 @@ function renderBarChart() {
     byType[i.tipo].ini += i.inicial;
     byType[i.tipo].act += i.actual;
   });
-
   const groups = [
     {label:"Fondos",...byType.fondo,color:"#10B981"},
     {label:"Pensiones",...byType.pension,color:"#8B5CF6"},
     {label:"Cripto",...byType.cripto,color:"#F97316"},
   ];
-
   const dpr = window.devicePixelRatio || 1;
   const w = c.parentElement.clientWidth;
   const h = 240;
   c.width = w * dpr; c.height = h * dpr;
   c.style.width = w+"px"; c.style.height = h+"px";
   ctx.scale(dpr,dpr);
-
   const max = Math.max(...groups.map(g=>Math.max(g.ini,g.act))) * 1.15;
   const pad = {t:20,b:40,l:10,r:10};
   const chartW = w - pad.l - pad.r;
   const chartH = h - pad.t - pad.b;
   const groupW = chartW / groups.length;
   const barW = groupW * 0.3;
-
   groups.forEach((g,i) => {
     const x = pad.l + i * groupW + groupW/2;
-    // Invertido bar
     const h1 = (g.ini/max)*chartH;
     ctx.fillStyle = "#CBD5E1";
-    ctx.beginPath();
-    roundRect(ctx, x - barW - 2, pad.t + chartH - h1, barW, h1, 4);
-    ctx.fill();
-    // Actual bar
+    ctx.beginPath(); roundRect(ctx, x - barW - 2, pad.t + chartH - h1, barW, h1, 4); ctx.fill();
     const h2 = (g.act/max)*chartH;
     ctx.fillStyle = g.color;
-    ctx.beginPath();
-    roundRect(ctx, x + 2, pad.t + chartH - h2, barW, h2, 4);
-    ctx.fill();
-    // label
+    ctx.beginPath(); roundRect(ctx, x + 2, pad.t + chartH - h2, barW, h2, 4); ctx.fill();
     ctx.fillStyle = "#64748B"; ctx.font = "12px 'Plus Jakarta Sans',sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(g.label, x, h - 10);
+    ctx.textAlign = "center"; ctx.fillText(g.label, x, h - 10);
   });
-
-  // mini legend
   ctx.fillStyle="#CBD5E1"; ctx.fillRect(w-140,8,10,10);
   ctx.fillStyle="#64748B"; ctx.font="11px 'Plus Jakarta Sans',sans-serif"; ctx.textAlign="left";
   ctx.fillText("Invertido",w-126,17);
@@ -861,7 +717,6 @@ function roundRect(ctx,x,y,w,h,r) {
   ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
 }
 
-/* ─── PWA REGISTER ─── */
 if("serviceWorker" in navigator) {
   navigator.serviceWorker.register("sw.js").catch(()=>{});
 }
