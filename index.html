@@ -11,15 +11,7 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --header:#1E3A5F;--total-bg:#D0DCF0;
-  --gain-bg:#E6F4EC;--gain:#1A7A3C;
-  --loss-bg:#FDE8E8;--loss:#C0392B;
-  --warn-bg:#FEF3CD;--warn:#8A6000;
-  --page-bg:#F0F4FA;--accent:#3B82F6;
-  --text-mid:#64748B;--text-dark:#1A2B45;
-  --card-radius:14px;--safe-b:env(safe-area-inset-bottom,0px);
-}
+:root{--header:#1E3A5F;--total-bg:#D0DCF0;--gain-bg:#E6F4EC;--gain:#1A7A3C;--loss-bg:#FDE8E8;--loss:#C0392B;--warn-bg:#FEF3CD;--warn:#8A6000;--page-bg:#F0F4FA;--accent:#3B82F6;--text-mid:#64748B;--text-dark:#1A2B45;--card-radius:14px;--safe-b:env(safe-area-inset-bottom,0px)}
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--page-bg);color:var(--text-dark);overflow:hidden;height:100dvh;display:flex;flex-direction:column}
 #login{position:fixed;inset:0;z-index:1000;background:linear-gradient(135deg,#1E3A5F,#1A2F4E);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
@@ -87,24 +79,19 @@ nav.bottom-nav button svg{width:22px;height:22px}
 .deuda-summary-row .val{font-size:14px;font-weight:600;color:var(--loss)}
 .deuda-summary-row .sub{font-size:11px;color:var(--text-mid)}
 .chart-wrap{position:relative;margin:0 auto}
-.chart-wrap canvas{width:100%!important;max-height:280px}
+.chart-wrap canvas{width:100%!important}
 .legend-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
 .legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
-/* horizontal bars */
-.hbar-item{margin-bottom:16px}
-.hbar-label{font-size:14px;font-weight:600;margin-bottom:2px}
-.hbar-sub{font-size:11px;color:var(--text-mid);margin-bottom:4px}
-.hbar-track{background:#e2e8f0;border-radius:6px;height:14px;position:relative;overflow:hidden}
-.hbar-fill{height:100%;border-radius:6px;transition:width .6s ease}
-.hbar-vals{display:flex;justify-content:space-between;font-size:11px;color:var(--text-mid);margin-top:2px}
+.inv-legend-item{display:flex;align-items:center;gap:8px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:12px}
+.inv-legend-item:last-child{border-bottom:none}
+.inv-legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0}
+.inv-legend-name{font-weight:600;font-size:13px;flex:1}
+.inv-legend-data{text-align:right;color:var(--text-mid);line-height:1.5}
 @media(min-width:768px){
-  .sidebar{display:flex;width:72px}
-  .sidebar .label{display:none}
+  .sidebar{display:flex;width:72px}.sidebar .label{display:none}
   .sidebar .logo h2{font-size:0}.sidebar .logo h2::first-letter{font-size:22px}
-  .sidebar .logo span{display:none}
-  .sidebar button{justify-content:center;padding:14px}
-  nav.bottom-nav{display:none}
-  header.mobile-header{display:none}
+  .sidebar .logo span{display:none}.sidebar button{justify-content:center;padding:14px}
+  nav.bottom-nav{display:none}header.mobile-header{display:none}
   .kpi-bar{display:flex;margin-left:72px}
   main{margin-left:72px;padding-bottom:20px}
   .tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
@@ -113,8 +100,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
 @media(min-width:1100px){
   .sidebar{width:220px}.sidebar .label{display:inline}
   .sidebar .logo h2{font-size:18px}.sidebar .logo h2::first-letter{font-size:18px}
-  .sidebar .logo span{display:block}
-  .kpi-bar{margin-left:220px}main{margin-left:220px}
+  .sidebar .logo span{display:block}.kpi-bar{margin-left:220px}main{margin-left:220px}
 }
 .toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text-dark);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:300}
 .toast.show{opacity:1}
@@ -124,8 +110,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
 <body>
 
 <div id="login">
-  <h1>Finanzas Pablo</h1>
-  <p>Introduce tu contraseña</p>
+  <h1>Finanzas Pablo</h1><p>Introduce tu contraseña</p>
   <input type="password" id="passInput" placeholder="Contraseña" autocomplete="off">
   <button onclick="tryLogin()">Entrar</button>
   <div class="login-err" id="loginErr"></div>
@@ -156,38 +141,17 @@ nav.bottom-nav button svg{width:22px;height:22px}
 <main>
   <div class="tab-content active" id="tab-inicio">
     <div class="tab-grid">
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Saldos bancarios</div>
-        <div id="inicioBancos"></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Huchas</div>
-        <div id="inicioHuchas"></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Resumen inversiones</div>
-        <div id="inicioInv"></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen deuda</div>
-        <div id="inicioDeuda"></div>
-      </div>
+      <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Saldos bancarios</div><div id="inicioBancos"></div></div>
+      <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Huchas</div><div id="inicioHuchas"></div></div>
+      <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Resumen inversiones</div><div id="inicioInv"></div></div>
+      <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen deuda</div><div id="inicioDeuda"></div></div>
     </div>
   </div>
 
   <div class="tab-content" id="tab-cartera">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>Fondos de inversión</div>
-      <div id="carteraFondos"></div>
-    </div>
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Planes de pensiones</div>
-      <div id="carteraPensiones"></div>
-    </div>
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Criptomonedas</div>
-      <div id="carteraCripto"></div>
-    </div>
+    <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>Fondos de inversión</div><div id="carteraFondos"></div></div>
+    <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Planes de pensiones</div><div id="carteraPensiones"></div></div>
+    <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Criptomonedas</div><div id="carteraCripto"></div></div>
   </div>
 
   <div class="tab-content" id="tab-deuda">
@@ -207,7 +171,8 @@ nav.bottom-nav button svg{width:22px;height:22px}
       </div>
       <div class="card">
         <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Inversiones detalle</div>
-        <div id="chartHBars"></div>
+        <div class="chart-wrap"><canvas id="chartInvBars"></canvas></div>
+        <div id="invLegend"></div>
       </div>
     </div>
   </div>
@@ -263,10 +228,8 @@ function switchTab(id,btn){
   document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"));
   if(btn)btn.classList.add("active");
   const idx=["inicio","cartera","deuda","graficas"].indexOf(id);
-  const bn=document.querySelectorAll("nav.bottom-nav button");
-  const sb=document.querySelectorAll(".sidebar button");
-  if(bn[idx])bn[idx].classList.add("active");
-  if(sb[idx])sb[idx].classList.add("active");
+  const bn=document.querySelectorAll("nav.bottom-nav button"),sb=document.querySelectorAll(".sidebar button");
+  if(bn[idx])bn[idx].classList.add("active");if(sb[idx])sb[idx].classList.add("active");
   if(id==="graficas")setTimeout(renderCharts,100);
   if(id==="deuda")setTimeout(()=>renderDeuda(DATA),50);
 }
@@ -276,53 +239,38 @@ function renderAll(){
   let dateStr="—";
   if(d.fecha){try{dateStr=new Date(d.fecha).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})}catch(e){dateStr=String(d.fecha)}}
   $("headerDate").textContent=dateStr;$("sideDate").textContent=dateStr;
-
   const totalBancos=Object.values(d.bancos).reduce((a,b)=>a+b,0);
   const totalInvActual=Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
   const totalDeuda=d.deuda.Hipoteca.pendiente+d.deuda.Prestamo.pendiente;
-
   const mesVal=d.mesAlCorriente||0;
   const kM=$("kpiMes");kM.textContent=fmt(mesVal);kM.style.color=mesVal>=0?"var(--gain)":"var(--loss)";
-  $("kpiBanks").textContent=fmt(totalBancos);
-  $("kpiInv").textContent=fmt(totalInvActual);
+  $("kpiBanks").textContent=fmt(totalBancos);$("kpiInv").textContent=fmt(totalInvActual);
   const kD=$("kpiDebt");kD.textContent=fmt(totalDeuda);kD.style.color="var(--loss)";
-
-  renderInicio(d,totalBancos,totalInvActual,totalDeuda);
-  renderCartera(d);
-  renderDeuda(d);
+  renderInicio(d,totalBancos,totalInvActual,totalDeuda);renderCartera(d);renderDeuda(d);
 }
 
 function renderInicio(d,totalBancos,totalInvActual,totalDeuda){
-  // ── Bancos ──
   let h="";
   Object.entries(d.bancos).forEach(([n,v])=>{h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(v)}</span></div>`});
   h+=`<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
   if(d.meDeben!=null)h+=`<div class="row-warn"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
   $("inicioBancos").innerHTML=h;
 
-  // ── Huchas ──
   h="";
   const externas=["Auxiliares","Hucha Mamá","IVA"];
   const pablo=["Fondo Emergencia","Hucha I+D"];
-  // Externas
   externas.forEach(n=>{if(d.huchas[n]!=null)h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(d.huchas[n])}</span></div>`});
   const totalExt=externas.reduce((a,n)=>a+(d.huchas[n]||0),0);
   h+=`<div class="row-subtotal"><span>Total Huchas Externas</span><span>${fmt(totalExt)}</span></div>`;
   h+=`<div class="section-divider"></div>`;
-  // Pablo
   pablo.forEach(n=>{if(d.huchas[n]!=null)h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(d.huchas[n])}</span></div>`});
   const urgVal=d.urgencia||0;
   h+=`<div class="row"><span class="name">Urgencia</span><span class="val">${fmt(urgVal)}</span></div>`;
   const totalPab=pablo.reduce((a,n)=>a+(d.huchas[n]||0),0)+urgVal;
   h+=`<div class="row-subtotal"><span>Total Huchas Pablo</span><span>${fmt(totalPab)}</span></div>`;
-  // Extra accounts
-  if(d.cuentasExtra){
-    h+=`<div class="section-divider"></div>`;
-    Object.entries(d.cuentasExtra).forEach(([n,v])=>{h+=`<div class="row-extra"><span>${n}</span><span class="val">${fmt(v)}</span></div>`});
-  }
+  if(d.cuentasExtra){h+=`<div class="section-divider"></div>`;Object.entries(d.cuentasExtra).forEach(([n,v])=>{h+=`<div class="row-extra"><span>${n}</span><span class="val">${fmt(v)}</span></div>`})}
   $("inicioHuchas").innerHTML=h;
 
-  // ── Inversiones resumen ──
   const byType={fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
   Object.values(d.inversiones).forEach(i=>{byType[i.tipo].ini+=i.inicial;byType[i.tipo].act+=i.actual});
   const labels={fondo:"Fondos",pension:"Pensiones",cripto:"Cripto"};
@@ -333,7 +281,6 @@ function renderInicio(d,totalBancos,totalInvActual,totalDeuda){
   h+=`<div class="row-total"><span>Total</span><span>${fmt(totalInvActual)}${chipHtml(pT)}</span></div>`;
   $("inicioInv").innerHTML=h;
 
-  // ── Deuda resumen ──
   h="";const hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
   h+=`<div class="deuda-summary-row"><div><div class="name">Hipoteca</div><div class="sub">Cuota: ${fmt(hip.cuota)}/mes · Fin: ${hip.fin}</div></div><div class="val">${fmt(hip.pendiente)}</div></div>`;
   h+=`<div class="deuda-summary-row"><div><div class="name">Préstamo</div><div class="sub">Cuota: ${fmt(pre.cuota)}/mes · Fin: ${pre.fin}</div></div><div class="val">${fmt(pre.pendiente)}</div></div>`;
@@ -345,8 +292,7 @@ function renderCartera(d){
   const render=(container,items)=>{
     let h="";let tI=0,tA=0;
     items.forEach(([n,i])=>{
-      const p=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;
-      tI+=i.inicial;tA+=i.actual;
+      const p=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;tI+=i.inicial;tA+=i.actual;
       const pv=PRICES&&PRICES[n]!=null?fmt(PRICES[n]):"—";
       h+=`<div class="row"><div><div class="name">${n}</div><div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div><div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${pv}</div></div><div style="text-align:right"><div class="val">${fmt(i.actual)}</div><div>${chipHtml(p)}</div></div></div>`;
     });
@@ -361,7 +307,6 @@ function renderCartera(d){
 }
 
 function renderDeuda(d){
-  // Summary donut
   const hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
   const totalOrig=hip.totalOriginal+pre.totalOriginal;
   const totalPend=hip.pendiente+pre.pendiente;
@@ -380,37 +325,25 @@ function renderDeuda(d){
         <div class="sub" style="margin-top:6px;color:var(--gain)">Pagado: ${fmt(totalPaid)} (${pctPaidTotal.toFixed(1)}%)</div>
       </div>
     </div>
-    <div class="progress-bar-wrap">
-      <div style="display:flex;height:100%;border-radius:8px;overflow:hidden">
-        <div style="width:${(hipPaid/totalOrig)*100}%;background:#3B82F6;height:100%"></div>
-        <div style="width:${(prePaid/totalOrig)*100}%;background:#8B5CF6;height:100%"></div>
-      </div>
-    </div>
+    <div class="progress-bar-wrap"><div style="display:flex;height:100%;border-radius:8px;overflow:hidden"><div style="width:${(hipPaid/totalOrig)*100}%;background:#3B82F6;height:100%"></div><div style="width:${(prePaid/totalOrig)*100}%;background:#8B5CF6;height:100%"></div></div></div>
     <div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--text-mid)">
       <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#3B82F6;display:inline-block"></span>Hipoteca</span>
       <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#8B5CF6;display:inline-block"></span>Préstamo</span>
       <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;display:inline-block"></span>Pendiente</span>
     </div>`;
-
-  // Draw combined donut
   setTimeout(()=>{
     const c=document.getElementById("donutTotal");if(!c)return;
     const ctx=c.getContext("2d");const s=c.width;const cx=s/2;const cy=s/2;const r=s/2-10;const lw=12;
     ctx.clearRect(0,0,s,s);
-    // grey bg
     ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();
-    // hipoteca paid (blue)
     const hipAngle=(hipPaid/totalOrig)*Math.PI*2;
     ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+hipAngle);ctx.strokeStyle="#3B82F6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
-    // prestamo paid (purple)
     const preAngle=(prePaid/totalOrig)*Math.PI*2;
     ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2+hipAngle,-Math.PI/2+hipAngle+preAngle);ctx.strokeStyle="#8B5CF6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
-    // center text
     ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
     ctx.fillText(pctPaidTotal.toFixed(0)+"%",cx,cy);
   },50);
 
-  // Individual cards
   ["Hipoteca","Prestamo"].forEach(key=>{
     const debt=d.deuda[key];const paid=debt.totalOriginal-debt.pendiente;const pctPaid=(paid/debt.totalOriginal)*100;
     const container=key==="Hipoteca"?$("deudaHipoteca"):$("deudaPrestamo");
@@ -418,13 +351,8 @@ function renderDeuda(d){
     const label=key==="Hipoteca"?"Hipoteca":"Préstamo";
     container.innerHTML=`
       <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${label}</div>
-      <div class="donut-container">
-        <canvas id="donut${key}" width="90" height="90"></canvas>
-        <div class="donut-info">
-          <div class="amount" style="color:var(--loss)">${fmt(debt.pendiente)}</div>
-          <div class="sub">pendiente de ${fmt(debt.totalOriginal)}</div>
-          <div class="sub">Cuota: ${fmt(debt.cuota)}/mes · Fin: ${debt.fin}</div>
-        </div>
+      <div class="donut-container"><canvas id="donut${key}" width="90" height="90"></canvas>
+        <div class="donut-info"><div class="amount" style="color:var(--loss)">${fmt(debt.pendiente)}</div><div class="sub">pendiente de ${fmt(debt.totalOriginal)}</div><div class="sub">Cuota: ${fmt(debt.cuota)}/mes · Fin: ${debt.fin}</div></div>
       </div>
       <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pctPaid}%;background:${color}"></div></div>
       <div class="deuda-detail"><span>Pagado: ${fmt(paid)} (${pctPaid.toFixed(1)}%)</span><span>Pendiente: ${(100-pctPaid).toFixed(1)}%</span></div>`;
@@ -442,7 +370,7 @@ function drawMiniDonut(id,pct,color){
   ctx.fillText(pct.toFixed(0)+"%",cx,cy);
 }
 
-function renderCharts(){if(!DATA)return;renderDonutChart();renderHBars()}
+function renderCharts(){if(!DATA)return;renderDonutChart();renderInvBars()}
 
 function renderDonutChart(){
   const c=$("chartDonut");if(!c)return;const ctx=c.getContext("2d");
@@ -452,7 +380,6 @@ function renderDonutChart(){
   const fe=DATA.huchas["Fondo Emergencia"]||0;
   const hid=DATA.huchas["Hucha I+D"]||0;
   const urg=DATA.urgencia||0;
-
   const segments=[
     {label:"Bancos",value:totalBancos,color:"#3B82F6"},
     {label:"Fondos",value:byType.fondo,color:"#10B981"},
@@ -467,46 +394,97 @@ function renderDonutChart(){
   c.width=w*dpr;c.height=h*dpr;c.style.width=w+"px";c.style.height=h+"px";ctx.scale(dpr,dpr);
   const cx=w/2;const cy=h/2;const r=Math.min(w,h)/2-20;const lw=36;
   let angle=-Math.PI/2;
-  segments.forEach(s=>{
-    if(s.value<=0)return;
-    const slice=(s.value/total)*Math.PI*2;
-    ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.strokeStyle=s.color;ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
-    angle+=slice;
-  });
+  segments.forEach(s=>{if(s.value<=0)return;const slice=(s.value/total)*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.strokeStyle=s.color;ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();angle+=slice});
   ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillText(fmt(total),cx,cy-8);
-  ctx.font="12px 'Plus Jakarta Sans',sans-serif";ctx.fillStyle="#64748B";ctx.fillText("Total",cx,cy+12);
+  ctx.fillText(fmt(total),cx,cy-8);ctx.font="12px 'Plus Jakarta Sans',sans-serif";ctx.fillStyle="#64748B";ctx.fillText("Total",cx,cy+12);
   let legend="";
-  segments.forEach(s=>{
-    if(s.value<=0)return;
-    const pct=((s.value/total)*100).toFixed(1);
-    legend+=`<div class="legend-row"><span class="legend-dot" style="background:${s.color}"></span><span style="flex:1">${s.label}</span><span style="font-weight:600">${fmt(s.value)}</span><span style="color:var(--text-mid);width:50px;text-align:right">${pct}%</span></div>`;
-  });
+  segments.forEach(s=>{if(s.value<=0)return;const pct=((s.value/total)*100).toFixed(1);legend+=`<div class="legend-row"><span class="legend-dot" style="background:${s.color}"></span><span style="flex:1">${s.label}</span><span style="font-weight:600">${fmt(s.value)}</span><span style="color:var(--text-mid);width:50px;text-align:right">${pct}%</span></div>`});
   $("donutLegend").innerHTML=legend;
 }
 
-function renderHBars(){
+function renderInvBars(){
+  const c=$("chartInvBars");if(!c)return;const ctx=c.getContext("2d");
   const inv=Object.entries(DATA.inversiones);
-  const maxAct=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)));
-  let h="";
-  const colors={fondo:"#10B981",pension:"#8B5CF6",cripto:"#F97316"};
-  inv.forEach(([name,i])=>{
-    const pct=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;
-    const wIni=Math.max((i.inicial/maxAct)*100,1);
-    const wAct=Math.max((i.actual/maxAct)*100,1);
-    const col=colors[i.tipo]||"#3B82F6";
-    h+=`<div class="hbar-item">
-      <div class="hbar-label">${name}</div>
-      <div class="hbar-sub">Invertido: ${fmt(i.inicial)} · Actual: ${fmt(i.actual)} ${chipHtml(pct)}</div>
-      <div class="hbar-track"><div class="hbar-fill" style="width:${wAct}%;background:${col}"></div></div>
-      <div class="hbar-track" style="margin-top:3px"><div class="hbar-fill" style="width:${wIni}%;background:#CBD5E1"></div></div>
+  const n=inv.length;
+
+  // Colors per type — shades
+  const colorMap={
+    "Fondo BSG":"#059669","Fondo 75":"#10B981","Fondo AI+75":"#34D399",
+    "Amundi S&P 500":"#6EE7B7","Amundi Nasdaq 100":"#A7F3D0","Amundi MSCI":"#D1FAE5",
+    "PP ING":"#7C3AED","PP NN":"#A78BFA",
+    "Cronos":"#EA580C","Bitcoin":"#F97316","Ethereum":"#FB923C"
+  };
+
+  const maxVal=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)));
+  const dpr=window.devicePixelRatio||1;
+  const w=c.parentElement.clientWidth;
+  const barH=16;const gap=6;const rowH=barH*2+gap+30;
+  const padL=0;const padR=10;const padT=10;const padB=30;
+  const h=padT+n*rowH+padB;
+
+  c.width=w*dpr;c.height=h*dpr;
+  c.style.width=w+"px";c.style.height=h+"px";
+  ctx.scale(dpr,dpr);
+
+  const chartL=padL;const chartW=w-chartL-padR;
+
+  // X axis grid lines
+  const steps=5;
+  ctx.textAlign="center";ctx.textBaseline="top";
+  for(let i=0;i<=steps;i++){
+    const x=chartL+(chartW/steps)*i;
+    const val=(maxVal/steps)*i;
+    ctx.strokeStyle="#f1f5f9";ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(x,padT);ctx.lineTo(x,padT+n*rowH);ctx.stroke();
+    ctx.fillStyle="#94A3B8";ctx.font="10px 'Plus Jakarta Sans',sans-serif";
+    if(val>=1000)ctx.fillText((val/1000).toFixed(1)+"k",x,padT+n*rowH+4);
+    else ctx.fillText(val.toFixed(0)+"€",x,padT+n*rowH+4);
+  }
+
+  inv.forEach(([name,item],idx)=>{
+    const y=padT+idx*rowH;
+    const col=colorMap[name]||"#64748B";
+    const colLight=col+"55";
+
+    // Label
+    ctx.fillStyle="#1A2B45";ctx.font="bold 12px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="left";ctx.textBaseline="top";
+    ctx.fillText(name,chartL,y);
+
+    // Actual bar
+    const wAct=Math.max((item.actual/maxVal)*chartW,2);
+    ctx.fillStyle=col;
+    roundRectFill(ctx,chartL,y+16,wAct,barH,4);
+
+    // Invested bar (lighter)
+    const wIni=Math.max((item.inicial/maxVal)*chartW,2);
+    ctx.fillStyle=colLight;
+    roundRectFill(ctx,chartL,y+16+barH+gap,wIni,barH,4);
+  });
+
+  // Legend below
+  let legend="";
+  inv.forEach(([name,item])=>{
+    const col=colorMap[name]||"#64748B";
+    const pct=item.inicial?((item.actual-item.inicial)/item.inicial)*100:0;
+    legend+=`<div class="inv-legend-item">
+      <span class="inv-legend-dot" style="background:${col}"></span>
+      <span class="inv-legend-name">${name}</span>
+      <span class="inv-legend-data">
+        Inv: ${fmt(item.inicial)}<br>
+        Act: ${fmt(item.actual)} ${chipHtml(pct)}
+      </span>
     </div>`;
   });
-  h+=`<div style="display:flex;gap:16px;font-size:11px;color:var(--text-mid);margin-top:4px">
-    <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#10B981;display:inline-block"></span>Actual</span>
-    <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#CBD5E1;display:inline-block"></span>Invertido</span>
-  </div>`;
-  $("chartHBars").innerHTML=h;
+  $("invLegend").innerHTML=legend;
+}
+
+function roundRectFill(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.fill();
 }
 
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
