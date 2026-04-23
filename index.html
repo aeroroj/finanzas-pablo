@@ -12,206 +12,113 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --header: #1E3A5F;
-  --row-alt: #E8EEF7;
-  --total-bg: #D0DCF0;
-  --gain-bg: #E6F4EC; --gain: #1A7A3C;
-  --loss-bg: #FDE8E8; --loss: #C0392B;
-  --warn-bg: #FEF3CD; --warn: #8A6000;
-  --page-bg: #F0F4FA;
-  --accent: #3B82F6;
-  --sidebar-dark: #1A2F4E;
-  --text-mid: #64748B;
-  --text-dark: #1A2B45;
-  --card-radius: 14px;
-  --safe-b: env(safe-area-inset-bottom, 0px);
+  --header:#1E3A5F;--total-bg:#D0DCF0;
+  --gain-bg:#E6F4EC;--gain:#1A7A3C;
+  --loss-bg:#FDE8E8;--loss:#C0392B;
+  --warn-bg:#FEF3CD;--warn:#8A6000;
+  --page-bg:#F0F4FA;--accent:#3B82F6;
+  --text-mid:#64748B;--text-dark:#1A2B45;
+  --card-radius:14px;--safe-b:env(safe-area-inset-bottom,0px);
 }
-* { margin:0; padding:0; box-sizing:border-box; }
-body {
-  font-family:'Plus Jakarta Sans',sans-serif;
-  background:var(--page-bg);
-  color:var(--text-dark);
-  overflow:hidden;
-  height:100dvh;
-  display:flex;
-  flex-direction:column;
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--page-bg);color:var(--text-dark);overflow:hidden;height:100dvh;display:flex;flex-direction:column}
+#login{position:fixed;inset:0;z-index:1000;background:linear-gradient(135deg,#1E3A5F,#1A2F4E);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
+#login.hidden{display:none}
+#login h1{color:#fff;font-size:24px;font-weight:700;letter-spacing:-.5px}
+#login p{color:rgba(255,255,255,.6);font-size:13px}
+#login input{width:260px;padding:14px 18px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:16px;font-family:inherit;outline:none;text-align:center;transition:border-color .2s}
+#login input:focus{border-color:var(--accent)}
+#login input::placeholder{color:rgba(255,255,255,.35)}
+#login button{padding:14px 48px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .15s,opacity .15s}
+#login button:active{transform:scale(.96);opacity:.85}
+#login .login-err{color:#f87171;font-size:13px;min-height:18px}
+header.mobile-header{background:linear-gradient(135deg,#1E3A5F,#1A2F4E);padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top,0px));display:flex;align-items:center;justify-content:space-between}
+header.mobile-header h1{color:#fff;font-size:17px;font-weight:700}
+header.mobile-header .date{color:rgba(255,255,255,.55);font-size:12px}
+.refresh-btn{background:rgba(255,255,255,.12);border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:background .2s}
+.refresh-btn:hover{background:rgba(255,255,255,.2)}
+.refresh-btn svg{width:18px;height:18px}
+.refresh-btn.spinning svg{animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+main{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px;padding-bottom:calc(72px + var(--safe-b) + 16px);-webkit-overflow-scrolling:touch}
+.tab-content{display:none}.tab-content.active{display:block}
+nav.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;justify-content:space-around;align-items:center;padding:6px 0;padding-bottom:calc(6px + var(--safe-b));z-index:100}
+nav.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-mid);font-size:10px;font-family:inherit;font-weight:500;padding:4px 8px;border-radius:8px;transition:color .2s}
+nav.bottom-nav button.active{color:var(--accent)}
+nav.bottom-nav button svg{width:22px;height:22px}
+.sidebar{display:none;position:fixed;left:0;top:0;bottom:0;background:linear-gradient(180deg,#1E3A5F,#1A2F4E);z-index:200;flex-direction:column}
+.sidebar .logo{padding:20px;text-align:center}
+.sidebar .logo h2{color:#fff;font-size:16px;font-weight:700}
+.sidebar .logo span{color:rgba(255,255,255,.45);font-size:11px}
+.sidebar button{display:flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:14px;font-family:inherit;font-weight:500;padding:12px 20px;width:100%;transition:all .2s;border-left:3px solid transparent}
+.sidebar button:hover{background:rgba(255,255,255,.06)}
+.sidebar button.active{color:#fff;background:rgba(255,255,255,.1);border-left-color:var(--accent)}
+.sidebar button svg{width:20px;height:20px;flex-shrink:0}
+.kpi-bar{display:none;background:#fff;border-bottom:1px solid #e2e8f0;padding:12px 20px;gap:16px;flex-wrap:wrap;align-items:center}
+.kpi-item{text-align:center}
+.kpi-item .label{font-size:11px;color:var(--text-mid);font-weight:500}
+.kpi-item .value{font-size:18px;font-weight:700;color:var(--text-dark)}
+.card{background:#fff;border-radius:var(--card-radius);padding:16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.card-title{font-size:13px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.card-title svg{width:16px;height:16px;color:var(--accent)}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.row:last-child{border-bottom:none}
+.row .name{font-size:14px;font-weight:500}
+.row .val{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums}
+.row-total{background:var(--total-bg);border-radius:8px;padding:10px 12px;margin-top:8px;display:flex;justify-content:space-between;font-weight:700;font-size:15px}
+.row-subtotal{background:#EEF2F7;border-radius:8px;padding:8px 12px;margin-top:6px;display:flex;justify-content:space-between;font-weight:600;font-size:13px;color:var(--text-dark)}
+.row-extra{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:13px;color:var(--text-mid)}
+.row-extra .val{font-weight:600;color:var(--text-mid);font-size:13px}
+.row-warn{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;font-size:13px;margin-top:4px;background:var(--warn-bg);border-radius:8px;color:var(--warn);font-weight:600}
+.section-divider{height:1px;background:#e2e8f0;margin:12px 0}
+.chip{display:inline-flex;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;margin-left:8px}
+.chip.up{background:var(--gain-bg);color:var(--gain)}
+.chip.down{background:var(--loss-bg);color:var(--loss)}
+.donut-container{display:flex;align-items:center;gap:20px;padding:12px 0}
+.donut-container canvas{flex-shrink:0}
+.donut-info .amount{font-size:22px;font-weight:700}
+.donut-info .sub{font-size:12px;color:var(--text-mid);margin-top:2px}
+.progress-bar-wrap{background:#e2e8f0;border-radius:8px;height:10px;overflow:hidden;margin:6px 0}
+.progress-bar-fill{height:100%;border-radius:8px;transition:width .6s ease}
+.deuda-detail{display:flex;justify-content:space-between;font-size:13px;color:var(--text-mid);margin-top:4px}
+.deuda-summary-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9}
+.deuda-summary-row:last-child{border-bottom:none}
+.deuda-summary-row .name{font-size:14px;font-weight:500}
+.deuda-summary-row .val{font-size:14px;font-weight:600;color:var(--loss)}
+.deuda-summary-row .sub{font-size:11px;color:var(--text-mid)}
+.chart-wrap{position:relative;margin:0 auto}
+.chart-wrap canvas{width:100%!important;max-height:280px}
+.legend-row{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:13px}
+.legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+/* horizontal bars */
+.hbar-item{margin-bottom:16px}
+.hbar-label{font-size:14px;font-weight:600;margin-bottom:2px}
+.hbar-sub{font-size:11px;color:var(--text-mid);margin-bottom:4px}
+.hbar-track{background:#e2e8f0;border-radius:6px;height:14px;position:relative;overflow:hidden}
+.hbar-fill{height:100%;border-radius:6px;transition:width .6s ease}
+.hbar-vals{display:flex;justify-content:space-between;font-size:11px;color:var(--text-mid);margin-top:2px}
+@media(min-width:768px){
+  .sidebar{display:flex;width:72px}
+  .sidebar .label{display:none}
+  .sidebar .logo h2{font-size:0}.sidebar .logo h2::first-letter{font-size:22px}
+  .sidebar .logo span{display:none}
+  .sidebar button{justify-content:center;padding:14px}
+  nav.bottom-nav{display:none}
+  header.mobile-header{display:none}
+  .kpi-bar{display:flex;margin-left:72px}
+  main{margin-left:72px;padding-bottom:20px}
+  .tab-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .tab-grid .card{margin-bottom:0}
 }
-#login {
-  position:fixed; inset:0; z-index:1000;
-  background:linear-gradient(135deg,#1E3A5F 0%,#1A2F4E 100%);
-  display:flex; align-items:center; justify-content:center;
-  flex-direction:column; gap:24px;
+@media(min-width:1100px){
+  .sidebar{width:220px}.sidebar .label{display:inline}
+  .sidebar .logo h2{font-size:18px}.sidebar .logo h2::first-letter{font-size:18px}
+  .sidebar .logo span{display:block}
+  .kpi-bar{margin-left:220px}main{margin-left:220px}
 }
-#login.hidden { display:none; }
-#login h1 { color:#fff; font-size:24px; font-weight:700; letter-spacing:-0.5px; }
-#login p { color:rgba(255,255,255,.6); font-size:13px; }
-#login input {
-  width:260px; padding:14px 18px; border-radius:12px; border:2px solid rgba(255,255,255,.15);
-  background:rgba(255,255,255,.08); color:#fff; font-size:16px;
-  font-family:inherit; outline:none; text-align:center; transition:border-color .2s;
-}
-#login input:focus { border-color:var(--accent); }
-#login input::placeholder { color:rgba(255,255,255,.35); }
-#login button {
-  padding:14px 48px; border-radius:12px; border:none;
-  background:var(--accent); color:#fff; font-size:15px;
-  font-weight:600; font-family:inherit; cursor:pointer;
-  transition:transform .15s,opacity .15s;
-}
-#login button:active { transform:scale(.96); opacity:.85; }
-#login .login-err { color:#f87171; font-size:13px; min-height:18px; }
-header.mobile-header {
-  background:linear-gradient(135deg,#1E3A5F,#1A2F4E);
-  padding:12px 20px; padding-top:calc(12px + env(safe-area-inset-top,0px));
-  display:flex; align-items:center; justify-content:space-between;
-}
-header.mobile-header h1 { color:#fff; font-size:17px; font-weight:700; }
-header.mobile-header .date { color:rgba(255,255,255,.55); font-size:12px; }
-.refresh-btn {
-  background:rgba(255,255,255,.12); border:none; border-radius:8px;
-  width:34px; height:34px; display:flex; align-items:center; justify-content:center;
-  cursor:pointer; color:#fff; transition:background .2s;
-}
-.refresh-btn:hover { background:rgba(255,255,255,.2); }
-.refresh-btn svg { width:18px; height:18px; }
-.refresh-btn.spinning svg { animation:spin .8s linear infinite; }
-@keyframes spin { to { transform:rotate(360deg); } }
-main {
-  flex:1; overflow-y:auto; overflow-x:hidden;
-  padding:16px; padding-bottom:calc(72px + var(--safe-b) + 16px);
-  -webkit-overflow-scrolling:touch;
-}
-.tab-content { display:none; }
-.tab-content.active { display:block; }
-nav.bottom-nav {
-  position:fixed; bottom:0; left:0; right:0;
-  background:#fff; border-top:1px solid #e2e8f0;
-  display:flex; justify-content:space-around; align-items:center;
-  padding:6px 0; padding-bottom:calc(6px + var(--safe-b)); z-index:100;
-}
-nav.bottom-nav button {
-  display:flex; flex-direction:column; align-items:center; gap:2px;
-  background:none; border:none; cursor:pointer;
-  color:var(--text-mid); font-size:10px; font-family:inherit;
-  font-weight:500; padding:4px 8px; border-radius:8px; transition:color .2s;
-}
-nav.bottom-nav button.active { color:var(--accent); }
-nav.bottom-nav button svg { width:22px; height:22px; }
-.sidebar {
-  display:none; position:fixed; left:0; top:0; bottom:0;
-  background:linear-gradient(180deg,#1E3A5F 0%,#1A2F4E 100%);
-  z-index:200; flex-direction:column;
-}
-.sidebar .logo { padding:20px; text-align:center; }
-.sidebar .logo h2 { color:#fff; font-size:16px; font-weight:700; }
-.sidebar .logo span { color:rgba(255,255,255,.45); font-size:11px; }
-.sidebar button {
-  display:flex; align-items:center; gap:12px;
-  background:none; border:none; cursor:pointer;
-  color:rgba(255,255,255,.6); font-size:14px; font-family:inherit;
-  font-weight:500; padding:12px 20px; width:100%;
-  transition:all .2s; border-left:3px solid transparent;
-}
-.sidebar button:hover { background:rgba(255,255,255,.06); }
-.sidebar button.active { color:#fff; background:rgba(255,255,255,.1); border-left-color:var(--accent); }
-.sidebar button svg { width:20px; height:20px; flex-shrink:0; }
-.kpi-bar {
-  display:none; background:#fff; border-bottom:1px solid #e2e8f0;
-  padding:12px 20px; gap:16px; flex-wrap:wrap; align-items:center;
-}
-.kpi-item { text-align:center; }
-.kpi-item .label { font-size:11px; color:var(--text-mid); font-weight:500; }
-.kpi-item .value { font-size:18px; font-weight:700; color:var(--text-dark); }
-.card {
-  background:#fff; border-radius:var(--card-radius);
-  padding:16px; margin-bottom:12px;
-  box-shadow:0 1px 3px rgba(0,0,0,.04);
-}
-.card-title {
-  font-size:13px; font-weight:700; color:var(--text-mid);
-  text-transform:uppercase; letter-spacing:.5px;
-  margin-bottom:12px; display:flex; align-items:center; gap:8px;
-}
-.card-title svg { width:16px; height:16px; color:var(--accent); }
-.row {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 0; border-bottom:1px solid #f1f5f9;
-}
-.row:last-child { border-bottom:none; }
-.row .name { font-size:14px; font-weight:500; }
-.row .val { font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; }
-.row-total {
-  background:var(--total-bg); border-radius:8px;
-  padding:10px 12px; margin-top:8px;
-  display:flex; justify-content:space-between;
-  font-weight:700; font-size:15px;
-}
-.row-extra {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:8px 12px; font-size:13px; color:var(--text-mid);
-}
-.row-extra .val { font-weight:600; color:var(--text-mid); font-size:13px; }
-.row-warn {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:8px 12px; font-size:13px; margin-top:4px;
-  background:var(--warn-bg); border-radius:8px; color:var(--warn); font-weight:600;
-}
-.chip {
-  display:inline-flex; padding:2px 8px; border-radius:6px;
-  font-size:11px; font-weight:600; margin-left:8px;
-}
-.chip.up { background:var(--gain-bg); color:var(--gain); }
-.chip.down { background:var(--loss-bg); color:var(--loss); }
-.donut-container { display:flex; align-items:center; gap:20px; padding:12px 0; }
-.donut-container canvas { flex-shrink:0; }
-.donut-info .amount { font-size:22px; font-weight:700; }
-.donut-info .sub { font-size:12px; color:var(--text-mid); margin-top:2px; }
-.progress-bar-wrap { background:#e2e8f0; border-radius:8px; height:10px; overflow:hidden; margin:6px 0; }
-.progress-bar-fill { height:100%; border-radius:8px; transition:width .6s ease; }
-.deuda-detail { display:flex; justify-content:space-between; font-size:13px; color:var(--text-mid); margin-top:4px; }
-.deuda-summary-row {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 0; border-bottom:1px solid #f1f5f9;
-}
-.deuda-summary-row:last-child { border-bottom:none; }
-.deuda-summary-row .name { font-size:14px; font-weight:500; }
-.deuda-summary-row .val { font-size:14px; font-weight:600; color:var(--loss); }
-.deuda-summary-row .sub { font-size:11px; color:var(--text-mid); }
-.chart-wrap { position:relative; margin:0 auto; }
-.chart-wrap canvas { width:100%!important; max-height:260px; }
-.legend-row { display:flex; align-items:center; gap:8px; padding:6px 0; font-size:13px; }
-.legend-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
-@media(min-width:768px) {
-  .sidebar { display:flex; width:72px; }
-  .sidebar .label { display:none; }
-  .sidebar .logo h2 { font-size:0; }
-  .sidebar .logo h2::first-letter { font-size:22px; }
-  .sidebar .logo span { display:none; }
-  .sidebar button { justify-content:center; padding:14px; }
-  nav.bottom-nav { display:none; }
-  header.mobile-header { display:none; }
-  .kpi-bar { display:flex; margin-left:72px; }
-  main { margin-left:72px; padding-bottom:20px; }
-  .tab-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-  .tab-grid .card { margin-bottom:0; }
-}
-@media(min-width:1100px) {
-  .sidebar { width:220px; }
-  .sidebar .label { display:inline; }
-  .sidebar .logo h2 { font-size:18px; }
-  .sidebar .logo h2::first-letter { font-size:18px; }
-  .sidebar .logo span { display:block; }
-  .kpi-bar { margin-left:220px; }
-  main { margin-left:220px; }
-}
-.toast {
-  position:fixed; bottom:90px; left:50%; transform:translateX(-50%);
-  background:var(--text-dark); color:#fff; padding:10px 20px;
-  border-radius:10px; font-size:13px; font-weight:500;
-  opacity:0; transition:opacity .3s; pointer-events:none; z-index:300;
-}
-.toast.show { opacity:1; }
-@media(min-width:768px) { .toast { bottom:30px; } }
+.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:var(--text-dark);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:300}
+.toast.show{opacity:1}
+@media(min-width:768px){.toast{bottom:30px}}
 </style>
 </head>
 <body>
@@ -225,10 +132,7 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 </div>
 
 <header class="mobile-header">
-  <div>
-    <h1>Finanzas Pablo</h1>
-    <div class="date" id="headerDate">—</div>
-  </div>
+  <div><h1>Finanzas Pablo</h1><div class="date" id="headerDate">—</div></div>
   <button class="refresh-btn" onclick="loadAll()" id="refreshBtn">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
   </button>
@@ -236,22 +140,10 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 
 <aside class="sidebar">
   <div class="logo"><h2>Finanzas Pablo</h2><span id="sideDate">—</span></div>
-  <button class="active" onclick="switchTab('inicio',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-    <span class="label">Inicio</span>
-  </button>
-  <button onclick="switchTab('cartera',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    <span class="label">Cartera</span>
-  </button>
-  <button onclick="switchTab('deuda',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    <span class="label">Deuda</span>
-  </button>
-  <button onclick="switchTab('graficas',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-    <span class="label">Gráficas</span>
-  </button>
+  <button class="active" onclick="switchTab('inicio',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span class="label">Inicio</span></button>
+  <button onclick="switchTab('cartera',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span class="label">Cartera</span></button>
+  <button onclick="switchTab('deuda',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="label">Deuda</span></button>
+  <button onclick="switchTab('graficas',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg><span class="label">Gráficas</span></button>
 </aside>
 
 <div class="kpi-bar">
@@ -262,328 +154,270 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 </div>
 
 <main>
-  <!-- INICIO -->
   <div class="tab-content active" id="tab-inicio">
     <div class="tab-grid">
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
-          Saldos bancarios
-        </div>
+        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>Saldos bancarios</div>
         <div id="inicioBancos"></div>
       </div>
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
-          Huchas
-        </div>
+        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Huchas</div>
         <div id="inicioHuchas"></div>
       </div>
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-          Resumen inversiones
-        </div>
+        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Resumen inversiones</div>
         <div id="inicioInv"></div>
       </div>
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-          Resumen deuda
-        </div>
+        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen deuda</div>
         <div id="inicioDeuda"></div>
       </div>
     </div>
   </div>
 
-  <!-- CARTERA -->
   <div class="tab-content" id="tab-cartera">
     <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>
-        Fondos de inversión
-      </div>
+      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>Fondos de inversión</div>
       <div id="carteraFondos"></div>
     </div>
     <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
-        Planes de pensiones
-      </div>
+      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Planes de pensiones</div>
       <div id="carteraPensiones"></div>
     </div>
     <div class="card">
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-        Criptomonedas
-      </div>
+      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Criptomonedas</div>
       <div id="carteraCripto"></div>
     </div>
   </div>
 
-  <!-- DEUDA -->
   <div class="tab-content" id="tab-deuda">
+    <div class="card" id="deudaResumen"></div>
     <div class="tab-grid">
       <div class="card" id="deudaHipoteca"></div>
       <div class="card" id="deudaPrestamo"></div>
     </div>
   </div>
 
-  <!-- GRAFICAS -->
   <div class="tab-content" id="tab-graficas">
     <div class="tab-grid">
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>
-          Distribución del patrimonio
-        </div>
+        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Distribución del patrimonio</div>
         <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
         <div id="donutLegend"></div>
       </div>
       <div class="card">
-        <div class="card-title">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-          Inversiones por tipo
-        </div>
-        <div class="chart-wrap"><canvas id="chartBars"></canvas></div>
+        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Inversiones detalle</div>
+        <div id="chartHBars"></div>
       </div>
     </div>
   </div>
 </main>
 
 <nav class="bottom-nav">
-  <button class="active" onclick="switchTab('inicio',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
-    Inicio
-  </button>
-  <button onclick="switchTab('cartera',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-    Cartera
-  </button>
-  <button onclick="switchTab('deuda',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-    Deuda
-  </button>
-  <button onclick="switchTab('graficas',this)">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
-    Gráficas
-  </button>
+  <button class="active" onclick="switchTab('inicio',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Inicio</button>
+  <button onclick="switchTab('cartera',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Cartera</button>
+  <button onclick="switchTab('deuda',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Deuda</button>
+  <button onclick="switchTab('graficas',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Gráficas</button>
 </nav>
 
 <div class="toast" id="toast"></div>
 
 <script>
-const API = "https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
-let PASS = "";
-let DATA = null;
-let PRICES = null;
+const API="https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
+let PASS="",DATA=null,PRICES=null;
+const fmt=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
+const fmtPct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
+const chipHtml=pct=>`<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
+const $=id=>document.getElementById(id);
+function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500)}
 
-const fmt = n => n == null ? "—" : n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}) + " €";
-const fmtPct = n => (n>=0?"+":"") + n.toFixed(2) + "%";
-const chipHtml = pct => `<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
-const $ = id => document.getElementById(id);
+$("passInput").addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin()});
 
-function toast(msg) {
-  const t = $("toast"); t.textContent = msg;
-  t.classList.add("show");
-  setTimeout(()=>t.classList.remove("show"),2500);
+async function tryLogin(){
+  PASS=$("passInput").value.trim();if(!PASS)return;
+  $("loginErr").textContent="Verificando...";
+  try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);const d=await r.json();
+  if(d.error){$("loginErr").textContent="Contraseña incorrecta";PASS="";return}
+  DATA=d;$("login").classList.add("hidden");renderAll();fetchPrices();
+  }catch(e){$("loginErr").textContent="Error de conexión";PASS=""}
 }
 
-$("passInput").addEventListener("keydown", e => { if(e.key==="Enter") tryLogin(); });
-
-async function tryLogin() {
-  PASS = $("passInput").value.trim();
-  if(!PASS) return;
-  $("loginErr").textContent = "Verificando...";
-  try {
-    const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);
-    const d = await r.json();
-    if(d.error) { $("loginErr").textContent = "Contraseña incorrecta"; PASS=""; return; }
-    DATA = d;
-    $("login").classList.add("hidden");
-    renderAll();
-    fetchPrices();
-  } catch(e) {
-    $("loginErr").textContent = "Error de conexión";
-    PASS = "";
-  }
+async function loadAll(){
+  const btn=$("refreshBtn");if(btn)btn.classList.add("spinning");
+  try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);DATA=await r.json();
+  if(DATA.error){toast("Error: "+DATA.error);return}renderAll();fetchPrices();toast("Datos actualizados");
+  }catch(e){toast("Error de conexión")}
+  finally{if(btn)setTimeout(()=>btn.classList.remove("spinning"),500)}
 }
 
-async function loadAll() {
-  const btn = $("refreshBtn");
-  if(btn) btn.classList.add("spinning");
-  try {
-    const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);
-    DATA = await r.json();
-    if(DATA.error) { toast("Error: " + DATA.error); return; }
-    renderAll();
-    fetchPrices();
-    toast("Datos actualizados");
-  } catch(e) { toast("Error de conexión"); }
-  finally { if(btn) setTimeout(()=>btn.classList.remove("spinning"),500); }
+async function fetchPrices(){
+  try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getPrices`);PRICES=await r.json();
+  if(PRICES&&!PRICES.error)renderCartera(DATA);
+  }catch(e){}
 }
 
-async function fetchPrices() {
-  try {
-    const r = await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getPrices`);
-    PRICES = await r.json();
-    if(PRICES && !PRICES.error) renderCartera(DATA);
-  } catch(e) {}
-}
-
-function switchTab(id, btn) {
-  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+function switchTab(id,btn){
+  document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
   $("tab-"+id).classList.add("active");
-  document.querySelectorAll("nav.bottom-nav button").forEach(b => b.classList.remove("active"));
-  document.querySelectorAll(".sidebar button").forEach(b => b.classList.remove("active"));
-  if(btn) btn.classList.add("active");
-  const idx = ["inicio","cartera","deuda","graficas"].indexOf(id);
-  const bnBtns = document.querySelectorAll("nav.bottom-nav button");
-  const sbBtns = document.querySelectorAll(".sidebar button");
-  if(bnBtns[idx]) bnBtns[idx].classList.add("active");
-  if(sbBtns[idx]) sbBtns[idx].classList.add("active");
-  if(id==="graficas") setTimeout(renderCharts,100);
+  document.querySelectorAll("nav.bottom-nav button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"));
+  if(btn)btn.classList.add("active");
+  const idx=["inicio","cartera","deuda","graficas"].indexOf(id);
+  const bn=document.querySelectorAll("nav.bottom-nav button");
+  const sb=document.querySelectorAll(".sidebar button");
+  if(bn[idx])bn[idx].classList.add("active");
+  if(sb[idx])sb[idx].classList.add("active");
+  if(id==="graficas")setTimeout(renderCharts,100);
+  if(id==="deuda")setTimeout(()=>renderDeuda(DATA),50);
 }
 
-function renderAll() {
-  if(!DATA) return;
-  const d = DATA;
-  let dateStr = "—";
-  if(d.fecha) {
-    try { dateStr = new Date(d.fecha).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"}); } catch(e) { dateStr = String(d.fecha); }
-  }
-  $("headerDate").textContent = dateStr;
-  $("sideDate").textContent = dateStr;
+function renderAll(){
+  if(!DATA)return;const d=DATA;
+  let dateStr="—";
+  if(d.fecha){try{dateStr=new Date(d.fecha).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})}catch(e){dateStr=String(d.fecha)}}
+  $("headerDate").textContent=dateStr;$("sideDate").textContent=dateStr;
 
-  const totalBancos = Object.values(d.bancos).reduce((a,b)=>a+b,0);
-  const totalHuchas = Object.values(d.huchas).reduce((a,b)=>a+b,0);
-  const totalInvActual = Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
-  const totalDeuda = d.deuda.Hipoteca.pendiente + d.deuda.Prestamo.pendiente;
+  const totalBancos=Object.values(d.bancos).reduce((a,b)=>a+b,0);
+  const totalInvActual=Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
+  const totalDeuda=d.deuda.Hipoteca.pendiente+d.deuda.Prestamo.pendiente;
 
-  // KPIs
-  const mesVal = d.mesAlCorriente || 0;
-  const kpiMes = $("kpiMes");
-  kpiMes.textContent = fmt(mesVal);
-  kpiMes.style.color = mesVal >= 0 ? "var(--gain)" : "var(--loss)";
+  const mesVal=d.mesAlCorriente||0;
+  const kM=$("kpiMes");kM.textContent=fmt(mesVal);kM.style.color=mesVal>=0?"var(--gain)":"var(--loss)";
+  $("kpiBanks").textContent=fmt(totalBancos);
+  $("kpiInv").textContent=fmt(totalInvActual);
+  const kD=$("kpiDebt");kD.textContent=fmt(totalDeuda);kD.style.color="var(--loss)";
 
-  $("kpiBanks").textContent = fmt(totalBancos);
-  $("kpiInv").textContent = fmt(totalInvActual);
-
-  const kpiDebt = $("kpiDebt");
-  kpiDebt.textContent = fmt(totalDeuda);
-  kpiDebt.style.color = "var(--loss)";
-
-  renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda);
+  renderInicio(d,totalBancos,totalInvActual,totalDeuda);
   renderCartera(d);
   renderDeuda(d);
 }
 
-function renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda) {
+function renderInicio(d,totalBancos,totalInvActual,totalDeuda){
   // ── Bancos ──
-  let html = "";
-  Object.entries(d.bancos).forEach(([name,val]) => {
-    html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
-  });
-  html += `<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
-  // Me deben + Urgencia below total
-  if(d.meDeben != null) {
-    html += `<div class="row-warn"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
-  }
-  if(d.urgencia != null) {
-    html += `<div class="row-warn"><span>Urgencia</span><span>${fmt(d.urgencia)}</span></div>`;
-  }
-  $("inicioBancos").innerHTML = html;
+  let h="";
+  Object.entries(d.bancos).forEach(([n,v])=>{h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(v)}</span></div>`});
+  h+=`<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
+  if(d.meDeben!=null)h+=`<div class="row-warn"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
+  $("inicioBancos").innerHTML=h;
 
   // ── Huchas ──
-  html = "";
-  Object.entries(d.huchas).forEach(([name,val]) => {
-    html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
-  });
-  html += `<div class="row-total"><span>Total</span><span>${fmt(totalHuchas)}</span></div>`;
-  // Cuentas extra below total
-  if(d.cuentasExtra) {
-    Object.entries(d.cuentasExtra).forEach(([name,val]) => {
-      html += `<div class="row-extra"><span>${name}</span><span class="val">${fmt(val)}</span></div>`;
-    });
+  h="";
+  const externas=["Auxiliares","Hucha Mamá","IVA"];
+  const pablo=["Fondo Emergencia","Hucha I+D"];
+  // Externas
+  externas.forEach(n=>{if(d.huchas[n]!=null)h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(d.huchas[n])}</span></div>`});
+  const totalExt=externas.reduce((a,n)=>a+(d.huchas[n]||0),0);
+  h+=`<div class="row-subtotal"><span>Total Huchas Externas</span><span>${fmt(totalExt)}</span></div>`;
+  h+=`<div class="section-divider"></div>`;
+  // Pablo
+  pablo.forEach(n=>{if(d.huchas[n]!=null)h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(d.huchas[n])}</span></div>`});
+  const urgVal=d.urgencia||0;
+  h+=`<div class="row"><span class="name">Urgencia</span><span class="val">${fmt(urgVal)}</span></div>`;
+  const totalPab=pablo.reduce((a,n)=>a+(d.huchas[n]||0),0)+urgVal;
+  h+=`<div class="row-subtotal"><span>Total Huchas Pablo</span><span>${fmt(totalPab)}</span></div>`;
+  // Extra accounts
+  if(d.cuentasExtra){
+    h+=`<div class="section-divider"></div>`;
+    Object.entries(d.cuentasExtra).forEach(([n,v])=>{h+=`<div class="row-extra"><span>${n}</span><span class="val">${fmt(v)}</span></div>`});
   }
-  $("inicioHuchas").innerHTML = html;
+  $("inicioHuchas").innerHTML=h;
 
   // ── Inversiones resumen ──
-  const byType = {fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
-  Object.values(d.inversiones).forEach(i => {
-    byType[i.tipo].ini += i.inicial;
-    byType[i.tipo].act += i.actual;
-  });
-  const labels = {fondo:"Fondos",pension:"Pensiones",cripto:"Cripto"};
-  html = "";
-  Object.entries(byType).forEach(([tipo,v]) => {
-    const pct = v.ini ? ((v.act-v.ini)/v.ini)*100 : 0;
-    html += `<div class="row"><span class="name">${labels[tipo]}</span><span class="val">${fmt(v.act)}${chipHtml(pct)}</span></div>`;
-  });
-  const totalInvIni = Object.values(d.inversiones).reduce((a,i)=>a+i.inicial,0);
-  const pctTotal = totalInvIni ? ((totalInvActual-totalInvIni)/totalInvIni)*100 : 0;
-  html += `<div class="row-total"><span>Total</span><span>${fmt(totalInvActual)}${chipHtml(pctTotal)}</span></div>`;
-  $("inicioInv").innerHTML = html;
+  const byType={fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
+  Object.values(d.inversiones).forEach(i=>{byType[i.tipo].ini+=i.inicial;byType[i.tipo].act+=i.actual});
+  const labels={fondo:"Fondos",pension:"Pensiones",cripto:"Cripto"};
+  h="";
+  Object.entries(byType).forEach(([t,v])=>{const p=v.ini?((v.act-v.ini)/v.ini)*100:0;h+=`<div class="row"><span class="name">${labels[t]}</span><span class="val">${fmt(v.act)}${chipHtml(p)}</span></div>`});
+  const tIni=Object.values(d.inversiones).reduce((a,i)=>a+i.inicial,0);
+  const pT=tIni?((totalInvActual-tIni)/tIni)*100:0;
+  h+=`<div class="row-total"><span>Total</span><span>${fmt(totalInvActual)}${chipHtml(pT)}</span></div>`;
+  $("inicioInv").innerHTML=h;
 
-  // ── Resumen deuda ──
-  html = "";
-  const hip = d.deuda.Hipoteca;
-  const pre = d.deuda.Prestamo;
-  html += `<div class="deuda-summary-row">
-    <div><div class="name">Hipoteca</div><div class="sub">Cuota: ${fmt(hip.cuota)}/mes · Fin: ${hip.fin}</div></div>
-    <div class="val">${fmt(hip.pendiente)}</div>
-  </div>`;
-  html += `<div class="deuda-summary-row">
-    <div><div class="name">Préstamo</div><div class="sub">Cuota: ${fmt(pre.cuota)}/mes · Fin: ${pre.fin}</div></div>
-    <div class="val">${fmt(pre.pendiente)}</div>
-  </div>`;
-  html += `<div class="row-total"><span>Total deuda</span><span style="color:var(--loss)">${fmt(totalDeuda)}</span></div>`;
-  $("inicioDeuda").innerHTML = html;
+  // ── Deuda resumen ──
+  h="";const hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
+  h+=`<div class="deuda-summary-row"><div><div class="name">Hipoteca</div><div class="sub">Cuota: ${fmt(hip.cuota)}/mes · Fin: ${hip.fin}</div></div><div class="val">${fmt(hip.pendiente)}</div></div>`;
+  h+=`<div class="deuda-summary-row"><div><div class="name">Préstamo</div><div class="sub">Cuota: ${fmt(pre.cuota)}/mes · Fin: ${pre.fin}</div></div><div class="val">${fmt(pre.pendiente)}</div></div>`;
+  h+=`<div class="row-total"><span>Total deuda</span><span style="color:var(--loss)">${fmt(totalDeuda)}</span></div>`;
+  $("inicioDeuda").innerHTML=h;
 }
 
-function renderCartera(d) {
-  const render = (container, items) => {
-    let html = "";
-    let totalIni = 0, totalAct = 0;
-    items.forEach(([name,i]) => {
-      const pct = i.inicial ? ((i.actual-i.inicial)/i.inicial)*100 : 0;
-      totalIni += i.inicial; totalAct += i.actual;
-      const priceVal = PRICES && PRICES[name] != null ? fmt(PRICES[name]) : "—";
-      html += `<div class="row">
-        <div>
-          <div class="name">${name}</div>
-          <div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div>
-          <div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${priceVal}</div>
-        </div>
-        <div style="text-align:right">
-          <div class="val">${fmt(i.actual)}</div>
-          <div>${chipHtml(pct)}</div>
-        </div>
-      </div>`;
+function renderCartera(d){
+  const render=(container,items)=>{
+    let h="";let tI=0,tA=0;
+    items.forEach(([n,i])=>{
+      const p=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;
+      tI+=i.inicial;tA+=i.actual;
+      const pv=PRICES&&PRICES[n]!=null?fmt(PRICES[n]):"—";
+      h+=`<div class="row"><div><div class="name">${n}</div><div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div><div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${pv}</div></div><div style="text-align:right"><div class="val">${fmt(i.actual)}</div><div>${chipHtml(p)}</div></div></div>`;
     });
-    const pctT = totalIni ? ((totalAct-totalIni)/totalIni)*100 : 0;
-    html += `<div class="row-total"><span>Total</span><span>${fmt(totalAct)}${chipHtml(pctT)}</span></div>`;
-    $(container).innerHTML = html;
+    const pT=tI?((tA-tI)/tI)*100:0;
+    h+=`<div class="row-total"><span>Total</span><span>${fmt(tA)}${chipHtml(pT)}</span></div>`;
+    $(container).innerHTML=h;
   };
-  const inv = Object.entries(d.inversiones);
-  render("carteraFondos", inv.filter(([,i])=>i.tipo==="fondo"));
-  render("carteraPensiones", inv.filter(([,i])=>i.tipo==="pension"));
-  render("carteraCripto", inv.filter(([,i])=>i.tipo==="cripto"));
+  const inv=Object.entries(d.inversiones);
+  render("carteraFondos",inv.filter(([,i])=>i.tipo==="fondo"));
+  render("carteraPensiones",inv.filter(([,i])=>i.tipo==="pension"));
+  render("carteraCripto",inv.filter(([,i])=>i.tipo==="cripto"));
 }
 
-function renderDeuda(d) {
-  ["Hipoteca","Prestamo"].forEach(key => {
-    const debt = d.deuda[key];
-    const paid = debt.totalOriginal - debt.pendiente;
-    const pctPaid = (paid / debt.totalOriginal) * 100;
-    const container = key === "Hipoteca" ? $("deudaHipoteca") : $("deudaPrestamo");
-    const color = key === "Hipoteca" ? "#3B82F6" : "#8B5CF6";
-    const label = key === "Hipoteca" ? "Hipoteca" : "Préstamo";
-    container.innerHTML = `
-      <div class="card-title">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        ${label}
+function renderDeuda(d){
+  // Summary donut
+  const hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
+  const totalOrig=hip.totalOriginal+pre.totalOriginal;
+  const totalPend=hip.pendiente+pre.pendiente;
+  const totalPaid=totalOrig-totalPend;
+  const hipPaid=hip.totalOriginal-hip.pendiente;
+  const prePaid=pre.totalOriginal-pre.pendiente;
+  const pctPaidTotal=(totalPaid/totalOrig)*100;
+
+  $("deudaResumen").innerHTML=`
+    <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen total deuda</div>
+    <div class="donut-container">
+      <canvas id="donutTotal" width="100" height="100"></canvas>
+      <div class="donut-info">
+        <div class="amount" style="color:var(--loss)">${fmt(totalPend)}</div>
+        <div class="sub">pendiente de ${fmt(totalOrig)}</div>
+        <div class="sub" style="margin-top:6px;color:var(--gain)">Pagado: ${fmt(totalPaid)} (${pctPaidTotal.toFixed(1)}%)</div>
       </div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div style="display:flex;height:100%;border-radius:8px;overflow:hidden">
+        <div style="width:${(hipPaid/totalOrig)*100}%;background:#3B82F6;height:100%"></div>
+        <div style="width:${(prePaid/totalOrig)*100}%;background:#8B5CF6;height:100%"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--text-mid)">
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#3B82F6;display:inline-block"></span>Hipoteca</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#8B5CF6;display:inline-block"></span>Préstamo</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;display:inline-block"></span>Pendiente</span>
+    </div>`;
+
+  // Draw combined donut
+  setTimeout(()=>{
+    const c=document.getElementById("donutTotal");if(!c)return;
+    const ctx=c.getContext("2d");const s=c.width;const cx=s/2;const cy=s/2;const r=s/2-10;const lw=12;
+    ctx.clearRect(0,0,s,s);
+    // grey bg
+    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();
+    // hipoteca paid (blue)
+    const hipAngle=(hipPaid/totalOrig)*Math.PI*2;
+    ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+hipAngle);ctx.strokeStyle="#3B82F6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
+    // prestamo paid (purple)
+    const preAngle=(prePaid/totalOrig)*Math.PI*2;
+    ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2+hipAngle,-Math.PI/2+hipAngle+preAngle);ctx.strokeStyle="#8B5CF6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
+    // center text
+    ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
+    ctx.fillText(pctPaidTotal.toFixed(0)+"%",cx,cy);
+  },50);
+
+  // Individual cards
+  ["Hipoteca","Prestamo"].forEach(key=>{
+    const debt=d.deuda[key];const paid=debt.totalOriginal-debt.pendiente;const pctPaid=(paid/debt.totalOriginal)*100;
+    const container=key==="Hipoteca"?$("deudaHipoteca"):$("deudaPrestamo");
+    const color=key==="Hipoteca"?"#3B82F6":"#8B5CF6";
+    const label=key==="Hipoteca"?"Hipoteca":"Préstamo";
+    container.innerHTML=`
+      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${label}</div>
       <div class="donut-container">
         <canvas id="donut${key}" width="90" height="90"></canvas>
         <div class="donut-info">
@@ -592,136 +426,90 @@ function renderDeuda(d) {
           <div class="sub">Cuota: ${fmt(debt.cuota)}/mes · Fin: ${debt.fin}</div>
         </div>
       </div>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" style="width:${pctPaid}%;background:${color}"></div>
-      </div>
-      <div class="deuda-detail">
-        <span>Pagado: ${fmt(paid)} (${pctPaid.toFixed(1)}%)</span>
-        <span>Pendiente: ${pctPaid < 100 ? (100-pctPaid).toFixed(1) : 0}%</span>
-      </div>
-    `;
-    drawMiniDonut(`donut${key}`, pctPaid, color);
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pctPaid}%;background:${color}"></div></div>
+      <div class="deuda-detail"><span>Pagado: ${fmt(paid)} (${pctPaid.toFixed(1)}%)</span><span>Pendiente: ${(100-pctPaid).toFixed(1)}%</span></div>`;
+    drawMiniDonut(`donut${key}`,pctPaid,color);
   });
 }
 
-function drawMiniDonut(canvasId, pct, color) {
-  const c = document.getElementById(canvasId);
-  if(!c) return;
-  const ctx = c.getContext("2d");
-  const s = c.width; const cx=s/2; const cy=s/2; const r=s/2-8; const lw=10;
+function drawMiniDonut(id,pct,color){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext("2d");const s=c.width;const cx=s/2;const cy=s/2;const r=s/2-8;const lw=10;
   ctx.clearRect(0,0,s,s);
-  ctx.beginPath(); ctx.arc(cx,cy,r,0,Math.PI*2);
-  ctx.strokeStyle="#e2e8f0"; ctx.lineWidth=lw; ctx.stroke();
-  ctx.beginPath(); ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(Math.PI*2*pct/100));
-  ctx.strokeStyle=color; ctx.lineWidth=lw; ctx.lineCap="round"; ctx.stroke();
-  ctx.fillStyle="#1A2B45"; ctx.font="bold 16px 'Plus Jakarta Sans',sans-serif";
-  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(Math.PI*2*pct/100));ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.lineCap="round";ctx.stroke();
+  ctx.fillStyle="#1A2B45";ctx.font="bold 16px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.fillText(pct.toFixed(0)+"%",cx,cy);
 }
 
-function renderCharts() {
-  if(!DATA) return;
-  renderDonutChart();
-  renderBarChart();
-}
+function renderCharts(){if(!DATA)return;renderDonutChart();renderHBars()}
 
-function renderDonutChart() {
-  const c = $("chartDonut");
-  if(!c) return;
-  const ctx = c.getContext("2d");
-  const totalBancos = Object.values(DATA.bancos).reduce((a,b)=>a+b,0);
-  const totalHuchas = Object.values(DATA.huchas).reduce((a,b)=>a+b,0);
-  const byType = {fondo:0,pension:0,cripto:0};
-  Object.values(DATA.inversiones).forEach(i => byType[i.tipo] += i.actual);
-  const segments = [
+function renderDonutChart(){
+  const c=$("chartDonut");if(!c)return;const ctx=c.getContext("2d");
+  const totalBancos=Object.values(DATA.bancos).reduce((a,b)=>a+b,0);
+  const byType={fondo:0,pension:0,cripto:0};
+  Object.values(DATA.inversiones).forEach(i=>byType[i.tipo]+=i.actual);
+  const fe=DATA.huchas["Fondo Emergencia"]||0;
+  const hid=DATA.huchas["Hucha I+D"]||0;
+  const urg=DATA.urgencia||0;
+
+  const segments=[
     {label:"Bancos",value:totalBancos,color:"#3B82F6"},
-    {label:"Huchas",value:totalHuchas,color:"#F59E0B"},
     {label:"Fondos",value:byType.fondo,color:"#10B981"},
     {label:"Pensiones",value:byType.pension,color:"#8B5CF6"},
     {label:"Cripto",value:byType.cripto,color:"#F97316"},
+    {label:"Fondo Emergencia",value:fe,color:"#F59E0B"},
+    {label:"Hucha I+D",value:hid,color:"#06B6D4"},
+    {label:"Urgencia",value:urg,color:"#EF4444"},
   ];
-  const total = segments.reduce((a,s)=>a+s.value,0);
-  const dpr = window.devicePixelRatio || 1;
-  const w = c.parentElement.clientWidth;
-  const h = 240;
-  c.width = w * dpr; c.height = h * dpr;
-  c.style.width = w+"px"; c.style.height = h+"px";
-  ctx.scale(dpr,dpr);
-  const cx = w/2; const cy = h/2; const r = Math.min(w,h)/2 - 20; const lw = 36;
-  let angle = -Math.PI/2;
-  segments.forEach(s => {
-    const slice = (s.value/total)*Math.PI*2;
-    ctx.beginPath(); ctx.arc(cx,cy,r,angle,angle+slice);
-    ctx.strokeStyle=s.color; ctx.lineWidth=lw; ctx.lineCap="butt"; ctx.stroke();
-    angle += slice;
+  const total=segments.reduce((a,s)=>a+s.value,0);
+  const dpr=window.devicePixelRatio||1;const w=c.parentElement.clientWidth;const h=240;
+  c.width=w*dpr;c.height=h*dpr;c.style.width=w+"px";c.style.height=h+"px";ctx.scale(dpr,dpr);
+  const cx=w/2;const cy=h/2;const r=Math.min(w,h)/2-20;const lw=36;
+  let angle=-Math.PI/2;
+  segments.forEach(s=>{
+    if(s.value<=0)return;
+    const slice=(s.value/total)*Math.PI*2;
+    ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.strokeStyle=s.color;ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
+    angle+=slice;
   });
-  ctx.fillStyle="#1A2B45"; ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";
-  ctx.textAlign="center"; ctx.textBaseline="middle";
+  ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
   ctx.fillText(fmt(total),cx,cy-8);
-  ctx.font="12px 'Plus Jakarta Sans',sans-serif"; ctx.fillStyle="#64748B";
-  ctx.fillText("Total",cx,cy+12);
-  let legend = "";
-  segments.forEach(s => {
-    const pct = ((s.value/total)*100).toFixed(1);
-    legend += `<div class="legend-row"><span class="legend-dot" style="background:${s.color}"></span><span style="flex:1">${s.label}</span><span style="font-weight:600">${fmt(s.value)}</span><span style="color:var(--text-mid);width:50px;text-align:right">${pct}%</span></div>`;
+  ctx.font="12px 'Plus Jakarta Sans',sans-serif";ctx.fillStyle="#64748B";ctx.fillText("Total",cx,cy+12);
+  let legend="";
+  segments.forEach(s=>{
+    if(s.value<=0)return;
+    const pct=((s.value/total)*100).toFixed(1);
+    legend+=`<div class="legend-row"><span class="legend-dot" style="background:${s.color}"></span><span style="flex:1">${s.label}</span><span style="font-weight:600">${fmt(s.value)}</span><span style="color:var(--text-mid);width:50px;text-align:right">${pct}%</span></div>`;
   });
-  $("donutLegend").innerHTML = legend;
+  $("donutLegend").innerHTML=legend;
 }
 
-function renderBarChart() {
-  const c = $("chartBars");
-  if(!c) return;
-  const ctx = c.getContext("2d");
-  const byType = {fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
-  Object.values(DATA.inversiones).forEach(i => {
-    byType[i.tipo].ini += i.inicial;
-    byType[i.tipo].act += i.actual;
+function renderHBars(){
+  const inv=Object.entries(DATA.inversiones);
+  const maxAct=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)));
+  let h="";
+  const colors={fondo:"#10B981",pension:"#8B5CF6",cripto:"#F97316"};
+  inv.forEach(([name,i])=>{
+    const pct=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;
+    const wIni=Math.max((i.inicial/maxAct)*100,1);
+    const wAct=Math.max((i.actual/maxAct)*100,1);
+    const col=colors[i.tipo]||"#3B82F6";
+    h+=`<div class="hbar-item">
+      <div class="hbar-label">${name}</div>
+      <div class="hbar-sub">Invertido: ${fmt(i.inicial)} · Actual: ${fmt(i.actual)} ${chipHtml(pct)}</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:${wAct}%;background:${col}"></div></div>
+      <div class="hbar-track" style="margin-top:3px"><div class="hbar-fill" style="width:${wIni}%;background:#CBD5E1"></div></div>
+    </div>`;
   });
-  const groups = [
-    {label:"Fondos",...byType.fondo,color:"#10B981"},
-    {label:"Pensiones",...byType.pension,color:"#8B5CF6"},
-    {label:"Cripto",...byType.cripto,color:"#F97316"},
-  ];
-  const dpr = window.devicePixelRatio || 1;
-  const w = c.parentElement.clientWidth;
-  const h = 240;
-  c.width = w * dpr; c.height = h * dpr;
-  c.style.width = w+"px"; c.style.height = h+"px";
-  ctx.scale(dpr,dpr);
-  const max = Math.max(...groups.map(g=>Math.max(g.ini,g.act))) * 1.15;
-  const pad = {t:20,b:40,l:10,r:10};
-  const chartW = w - pad.l - pad.r;
-  const chartH = h - pad.t - pad.b;
-  const groupW = chartW / groups.length;
-  const barW = groupW * 0.3;
-  groups.forEach((g,i) => {
-    const x = pad.l + i * groupW + groupW/2;
-    const h1 = (g.ini/max)*chartH;
-    ctx.fillStyle = "#CBD5E1";
-    ctx.beginPath(); roundRect(ctx, x - barW - 2, pad.t + chartH - h1, barW, h1, 4); ctx.fill();
-    const h2 = (g.act/max)*chartH;
-    ctx.fillStyle = g.color;
-    ctx.beginPath(); roundRect(ctx, x + 2, pad.t + chartH - h2, barW, h2, 4); ctx.fill();
-    ctx.fillStyle = "#64748B"; ctx.font = "12px 'Plus Jakarta Sans',sans-serif";
-    ctx.textAlign = "center"; ctx.fillText(g.label, x, h - 10);
-  });
-  ctx.fillStyle="#CBD5E1"; ctx.fillRect(w-140,8,10,10);
-  ctx.fillStyle="#64748B"; ctx.font="11px 'Plus Jakarta Sans',sans-serif"; ctx.textAlign="left";
-  ctx.fillText("Invertido",w-126,17);
-  ctx.fillStyle="#10B981"; ctx.fillRect(w-60,8,10,10);
-  ctx.fillText("Actual",w-46,17);
+  h+=`<div style="display:flex;gap:16px;font-size:11px;color:var(--text-mid);margin-top:4px">
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#10B981;display:inline-block"></span>Actual</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:2px;background:#CBD5E1;display:inline-block"></span>Invertido</span>
+  </div>`;
+  $("chartHBars").innerHTML=h;
 }
 
-function roundRect(ctx,x,y,w,h,r) {
-  ctx.moveTo(x+r,y);
-  ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
-  ctx.lineTo(x+w,y+h); ctx.lineTo(x,y+h);
-  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
-}
-
-if("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js").catch(()=>{});
-}
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
 </script>
 </body>
 </html>
