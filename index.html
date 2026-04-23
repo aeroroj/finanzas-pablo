@@ -151,14 +151,7 @@ nav.bottom-nav button svg { width:22px; height:22px; }
   padding:8px 12px; font-size:13px; color:var(--text-mid);
 }
 .row-extra .val { font-weight:600; color:var(--text-mid); font-size:13px; }
-.row-mes {
-  display:flex; justify-content:space-between; align-items:center;
-  padding:10px 12px; margin-bottom:8px; border-radius:8px;
-  font-weight:600; font-size:14px;
-}
-.row-mes.positive { background:var(--gain-bg); color:var(--gain); }
-.row-mes.negative { background:var(--loss-bg); color:var(--loss); }
-.row-medeben {
+.row-warn {
   display:flex; justify-content:space-between; align-items:center;
   padding:8px 12px; font-size:13px; margin-top:4px;
   background:var(--warn-bg); border-radius:8px; color:var(--warn); font-weight:600;
@@ -262,7 +255,7 @@ nav.bottom-nav button svg { width:22px; height:22px; }
 </aside>
 
 <div class="kpi-bar">
-  <div class="kpi-item"><div class="label">Patrimonio neto</div><div class="value" id="kpiNet">—</div></div>
+  <div class="kpi-item"><div class="label">Mes al Corriente</div><div class="value" id="kpiMes">—</div></div>
   <div class="kpi-item"><div class="label">Bancos</div><div class="value" id="kpiBanks">—</div></div>
   <div class="kpi-item"><div class="label">Inversiones</div><div class="value" id="kpiInv">—</div></div>
   <div class="kpi-item"><div class="label">Deuda</div><div class="value" id="kpiDebt">—</div></div>
@@ -466,12 +459,19 @@ function renderAll() {
   const totalHuchas = Object.values(d.huchas).reduce((a,b)=>a+b,0);
   const totalInvActual = Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
   const totalDeuda = d.deuda.Hipoteca.pendiente + d.deuda.Prestamo.pendiente;
-  const patrimonioNeto = totalBancos + totalHuchas + totalInvActual - totalDeuda;
 
-  $("kpiNet").textContent = fmt(patrimonioNeto);
+  // KPIs
+  const mesVal = d.mesAlCorriente || 0;
+  const kpiMes = $("kpiMes");
+  kpiMes.textContent = fmt(mesVal);
+  kpiMes.style.color = mesVal >= 0 ? "var(--gain)" : "var(--loss)";
+
   $("kpiBanks").textContent = fmt(totalBancos);
   $("kpiInv").textContent = fmt(totalInvActual);
-  $("kpiDebt").textContent = fmt(totalDeuda);
+
+  const kpiDebt = $("kpiDebt");
+  kpiDebt.textContent = fmt(totalDeuda);
+  kpiDebt.style.color = "var(--loss)";
 
   renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda);
   renderCartera(d);
@@ -481,17 +481,16 @@ function renderAll() {
 function renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda) {
   // ── Bancos ──
   let html = "";
-  const mesVal = d.mesAlCorriente || 0;
-  const mesClass = mesVal >= 0 ? "positive" : "negative";
-  html += `<div class="row-mes ${mesClass}"><span>Mes al Corriente</span><span>${fmt(mesVal)}</span></div>`;
   Object.entries(d.bancos).forEach(([name,val]) => {
     html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
   });
   html += `<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
-  if(d.cuentasExtra) {
-    Object.entries(d.cuentasExtra).forEach(([name,val]) => {
-      html += `<div class="row-extra"><span>${name}</span><span class="val">${fmt(val)}</span></div>`;
-    });
+  // Me deben + Urgencia below total
+  if(d.meDeben != null) {
+    html += `<div class="row-warn"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
+  }
+  if(d.urgencia != null) {
+    html += `<div class="row-warn"><span>Urgencia</span><span>${fmt(d.urgencia)}</span></div>`;
   }
   $("inicioBancos").innerHTML = html;
 
@@ -501,8 +500,11 @@ function renderInicio(d, totalBancos, totalHuchas, totalInvActual, totalDeuda) {
     html += `<div class="row"><span class="name">${name}</span><span class="val">${fmt(val)}</span></div>`;
   });
   html += `<div class="row-total"><span>Total</span><span>${fmt(totalHuchas)}</span></div>`;
-  if(d.meDeben != null) {
-    html += `<div class="row-medeben"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
+  // Cuentas extra below total
+  if(d.cuentasExtra) {
+    Object.entries(d.cuentasExtra).forEach(([name,val]) => {
+      html += `<div class="row-extra"><span>${name}</span><span class="val">${fmt(val)}</span></div>`;
+    });
   }
   $("inicioHuchas").innerHTML = html;
 
