@@ -400,7 +400,9 @@ function renderDonutChart(){
   const fe=DATA.huchas["Fondo Emergencia"]||0;
   const hid=DATA.huchas["Hucha I+D"]||0;
   const urg=DATA.urgencia||0;
+  const mesAC=DATA.mesAlCorriente||0;
   const segments=[
+    {label:"Mes al Corriente",value:mesAC,color:"#14B8A6"},
     {label:"Bancos",value:totalBancos,color:"#3B82F6"},
     {label:"Fondos",value:byType.fondo,color:"#10B981"},
     {label:"Pensiones",value:byType.pension,color:"#8B5CF6"},
