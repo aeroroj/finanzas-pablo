@@ -179,6 +179,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
         <div id="invDetailBlocks"></div>
       </div>
     </div>
+    <div id="aportacionesCharts"></div>
   </div>
 </main>
 
@@ -191,9 +192,10 @@ nav.bottom-nav button svg{width:22px;height:22px}
 
 <div class="toast" id="toast"></div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const API="https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
-let PASS="",DATA=null,PRICES=null;
+let PASS="",DATA=null,PRICES=null,APORTACIONES=null;
 const fmt=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
 const fmtShort=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+" €";
 const fmtPct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
@@ -220,14 +222,14 @@ async function tryLogin(){
   $("loginErr").textContent="Verificando...";
   try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);const d=await r.json();
   if(d.error){$("loginErr").textContent="Contraseña incorrecta";PASS="";return}
-  DATA=d;$("login").classList.add("hidden");renderAll();fetchPrices();
+  DATA=d;$("login").classList.add("hidden");renderAll();fetchPrices();fetchAportaciones();
   }catch(e){$("loginErr").textContent="Error de conexión";PASS=""}
 }
 
 async function loadAll(){
   const btn=$("refreshBtn");if(btn)btn.classList.add("spinning");
   try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);DATA=await r.json();
-  if(DATA.error){toast("Error: "+DATA.error);return}renderAll();fetchPrices();toast("Datos actualizados");
+  if(DATA.error){toast("Error: "+DATA.error);return}renderAll();fetchPrices();fetchAportaciones();toast("Datos actualizados");
   }catch(e){toast("Error de conexión")}
   finally{if(btn)setTimeout(()=>btn.classList.remove("spinning"),500)}
 }
@@ -390,7 +392,7 @@ function drawMiniDonut(id,pct,color){
   ctx.fillText(pct.toFixed(0)+"%",cx,cy);
 }
 
-function renderCharts(){if(!DATA)return;renderDonutChart();renderInvBars()}
+function renderCharts(){if(!DATA)return;renderDonutChart();renderInvBars();if(APORTACIONES)renderAportaciones()}
 
 function renderDonutChart(){
   const c=$("chartDonut");if(!c)return;const ctx=c.getContext("2d");
@@ -481,6 +483,138 @@ function renderInvBars(){
   });
 
   $("invDetailBlocks").innerHTML=html;
+}
+
+async function fetchAportaciones(){
+  try{
+    const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getAportaciones`);
+    APORTACIONES=await r.json();
+    if(APORTACIONES&&!APORTACIONES.error){
+      const tab=$("tab-graficas");
+      if(tab&&tab.classList.contains("active"))renderAportaciones();
+    }
+  }catch(e){}
+}
+
+const APO_COLORS={
+  "Best Style":"#059669","NQ100":"#F97316","SP500":"#3B82F6","MSCI":"#8B5CF6","PP NN":"#7C3AED"
+};
+var apoCharts={};
+
+function renderAportaciones(){
+  if(!APORTACIONES)return;
+  const container=$("aportacionesCharts");
+  if(!container)return;
+
+  const fundNames=["Best Style","NQ100","SP500","MSCI","PP NN"];
+  let html="";
+  fundNames.forEach(function(name){
+    html+=`<div class="card" style="margin-top:12px">
+      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Aportaciones ${name}</div>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary,#64748B)">
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#6B7280"></span>Precio compra</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#10B981"></span>Ganancia</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF4444"></span>Pérdida</span>
+        <span style="display:flex;align-items:center;gap:4px"><span style="width:18px;height:2px;background:${APO_COLORS[name]||"#3B82F6"}"></span>Precio actual</span>
+      </div>
+      <div style="position:relative;width:100%;height:280px">
+        <canvas id="apoChart_${name.replace(/ /g,'_')}" role="img" aria-label="Gráfico de aportaciones ${name}"></canvas>
+      </div>
+      <div id="apoStats_${name.replace(/ /g,'_')}" style="margin-top:8px"></div>
+    </div>`;
+  });
+  container.innerHTML=html;
+
+  Object.keys(apoCharts).forEach(function(k){if(apoCharts[k])apoCharts[k].destroy()});
+  apoCharts={};
+
+  fundNames.forEach(function(name){
+    const fund=APORTACIONES[name];
+    if(!fund||!fund.purchases||fund.purchases.length===0)return;
+    const purchases=fund.purchases;
+    const currentPrice=fund.precioActual;
+    if(!currentPrice)return;
+
+    const labels=purchases.map(function(p){return p.date});
+    const greyData=[],greenData=[],redData=[],lineData=[];
+
+    let totalInv=0,totalParts=0;
+    purchases.forEach(function(p){
+      totalInv+=p.apo;
+      totalParts+=p.par;
+      if(p.com<=currentPrice){
+        greyData.push(p.com);
+        greenData.push(currentPrice-p.com);
+        redData.push(0);
+      }else{
+        greyData.push(currentPrice);
+        greenData.push(0);
+        redData.push(p.com-currentPrice);
+      }
+      lineData.push(currentPrice);
+    });
+
+    const totalActual=totalParts*currentPrice;
+    const gain=totalActual-totalInv;
+    const pct=totalInv?(gain/totalInv)*100:0;
+    const gc=gain>=0?"#10B981":"#EF4444";
+    const sign=gain>=0?"+":"";
+
+    const statsEl=$("apoStats_"+name.replace(/ /g,'_'));
+    if(statsEl){
+      statsEl.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;font-size:11px">
+        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Invertido</div><div style="font-weight:600">${fmt(totalInv)}</div></div>
+        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Actual</div><div style="font-weight:600">${fmt(totalActual)}</div></div>
+        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Ganancia</div><div style="font-weight:600;color:${gc}">${sign}${Math.round(gain)} €</div></div>
+        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Rentab.</div><div style="font-weight:600;color:${gc}">${sign}${pct.toFixed(2)}%</div></div>
+      </div>`;
+    }
+
+    const allVals=purchases.map(function(p){return p.com}).concat([currentPrice]);
+    const minV=Math.min.apply(null,allVals)*0.85;
+    const maxV=Math.max.apply(null,allVals)*1.1;
+
+    const canvasId="apoChart_"+name.replace(/ /g,'_');
+    const canvas=document.getElementById(canvasId);
+    if(!canvas)return;
+
+    apoCharts[name]=new Chart(canvas,{
+      type:'bar',
+      data:{
+        labels:labels,
+        datasets:[
+          {label:'Precio compra',data:greyData,backgroundColor:'#6B728088',borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4},borderSkipped:false,order:2},
+          {label:'Ganancia',data:greenData,backgroundColor:'#10B981',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},
+          {label:'Pérdida',data:redData,backgroundColor:'#EF4444',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},
+          {label:'Precio actual',data:lineData,type:'line',borderColor:APO_COLORS[name]||'#3B82F6',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}
+        ]
+      },
+      options:{
+        responsive:true,
+        maintainAspectRatio:false,
+        scales:{
+          x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:45}},
+          y:{stacked:true,min:Math.floor(minV),max:Math.ceil(maxV),ticks:{callback:function(v){return v+' €'},font:{size:10}},grid:{color:'rgba(0,0,0,0.06)'}}
+        },
+        plugins:{
+          legend:{display:false},
+          tooltip:{
+            callbacks:{
+              title:function(items){return 'Compra '+items[0].label},
+              label:function(item){
+                var idx=item.dataIndex;var p=purchases[idx];
+                if(item.datasetIndex===0)return 'Precio compra: '+p.com.toFixed(2)+' €';
+                if(item.datasetIndex===1&&greenData[idx]>0)return 'Ganancia: +'+greenData[idx].toFixed(2)+' €';
+                if(item.datasetIndex===2&&redData[idx]>0)return 'Pérdida: -'+redData[idx].toFixed(2)+' €';
+                return '';
+              },
+              afterBody:function(items){var idx=items[0].dataIndex;var p=purchases[idx];return 'Aportación: '+p.apo+' € ('+p.par.toFixed(4)+' partic.)'}
+            }
+          }
+        }
+      }
+    });
+  });
 }
 
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
