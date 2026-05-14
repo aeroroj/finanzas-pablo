@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -180,6 +181,7 @@ nav.bottom-nav button svg{width:20px;height:20px}
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+
 <script>
 var API="https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
 var PASS="",DATA=null,PRICES=null,APORTACIONES=null;
@@ -360,11 +362,12 @@ function renderEvolucion(){
     var allVals=purchases.map(function(p){return p.com}).concat([currentPrice]);
     var minV=0;var maxV=Math.max.apply(null,allVals)*1.1;
     var canvas=document.getElementById("evoC_"+safeId);if(!canvas)return;
-    evoCharts[name]=new Chart(canvas,{type:'bar',data:{labels:labels,datasets:[{label:'Precio compra',data:greyData,backgroundColor:'#6B728088',borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4},borderSkipped:false,order:2},{label:'Ganancia',data:greenData,backgroundColor:'#10B981',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},{label:'Pérdida',data:redData,backgroundColor:'#EF4444',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},{label:'Precio actual',data:lineData,type:'line',borderColor:EVO_COLORS[name]||'#3B82F6',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:45,autoSkip:false}},y:{stacked:true,min:0,max:Math.ceil(maxV),ticks:{callback:function(v){return v+' €'},font:{size:10}},grid:{color:'rgba(0,0,0,0.06)'}}},plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){return'Compra '+items[0].label},label:function(item){var idx=item.dataIndex;var p=purchases[idx];if(item.datasetIndex===0)return'Precio compra: '+p.com.toFixed(2)+' €';if(item.datasetIndex===1&&greenData[idx]>0)return'Ganancia: +'+greenData[idx].toFixed(2)+' €';if(item.datasetIndex===2&&redData[idx]>0)return'Pérdida: -'+redData[idx].toFixed(2)+' €';return''},afterBody:function(items){var idx=items[0].dataIndex;var p=purchases[idx];return'Aportación: '+p.apo+' € ('+p.par.toFixed(4)+' partic.)'}}}}}});
+    evoCharts[name]=new Chart(canvas,{type:'bar',data:{labels:labels,datasets:[{label:'Precio compra',data:greyData,backgroundColor:'#6B728088',borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4},borderSkipped:false,order:2},{label:'Ganancia',data:greenData,backgroundColor:'#10B981',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},{label:'Pérdida',data:redData,backgroundColor:'#EF4444',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},{label:'Precio actual',data:lineData,type:'line',borderColor:EVO_COLORS[name]||'#3B82F6',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:45,autoSkip:false}},y:{stacked:true,min:0,max:Math.ceil(maxV),ticks:{callback:function(v){return v+' €'},font:{size:10}},grid:{color:'rgba(0,0,0,0.06)'}}},plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){return'Compra '+items[0].label},label:function(item){var idx=item.dataIndex;var p=purchases[idx];var valorAct=p.par*currentPrice;var gan=valorAct-p.apo;var pctG=p.apo?(gan/p.apo)*100:0;if(item.datasetIndex===0)return'Precio compra: '+p.com.toFixed(2)+' €';if(item.datasetIndex===1&&greenData[idx]>0)return'Ganancia: +'+gan.toFixed(2)+' € (+'+pctG.toFixed(2)+'%)';if(item.datasetIndex===2&&redData[idx]>0)return'Pérdida: '+gan.toFixed(2)+' € ('+pctG.toFixed(2)+'%)';return''},afterBody:function(items){var idx=items[0].dataIndex;var p=purchases[idx];return'Aportación: '+p.apo+' € ('+p.par.toFixed(4)+' partic.)'}}}}}});
   });
 }
 
 if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
 </script>
+
 </body>
 </html>
