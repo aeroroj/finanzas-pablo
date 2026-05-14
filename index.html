@@ -16,33 +16,32 @@
 body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--page-bg);color:var(--text-dark);overflow:hidden;height:100dvh;display:flex;flex-direction:column}
 #login{position:fixed;inset:0;z-index:1000;background:linear-gradient(135deg,#1E3A5F,#1A2F4E);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:24px}
 #login.hidden{display:none}
-#login h1{color:#fff;font-size:24px;font-weight:700;letter-spacing:-.5px}
+#login h1{color:#fff;font-size:24px;font-weight:700}
 #login p{color:rgba(255,255,255,.6);font-size:13px}
-#login input{width:260px;padding:14px 18px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:16px;font-family:inherit;outline:none;text-align:center;transition:border-color .2s}
+#login input{width:260px;padding:14px 18px;border-radius:12px;border:2px solid rgba(255,255,255,.15);background:rgba(255,255,255,.08);color:#fff;font-size:16px;font-family:inherit;outline:none;text-align:center}
 #login input:focus{border-color:var(--accent)}
 #login input::placeholder{color:rgba(255,255,255,.35)}
-#login button{padding:14px 48px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:transform .15s,opacity .15s}
+#login button{padding:14px 48px;border-radius:12px;border:none;background:var(--accent);color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer}
 #login button:active{transform:scale(.96);opacity:.85}
 #login .login-err{color:#f87171;font-size:13px;min-height:18px}
 header.mobile-header{background:linear-gradient(135deg,#1E3A5F,#1A2F4E);padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top,0px));display:flex;align-items:center;justify-content:space-between}
 header.mobile-header h1{color:#fff;font-size:17px;font-weight:700}
 header.mobile-header .date{color:rgba(255,255,255,.55);font-size:12px}
-.refresh-btn{background:rgba(255,255,255,.12);border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff;transition:background .2s}
-.refresh-btn:hover{background:rgba(255,255,255,.2)}
+.refresh-btn{background:rgba(255,255,255,.12);border:none;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#fff}
 .refresh-btn svg{width:18px;height:18px}
 .refresh-btn.spinning svg{animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 main{flex:1;overflow-y:auto;overflow-x:hidden;padding:16px;padding-bottom:calc(72px + var(--safe-b) + 16px);-webkit-overflow-scrolling:touch}
 .tab-content{display:none}.tab-content.active{display:block}
 nav.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e2e8f0;display:flex;justify-content:space-around;align-items:center;padding:6px 0;padding-bottom:calc(6px + var(--safe-b));z-index:100}
-nav.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-mid);font-size:10px;font-family:inherit;font-weight:500;padding:4px 8px;border-radius:8px;transition:color .2s}
+nav.bottom-nav button{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;color:var(--text-mid);font-size:9px;font-family:inherit;font-weight:500;padding:4px 6px;border-radius:8px}
 nav.bottom-nav button.active{color:var(--accent)}
-nav.bottom-nav button svg{width:22px;height:22px}
+nav.bottom-nav button svg{width:20px;height:20px}
 .sidebar{display:none;position:fixed;left:0;top:0;bottom:0;background:linear-gradient(180deg,#1E3A5F,#1A2F4E);z-index:200;flex-direction:column}
 .sidebar .logo{padding:20px;text-align:center}
 .sidebar .logo h2{color:#fff;font-size:16px;font-weight:700}
 .sidebar .logo span{color:rgba(255,255,255,.45);font-size:11px}
-.sidebar button{display:flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:14px;font-family:inherit;font-weight:500;padding:12px 20px;width:100%;transition:all .2s;border-left:3px solid transparent}
+.sidebar button{display:flex;align-items:center;gap:12px;background:none;border:none;cursor:pointer;color:rgba(255,255,255,.6);font-size:14px;font-family:inherit;font-weight:500;padding:12px 20px;width:100%;border-left:3px solid transparent}
 .sidebar button:hover{background:rgba(255,255,255,.06)}
 .sidebar button.active{color:#fff;background:rgba(255,255,255,.1);border-left-color:var(--accent)}
 .sidebar button svg{width:20px;height:20px;flex-shrink:0}
@@ -78,7 +77,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
 .donut-info .amount{font-size:22px;font-weight:700}
 .donut-info .sub{font-size:12px;color:var(--text-mid);margin-top:2px}
 .progress-bar-wrap{background:#e2e8f0;border-radius:8px;height:10px;overflow:hidden;margin:6px 0}
-.progress-bar-fill{height:100%;border-radius:8px;transition:width .6s ease}
+.progress-bar-fill{height:100%;border-radius:8px}
 .deuda-detail{display:flex;justify-content:space-between;font-size:13px;color:var(--text-mid);margin-top:4px}
 .deuda-summary-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #f1f5f9}
 .deuda-summary-row:last-child{border-bottom:none}
@@ -92,6 +91,8 @@ nav.bottom-nav button svg{width:22px;height:22px}
 .block-header{font-size:14px;font-weight:700;color:var(--text-dark);margin-top:16px;margin-bottom:4px;padding-bottom:4px;border-bottom:2px solid #e2e8f0}
 .block-header:first-child{margin-top:0}
 .block-summary{font-size:11px;color:var(--text-mid);margin-bottom:12px;line-height:1.6}
+.evo-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:8px}
+.evo-chart-inner{min-width:500px;height:260px;position:relative}
 @media(min-width:768px){
   .sidebar{display:flex;width:72px}.sidebar .label{display:none}
   .sidebar .logo h2{font-size:0}.sidebar .logo h2::first-letter{font-size:22px}
@@ -114,19 +115,9 @@ nav.bottom-nav button svg{width:22px;height:22px}
 </head>
 <body>
 
-<div id="login">
-  <h1>Finanzas Pablo</h1><p>Introduce tu contraseña</p>
-  <input type="password" id="passInput" placeholder="Contraseña" autocomplete="off">
-  <button onclick="tryLogin()">Entrar</button>
-  <div class="login-err" id="loginErr"></div>
-</div>
+<div id="login"><h1>Finanzas Pablo</h1><p>Introduce tu contraseña</p><input type="password" id="passInput" placeholder="Contraseña" autocomplete="off"><button onclick="tryLogin()">Entrar</button><div class="login-err" id="loginErr"></div></div>
 
-<header class="mobile-header">
-  <div><h1>Finanzas Pablo</h1><div class="date" id="headerDate">—</div></div>
-  <button class="refresh-btn" onclick="loadAll()" id="refreshBtn">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-  </button>
-</header>
+<header class="mobile-header"><div><h1>Finanzas Pablo</h1><div class="date" id="headerDate">—</div></div><button class="refresh-btn" onclick="loadAll()" id="refreshBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg></button></header>
 
 <aside class="sidebar">
   <div class="logo"><h2>Finanzas Pablo</h2><span id="sideDate">—</span></div>
@@ -134,6 +125,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
   <button onclick="switchTab('cartera',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg><span class="label">Cartera</span></button>
   <button onclick="switchTab('deuda',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span class="label">Deuda</span></button>
   <button onclick="switchTab('graficas',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg><span class="label">Gráficas</span></button>
+  <button onclick="switchTab('evolucion',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span class="label">Evolución</span></button>
 </aside>
 
 <div class="kpi-bar">
@@ -143,6 +135,7 @@ nav.bottom-nav button svg{width:22px;height:22px}
 </div>
 
 <main>
+  <!-- INICIO -->
   <div class="tab-content active" id="tab-inicio">
     <div id="mesCard"></div>
     <div class="tab-grid">
@@ -152,34 +145,27 @@ nav.bottom-nav button svg{width:22px;height:22px}
       <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen deuda</div><div id="inicioDeuda"></div></div>
     </div>
   </div>
-
+  <!-- CARTERA -->
   <div class="tab-content" id="tab-cartera">
     <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v3"/></svg>Fondos de inversión</div><div id="carteraFondos"></div></div>
     <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Planes de pensiones</div><div id="carteraPensiones"></div></div>
     <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>Criptomonedas</div><div id="carteraCripto"></div></div>
   </div>
-
+  <!-- DEUDA -->
   <div class="tab-content" id="tab-deuda">
     <div class="card" id="deudaResumen"></div>
-    <div class="tab-grid">
-      <div class="card" id="deudaHipoteca"></div>
-      <div class="card" id="deudaPrestamo"></div>
-    </div>
+    <div class="tab-grid"><div class="card" id="deudaHipoteca"></div><div class="card" id="deudaPrestamo"></div></div>
   </div>
-
+  <!-- GRAFICAS -->
   <div class="tab-content" id="tab-graficas">
     <div class="tab-grid">
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Distribución del patrimonio</div>
-        <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
-        <div id="donutLegend"></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Inversiones detalle</div>
-        <div id="invDetailBlocks"></div>
-      </div>
+      <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1 0 10 10H12V2z"/></svg>Distribución del patrimonio</div><div class="chart-wrap"><canvas id="chartDonut"></canvas></div><div id="donutLegend"></div></div>
+      <div class="card"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Inversiones detalle</div><div id="invDetailBlocks"></div></div>
     </div>
-    <div id="aportacionesCharts"></div>
+  </div>
+  <!-- EVOLUCION -->
+  <div class="tab-content" id="tab-evolucion">
+    <div id="evolucionCharts"><div class="card"><div style="text-align:center;padding:20px;color:var(--text-mid)">Cargando datos de aportaciones...</div></div></div>
   </div>
 </main>
 
@@ -188,436 +174,195 @@ nav.bottom-nav button svg{width:22px;height:22px}
   <button onclick="switchTab('cartera',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>Cartera</button>
   <button onclick="switchTab('deuda',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Deuda</button>
   <button onclick="switchTab('graficas',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Gráficas</button>
+  <button onclick="switchTab('evolucion',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Evolución</button>
 </nav>
 
 <div class="toast" id="toast"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const API="https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
-let PASS="",DATA=null,PRICES=null,APORTACIONES=null;
-const fmt=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
-const fmtShort=n=>n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+" €";
-const fmtPct=n=>(n>=0?"+":"")+n.toFixed(2)+"%";
-const fmtDiff=n=>(n>=0?"+":"")+n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
-const chipHtml=pct=>`<span class="chip ${pct>=0?"up":"down"}">${fmtPct(pct)}</span>`;
-const $=id=>document.getElementById(id);
-function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2500)}
+var API="https://script.google.com/macros/s/AKfycbyKcWOz1jcyRGXf9Fw2KNi4K0lhr3cMPCUNn2uQzNEoidcHYUqGVv9OKE8eVJ00prw/exec";
+var PASS="",DATA=null,PRICES=null,APORTACIONES=null;
+var fmt=function(n){return n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €"};
+var fmtShort=function(n){return n==null?"—":n.toLocaleString("es-ES",{minimumFractionDigits:0,maximumFractionDigits:0})+" €"};
+var fmtPct=function(n){return(n>=0?"+":"")+n.toFixed(2)+"%"};
+var fmtDiff=function(n){return(n>=0?"+":"")+n.toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+" €"};
+var chipHtml=function(pct){return '<span class="chip '+(pct>=0?"up":"down")+'">'+fmtPct(pct)+'</span>'};
+var $=function(id){return document.getElementById(id)};
+function toast(msg){var t=$("toast");t.textContent=msg;t.classList.add("show");setTimeout(function(){t.classList.remove("show")},2500)}
 
 function summaryStatsHtml(tIni,tAct){
-  const gain=tAct-tIni;const pct=tIni?((gain)/tIni)*100:0;
-  const gc=gain>=0?"var(--gain)":"var(--loss)";
-  return `<div class="summary-stats">
-    <span class="stat-label">Dinero Invertido</span><span class="stat-value">${fmt(tIni)}</span>
-    <span class="stat-label">Dinero Actual</span><span class="stat-value">${fmt(tAct)}</span>
-    <span class="stat-label">Ganancia Neta</span><span class="stat-value" style="color:${gc}">${fmtDiff(gain)}</span>
-    <span class="stat-label">Porcentaje</span><span class="stat-value" style="color:${gc}">${fmtPct(pct)}</span>
-  </div>`;
+  var gain=tAct-tIni;var pct=tIni?((gain)/tIni)*100:0;var gc=gain>=0?"var(--gain)":"var(--loss)";
+  return '<div class="summary-stats"><span class="stat-label">Dinero Invertido</span><span class="stat-value">'+fmt(tIni)+'</span><span class="stat-label">Dinero Actual</span><span class="stat-value">'+fmt(tAct)+'</span><span class="stat-label">Ganancia Neta</span><span class="stat-value" style="color:'+gc+'">'+fmtDiff(gain)+'</span><span class="stat-label">Porcentaje</span><span class="stat-value" style="color:'+gc+'">'+fmtPct(pct)+'</span></div>';
 }
 
-$("passInput").addEventListener("keydown",e=>{if(e.key==="Enter")tryLogin()});
+$("passInput").addEventListener("keydown",function(e){if(e.key==="Enter")tryLogin()});
 
-async function tryLogin(){
+function tryLogin(){
   PASS=$("passInput").value.trim();if(!PASS)return;
   $("loginErr").textContent="Verificando...";
-  try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);const d=await r.json();
-  if(d.error){$("loginErr").textContent="Contraseña incorrecta";PASS="";return}
-  DATA=d;$("login").classList.add("hidden");renderAll();fetchPrices();fetchAportaciones();
-  }catch(e){$("loginErr").textContent="Error de conexión";PASS=""}
+  fetch(API+"?pass="+encodeURIComponent(PASS)+"&action=getData").then(function(r){return r.json()}).then(function(d){
+    if(d.error){$("loginErr").textContent="Contraseña incorrecta";PASS="";return}
+    DATA=d;$("login").classList.add("hidden");renderAll();fetchPrices();fetchAportaciones();
+  }).catch(function(){$("loginErr").textContent="Error de conexión";PASS=""});
 }
 
-async function loadAll(){
-  const btn=$("refreshBtn");if(btn)btn.classList.add("spinning");
-  try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getData`);DATA=await r.json();
-  if(DATA.error){toast("Error: "+DATA.error);return}renderAll();fetchPrices();fetchAportaciones();toast("Datos actualizados");
-  }catch(e){toast("Error de conexión")}
-  finally{if(btn)setTimeout(()=>btn.classList.remove("spinning"),500)}
+function loadAll(){
+  var btn=$("refreshBtn");if(btn)btn.classList.add("spinning");
+  fetch(API+"?pass="+encodeURIComponent(PASS)+"&action=getData").then(function(r){return r.json()}).then(function(d){
+    if(d.error){toast("Error: "+d.error);return}DATA=d;renderAll();fetchPrices();fetchAportaciones();toast("Datos actualizados");
+  }).catch(function(){toast("Error de conexión")}).finally(function(){if(btn)setTimeout(function(){btn.classList.remove("spinning")},500)});
 }
 
-async function fetchPrices(){
-  try{const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getPrices`);PRICES=await r.json();
-  if(PRICES&&!PRICES.error)renderCartera(DATA);
-  }catch(e){}
+function fetchPrices(){
+  fetch(API+"?pass="+encodeURIComponent(PASS)+"&action=getPrices").then(function(r){return r.json()}).then(function(p){
+    PRICES=p;if(PRICES&&!PRICES.error)renderCartera(DATA);
+  }).catch(function(){});
+}
+
+function fetchAportaciones(){
+  fetch(API+"?pass="+encodeURIComponent(PASS)+"&action=getAportaciones").then(function(r){return r.json()}).then(function(a){
+    APORTACIONES=a;if(APORTACIONES&&!APORTACIONES.error){var tab=$("tab-evolucion");if(tab&&tab.classList.contains("active"))renderEvolucion()}
+  }).catch(function(){});
 }
 
 function switchTab(id,btn){
-  document.querySelectorAll(".tab-content").forEach(t=>t.classList.remove("active"));
+  document.querySelectorAll(".tab-content").forEach(function(t){t.classList.remove("active")});
   $("tab-"+id).classList.add("active");
-  document.querySelectorAll("nav.bottom-nav button").forEach(b=>b.classList.remove("active"));
-  document.querySelectorAll(".sidebar button").forEach(b=>b.classList.remove("active"));
+  document.querySelectorAll("nav.bottom-nav button").forEach(function(b){b.classList.remove("active")});
+  document.querySelectorAll(".sidebar button").forEach(function(b){b.classList.remove("active")});
   if(btn)btn.classList.add("active");
-  const idx=["inicio","cartera","deuda","graficas"].indexOf(id);
-  const bn=document.querySelectorAll("nav.bottom-nav button"),sb=document.querySelectorAll(".sidebar button");
+  var tabs=["inicio","cartera","deuda","graficas","evolucion"];
+  var idx=tabs.indexOf(id);
+  var bn=document.querySelectorAll("nav.bottom-nav button"),sb=document.querySelectorAll(".sidebar button");
   if(bn[idx])bn[idx].classList.add("active");if(sb[idx])sb[idx].classList.add("active");
   if(id==="graficas")setTimeout(renderCharts,100);
-  if(id==="deuda")setTimeout(()=>renderDeuda(DATA),50);
+  if(id==="deuda")setTimeout(function(){renderDeuda(DATA)},50);
+  if(id==="evolucion")setTimeout(renderEvolucion,100);
 }
 
 function renderAll(){
-  if(!DATA)return;const d=DATA;
-  let dateStr="—";
+  if(!DATA)return;var d=DATA;
+  var dateStr="—";
   if(d.fecha){try{dateStr=new Date(d.fecha).toLocaleDateString("es-ES",{day:"numeric",month:"long",year:"numeric"})}catch(e){dateStr=String(d.fecha)}}
   $("headerDate").textContent=dateStr;$("sideDate").textContent=dateStr;
-  const totalBancos=Object.values(d.bancos).reduce((a,b)=>a+b,0);
-  const totalInvActual=Object.values(d.inversiones).reduce((a,i)=>a+i.actual,0);
-  const totalDeuda=d.deuda.Hipoteca.pendiente+d.deuda.Prestamo.pendiente;
+  var totalBancos=Object.values(d.bancos).reduce(function(a,b){return a+b},0);
+  var totalInvActual=Object.values(d.inversiones).reduce(function(a,i){return a+i.actual},0);
+  var totalDeuda=d.deuda.Hipoteca.pendiente+d.deuda.Prestamo.pendiente;
   $("kpiBanks").textContent=fmt(totalBancos);$("kpiInv").textContent=fmt(totalInvActual);
-  const kD=$("kpiDebt");kD.textContent=fmt(totalDeuda);kD.style.color="var(--loss)";
+  var kD=$("kpiDebt");kD.textContent=fmt(totalDeuda);kD.style.color="var(--loss)";
   renderInicio(d,totalBancos,totalInvActual,totalDeuda);renderCartera(d);renderDeuda(d);
 }
 
 function renderInicio(d,totalBancos,totalInvActual,totalDeuda){
-  // Mes al corriente card
-  const mesVal=d.mesAlCorriente||0;
-  const mesColor=mesVal>=0?"var(--gain)":"var(--loss)";
-  $("mesCard").innerHTML=`<div class="mes-card">
-    <span class="mes-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Mes al Corriente</span>
-    <span class="mes-value" style="color:${mesColor}">${fmt(mesVal)}</span>
-  </div>`;
-
-  let h="";
-  Object.entries(d.bancos).forEach(([n,v])=>{h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(v)}</span></div>`});
-  h+=`<div class="row-total"><span>Total</span><span>${fmt(totalBancos)}</span></div>`;
-  if(d.meDeben!=null)h+=`<div class="row-warn"><span>Me deben</span><span>${fmt(d.meDeben)}</span></div>`;
+  var mesVal=d.mesAlCorriente||0;var mesColor=mesVal>=0?"var(--gain)":"var(--loss)";
+  $("mesCard").innerHTML='<div class="mes-card"><span class="mes-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Mes al Corriente</span><span class="mes-value" style="color:'+mesColor+'">'+fmt(mesVal)+'</span></div>';
+  var h="";
+  Object.entries(d.bancos).forEach(function(e){h+='<div class="row"><span class="name">'+e[0]+'</span><span class="val">'+fmt(e[1])+'</span></div>'});
+  h+='<div class="row-total"><span>Total</span><span>'+fmt(totalBancos)+'</span></div>';
+  if(d.meDeben!=null)h+='<div class="row-warn"><span>Me deben</span><span>'+fmt(d.meDeben)+'</span></div>';
   $("inicioBancos").innerHTML=h;
-
-  h="";
-  const externas=["Auxiliares","Hucha Mamá","IVA"];
-  const pablo=["Fondo Emergencia","Hucha I+D"];
-  externas.forEach(n=>{if(d.huchas[n]!=null)h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(d.huchas[n])}</span></div>`});
-  const totalExt=externas.reduce((a,n)=>a+(d.huchas[n]||0),0);
-  h+=`<div class="row-subtotal"><span>Total Huchas Externas</span><span>${fmt(totalExt)}</span></div>`;
-  h+=`<div class="section-divider"></div>`;
-  pablo.forEach(n=>{if(d.huchas[n]!=null)h+=`<div class="row"><span class="name">${n}</span><span class="val">${fmt(d.huchas[n])}</span></div>`});
-  const urgVal=d.urgencia||0;
-  h+=`<div class="row"><span class="name">Urgencia</span><span class="val">${fmt(urgVal)}</span></div>`;
-  const totalPab=pablo.reduce((a,n)=>a+(d.huchas[n]||0),0)+urgVal;
-  h+=`<div class="row-subtotal"><span>Total Huchas Pablo</span><span>${fmt(totalPab)}</span></div>`;
-  if(d.cuentasExtra){h+=`<div class="section-divider"></div>`;Object.entries(d.cuentasExtra).forEach(([n,v])=>{h+=`<div class="row-extra"><span>${n}</span><span class="val">${fmt(v)}</span></div>`})}
+  h="";var externas=["Auxiliares","Hucha Mamá","IVA"];var pablo=["Fondo Emergencia","Hucha I+D"];
+  externas.forEach(function(n){if(d.huchas[n]!=null)h+='<div class="row"><span class="name">'+n+'</span><span class="val">'+fmt(d.huchas[n])+'</span></div>'});
+  var totalExt=externas.reduce(function(a,n){return a+(d.huchas[n]||0)},0);
+  h+='<div class="row-subtotal"><span>Total Huchas Externas</span><span>'+fmt(totalExt)+'</span></div><div class="section-divider"></div>';
+  pablo.forEach(function(n){if(d.huchas[n]!=null)h+='<div class="row"><span class="name">'+n+'</span><span class="val">'+fmt(d.huchas[n])+'</span></div>'});
+  var urgVal=d.urgencia||0;h+='<div class="row"><span class="name">Urgencia</span><span class="val">'+fmt(urgVal)+'</span></div>';
+  var totalPab=pablo.reduce(function(a,n){return a+(d.huchas[n]||0)},0)+urgVal;
+  h+='<div class="row-subtotal"><span>Total Huchas Pablo</span><span>'+fmt(totalPab)+'</span></div>';
+  if(d.cuentasExtra){h+='<div class="section-divider"></div>';Object.entries(d.cuentasExtra).forEach(function(e){h+='<div class="row-extra"><span>'+e[0]+'</span><span class="val">'+fmt(e[1])+'</span></div>'})}
   $("inicioHuchas").innerHTML=h;
-
-  const byType={fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
-  Object.values(d.inversiones).forEach(i=>{byType[i.tipo].ini+=i.inicial;byType[i.tipo].act+=i.actual});
-  const labels={fondo:"Fondos",pension:"Pensiones",cripto:"Cripto"};
-  h="";
-  Object.entries(byType).forEach(([t,v])=>{const p=v.ini?((v.act-v.ini)/v.ini)*100:0;h+=`<div class="row"><span class="name">${labels[t]}</span><span class="val">${fmt(v.act)}${chipHtml(p)}</span></div>`});
-  const tIni=Object.values(d.inversiones).reduce((a,i)=>a+i.inicial,0);
-  const pT=tIni?((totalInvActual-tIni)/tIni)*100:0;
-  h+=`<div class="row-total"><span>Total</span><span>${fmt(totalInvActual)}${chipHtml(pT)}</span></div>`;
+  var byType={fondo:{ini:0,act:0},pension:{ini:0,act:0},cripto:{ini:0,act:0}};
+  Object.values(d.inversiones).forEach(function(i){byType[i.tipo].ini+=i.inicial;byType[i.tipo].act+=i.actual});
+  var labels={fondo:"Fondos",pension:"Pensiones",cripto:"Cripto"};h="";
+  Object.entries(byType).forEach(function(e){var p=e[1].ini?((e[1].act-e[1].ini)/e[1].ini)*100:0;h+='<div class="row"><span class="name">'+labels[e[0]]+'</span><span class="val">'+fmt(e[1].act)+chipHtml(p)+'</span></div>'});
+  var tIni=Object.values(d.inversiones).reduce(function(a,i){return a+i.inicial},0);var pT=tIni?((totalInvActual-tIni)/tIni)*100:0;
+  h+='<div class="row-total"><span>Total</span><span>'+fmt(totalInvActual)+chipHtml(pT)+'</span></div>';
   $("inicioInv").innerHTML=h;
-
-  h="";const hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
-  h+=`<div class="deuda-summary-row"><div><div class="name">Hipoteca</div><div class="sub">Cuota: ${fmt(hip.cuota)}/mes · Fin: ${hip.fin}</div></div><div class="val">${fmt(hip.pendiente)}</div></div>`;
-  h+=`<div class="deuda-summary-row"><div><div class="name">Préstamo</div><div class="sub">Cuota: ${fmt(pre.cuota)}/mes · Fin: ${pre.fin}</div></div><div class="val">${fmt(pre.pendiente)}</div></div>`;
-  h+=`<div class="row-total"><span>Total deuda</span><span style="color:var(--loss)">${fmt(totalDeuda)}</span></div>`;
+  h="";var hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
+  h+='<div class="deuda-summary-row"><div><div class="name">Hipoteca</div><div class="sub">Cuota: '+fmt(hip.cuota)+'/mes · Fin: '+hip.fin+'</div></div><div class="val">'+fmt(hip.pendiente)+'</div></div>';
+  h+='<div class="deuda-summary-row"><div><div class="name">Préstamo</div><div class="sub">Cuota: '+fmt(pre.cuota)+'/mes · Fin: '+pre.fin+'</div></div><div class="val">'+fmt(pre.pendiente)+'</div></div>';
+  h+='<div class="row-total"><span>Total deuda</span><span style="color:var(--loss)">'+fmt(totalDeuda)+'</span></div>';
   $("inicioDeuda").innerHTML=h;
 }
 
 function renderCartera(d){
-  const render=(container,items)=>{
-    let h="";let tI=0,tA=0;
-    items.forEach(([n,i])=>{
-      const p=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;tI+=i.inicial;tA+=i.actual;
-      const pv=PRICES&&PRICES[n]!=null?fmt(PRICES[n]):"—";
-      const diff=i.actual-i.inicial;const diffSign=diff>=0?"+":"";const diffColor=diff>=0?"var(--gain)":"var(--loss)";const diffBg=diff>=0?"var(--gain-bg)":"var(--loss-bg)";
-      h+=`<div class="row"><div><div class="name">${n}</div><div style="font-size:11px;color:var(--text-mid)">Invertido: ${fmt(i.inicial)}</div><div style="font-size:11px;color:var(--text-mid)">Valor Acción: ${pv}</div></div><div style="text-align:right"><div class="val">${fmt(i.actual)}</div><div><span class="chip ${diff>=0?"up":"down"}">${diffSign}${Math.abs(diff).toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})} €</span></div><div>${chipHtml(p)}</div></div></div>`;
+  var render=function(container,items){
+    var h="";var tI=0,tA=0;
+    items.forEach(function(e){var n=e[0],i=e[1];var p=i.inicial?((i.actual-i.inicial)/i.inicial)*100:0;tI+=i.inicial;tA+=i.actual;
+      var pv=PRICES&&PRICES[n]!=null?fmt(PRICES[n]):"—";var diff=i.actual-i.inicial;var ds=diff>=0?"+":"";var dc=diff>=0?"up":"down";
+      h+='<div class="row"><div><div class="name">'+n+'</div><div style="font-size:11px;color:var(--text-mid)">Invertido: '+fmt(i.inicial)+'</div><div style="font-size:11px;color:var(--text-mid)">Valor Acción: '+pv+'</div></div><div style="text-align:right"><div class="val">'+fmt(i.actual)+'</div><div><span class="chip '+dc+'">'+ds+Math.abs(diff).toLocaleString("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2})+' €</span></div><div>'+chipHtml(p)+'</div></div></div>';
     });
-    const pT=tI?((tA-tI)/tI)*100:0;
-    h+=`<div class="row-total"><span>Total</span><span>${fmt(tA)}${chipHtml(pT)}</span></div>`;
-    h+=summaryStatsHtml(tI,tA);
-    $(container).innerHTML=h;
+    var pT=tI?((tA-tI)/tI)*100:0;
+    h+='<div class="row-total"><span>Total</span><span>'+fmt(tA)+chipHtml(pT)+'</span></div>';
+    h+=summaryStatsHtml(tI,tA);$(container).innerHTML=h;
   };
-  const inv=Object.entries(d.inversiones);
-  render("carteraFondos",inv.filter(([,i])=>i.tipo==="fondo"));
-  render("carteraPensiones",inv.filter(([,i])=>i.tipo==="pension"));
-  render("carteraCripto",inv.filter(([,i])=>i.tipo==="cripto"));
+  var inv=Object.entries(d.inversiones);
+  render("carteraFondos",inv.filter(function(e){return e[1].tipo==="fondo"}));
+  render("carteraPensiones",inv.filter(function(e){return e[1].tipo==="pension"}));
+  render("carteraCripto",inv.filter(function(e){return e[1].tipo==="cripto"}));
 }
 
 function renderDeuda(d){
-  const hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;
-  const totalOrig=hip.totalOriginal+pre.totalOriginal;
-  const totalPend=hip.pendiente+pre.pendiente;
-  const totalPaid=totalOrig-totalPend;
-  const hipPaid=hip.totalOriginal-hip.pendiente;
-  const prePaid=pre.totalOriginal-pre.pendiente;
-  const pctPaidTotal=(totalPaid/totalOrig)*100;
-
-  $("deudaResumen").innerHTML=`
-    <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen total deuda</div>
-    <div class="donut-container"><canvas id="donutTotal" width="100" height="100"></canvas>
-      <div class="donut-info"><div class="amount" style="color:var(--loss)">${fmt(totalPend)}</div><div class="sub">pendiente de ${fmt(totalOrig)}</div><div class="sub" style="margin-top:6px;color:var(--gain)">Pagado: ${fmt(totalPaid)} (${pctPaidTotal.toFixed(1)}%)</div></div>
-    </div>
-    <div class="progress-bar-wrap"><div style="display:flex;height:100%;border-radius:8px;overflow:hidden"><div style="width:${(hipPaid/totalOrig)*100}%;background:#3B82F6;height:100%"></div><div style="width:${(prePaid/totalOrig)*100}%;background:#8B5CF6;height:100%"></div></div></div>
-    <div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--text-mid)">
-      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#3B82F6;display:inline-block"></span>Hipoteca</span>
-      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#8B5CF6;display:inline-block"></span>Préstamo</span>
-      <span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;display:inline-block"></span>Pendiente</span>
-    </div>`;
-  setTimeout(()=>{
-    const c=document.getElementById("donutTotal");if(!c)return;
-    const ctx=c.getContext("2d");const s=c.width;const cx=s/2;const cy=s/2;const r=s/2-10;const lw=12;
-    ctx.clearRect(0,0,s,s);
-    ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();
-    const hipAngle=(hipPaid/totalOrig)*Math.PI*2;
-    ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+hipAngle);ctx.strokeStyle="#3B82F6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
-    const preAngle=(prePaid/totalOrig)*Math.PI*2;
-    ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2+hipAngle,-Math.PI/2+hipAngle+preAngle);ctx.strokeStyle="#8B5CF6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();
-    ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
-    ctx.fillText(pctPaidTotal.toFixed(0)+"%",cx,cy);
-  },50);
-
-  ["Hipoteca","Prestamo"].forEach(key=>{
-    const debt=d.deuda[key];const paid=debt.totalOriginal-debt.pendiente;const pctPaid=(paid/debt.totalOriginal)*100;
-    const container=key==="Hipoteca"?$("deudaHipoteca"):$("deudaPrestamo");
-    const color=key==="Hipoteca"?"#3B82F6":"#8B5CF6";
-    const label=key==="Hipoteca"?"Hipoteca":"Préstamo";
-    container.innerHTML=`
-      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>${label}</div>
-      <div class="donut-container"><canvas id="donut${key}" width="90" height="90"></canvas>
-        <div class="donut-info"><div class="amount" style="color:var(--loss)">${fmt(debt.pendiente)}</div><div class="sub">pendiente de ${fmt(debt.totalOriginal)}</div><div class="sub">Cuota: ${fmt(debt.cuota)}/mes · Fin: ${debt.fin}</div></div>
-      </div>
-      <div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:${pctPaid}%;background:${color}"></div></div>
-      <div class="deuda-detail"><span>Pagado: ${fmt(paid)} (${pctPaid.toFixed(1)}%)</span><span>Pendiente: ${(100-pctPaid).toFixed(1)}%</span></div>`;
-    drawMiniDonut(`donut${key}`,pctPaid,color);
-  });
+  var hip=d.deuda.Hipoteca,pre=d.deuda.Prestamo;var totalOrig=hip.totalOriginal+pre.totalOriginal;var totalPend=hip.pendiente+pre.pendiente;var totalPaid=totalOrig-totalPend;var hipPaid=hip.totalOriginal-hip.pendiente;var prePaid=pre.totalOriginal-pre.pendiente;var pctPaidTotal=(totalPaid/totalOrig)*100;
+  $("deudaResumen").innerHTML='<div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>Resumen total deuda</div><div class="donut-container"><canvas id="donutTotal" width="100" height="100"></canvas><div class="donut-info"><div class="amount" style="color:var(--loss)">'+fmt(totalPend)+'</div><div class="sub">pendiente de '+fmt(totalOrig)+'</div><div class="sub" style="margin-top:6px;color:var(--gain)">Pagado: '+fmt(totalPaid)+' ('+pctPaidTotal.toFixed(1)+'%)</div></div></div><div class="progress-bar-wrap"><div style="display:flex;height:100%;border-radius:8px;overflow:hidden"><div style="width:'+(hipPaid/totalOrig*100)+'%;background:#3B82F6;height:100%"></div><div style="width:'+(prePaid/totalOrig*100)+'%;background:#8B5CF6;height:100%"></div></div></div><div style="display:flex;gap:16px;margin-top:6px;font-size:11px;color:var(--text-mid)"><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#3B82F6;display:inline-block"></span>Hipoteca</span><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#8B5CF6;display:inline-block"></span>Préstamo</span><span style="display:flex;align-items:center;gap:4px"><span style="width:8px;height:8px;border-radius:50%;background:#e2e8f0;display:inline-block"></span>Pendiente</span></div>';
+  setTimeout(function(){var c=document.getElementById("donutTotal");if(!c)return;var ctx=c.getContext("2d");var s=c.width;var cx=s/2;var cy=s/2;var r=s/2-10;var lw=12;ctx.clearRect(0,0,s,s);ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();var hipAngle=(hipPaid/totalOrig)*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+hipAngle);ctx.strokeStyle="#3B82F6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();var preAngle=(prePaid/totalOrig)*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2+hipAngle,-Math.PI/2+hipAngle+preAngle);ctx.strokeStyle="#8B5CF6";ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(pctPaidTotal.toFixed(0)+"%",cx,cy)},50);
+  ["Hipoteca","Prestamo"].forEach(function(key){var debt=d.deuda[key];var paid=debt.totalOriginal-debt.pendiente;var pctPaid=(paid/debt.totalOriginal)*100;var container=key==="Hipoteca"?$("deudaHipoteca"):$("deudaPrestamo");var color=key==="Hipoteca"?"#3B82F6":"#8B5CF6";var label=key==="Hipoteca"?"Hipoteca":"Préstamo";container.innerHTML='<div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'+label+'</div><div class="donut-container"><canvas id="donut'+key+'" width="90" height="90"></canvas><div class="donut-info"><div class="amount" style="color:var(--loss)">'+fmt(debt.pendiente)+'</div><div class="sub">pendiente de '+fmt(debt.totalOriginal)+'</div><div class="sub">Cuota: '+fmt(debt.cuota)+'/mes · Fin: '+debt.fin+'</div></div></div><div class="progress-bar-wrap"><div class="progress-bar-fill" style="width:'+pctPaid+'%;background:'+color+'"></div></div><div class="deuda-detail"><span>Pagado: '+fmt(paid)+' ('+pctPaid.toFixed(1)+'%)</span><span>Pendiente: '+(100-pctPaid).toFixed(1)+'%</span></div>';drawMiniDonut("donut"+key,pctPaid,color)});
 }
 
-function drawMiniDonut(id,pct,color){
-  const c=document.getElementById(id);if(!c)return;
-  const ctx=c.getContext("2d");const s=c.width;const cx=s/2;const cy=s/2;const r=s/2-8;const lw=10;
-  ctx.clearRect(0,0,s,s);
-  ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();
-  ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(Math.PI*2*pct/100));ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.lineCap="round";ctx.stroke();
-  ctx.fillStyle="#1A2B45";ctx.font="bold 16px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillText(pct.toFixed(0)+"%",cx,cy);
-}
+function drawMiniDonut(id,pct,color){var c=document.getElementById(id);if(!c)return;var ctx=c.getContext("2d");var s=c.width;var cx=s/2;var cy=s/2;var r=s/2-8;var lw=10;ctx.clearRect(0,0,s,s);ctx.beginPath();ctx.arc(cx,cy,r,0,Math.PI*2);ctx.strokeStyle="#e2e8f0";ctx.lineWidth=lw;ctx.stroke();ctx.beginPath();ctx.arc(cx,cy,r,-Math.PI/2,-Math.PI/2+(Math.PI*2*pct/100));ctx.strokeStyle=color;ctx.lineWidth=lw;ctx.lineCap="round";ctx.stroke();ctx.fillStyle="#1A2B45";ctx.font="bold 16px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(pct.toFixed(0)+"%",cx,cy)}
 
-function renderCharts(){if(!DATA)return;renderDonutChart();renderInvBars();if(APORTACIONES)renderAportaciones()}
+function renderCharts(){if(!DATA)return;renderDonutChart();renderInvBars()}
 
-function renderDonutChart(){
-  const c=$("chartDonut");if(!c)return;const ctx=c.getContext("2d");
-  const totalBancos=Object.values(DATA.bancos).reduce((a,b)=>a+b,0);
-  const byType={fondo:0,pension:0,cripto:0};
-  Object.values(DATA.inversiones).forEach(i=>byType[i.tipo]+=i.actual);
-  const fe=DATA.huchas["Fondo Emergencia"]||0;
-  const hid=DATA.huchas["Hucha I+D"]||0;
-  const urg=DATA.urgencia||0;
-  const mesAC=DATA.mesAlCorriente||0;
-  const segments=[
-    {label:"Mes al Corriente",value:mesAC,color:"#14B8A6"},
-    {label:"Bancos",value:totalBancos,color:"#3B82F6"},
-    {label:"Fondos",value:byType.fondo,color:"#10B981"},
-    {label:"Pensiones",value:byType.pension,color:"#8B5CF6"},
-    {label:"Cripto",value:byType.cripto,color:"#F97316"},
-    {label:"Fondo Emergencia",value:fe,color:"#F59E0B"},
-    {label:"Hucha I+D",value:hid,color:"#06B6D4"},
-    {label:"Urgencia",value:urg,color:"#EF4444"},
-  ];
-  const total=segments.reduce((a,s)=>a+s.value,0);
-  const dpr=window.devicePixelRatio||1;const w=c.parentElement.clientWidth;const h=240;
-  c.width=w*dpr;c.height=h*dpr;c.style.width=w+"px";c.style.height=h+"px";ctx.scale(dpr,dpr);
-  const cx=w/2;const cy=h/2;const r=Math.min(w,h)/2-20;const lw=36;
-  let angle=-Math.PI/2;
-  segments.forEach(s=>{if(s.value<=0)return;const slice=(s.value/total)*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.strokeStyle=s.color;ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();angle+=slice});
-  ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";
-  ctx.fillText(fmt(total),cx,cy-8);ctx.font="12px 'Plus Jakarta Sans',sans-serif";ctx.fillStyle="#64748B";ctx.fillText("Total",cx,cy+12);
-  let legend="";
-  segments.forEach(s=>{if(s.value<=0)return;const pct=((s.value/total)*100).toFixed(1);legend+=`<div class="legend-row"><span class="legend-dot" style="background:${s.color}"></span><span style="flex:1">${s.label}</span><span style="font-weight:600">${fmt(s.value)}</span><span style="color:var(--text-mid);width:50px;text-align:right">${pct}%</span></div>`});
-  $("donutLegend").innerHTML=legend;
-}
+function renderDonutChart(){var c=$("chartDonut");if(!c)return;var ctx=c.getContext("2d");var totalBancos=Object.values(DATA.bancos).reduce(function(a,b){return a+b},0);var byType={fondo:0,pension:0,cripto:0};Object.values(DATA.inversiones).forEach(function(i){byType[i.tipo]+=i.actual});var fe=DATA.huchas["Fondo Emergencia"]||0;var hid=DATA.huchas["Hucha I+D"]||0;var urg=DATA.urgencia||0;var mesAC=DATA.mesAlCorriente||0;var segments=[{label:"Mes al Corriente",value:mesAC,color:"#14B8A6"},{label:"Bancos",value:totalBancos,color:"#3B82F6"},{label:"Fondos",value:byType.fondo,color:"#10B981"},{label:"Pensiones",value:byType.pension,color:"#8B5CF6"},{label:"Cripto",value:byType.cripto,color:"#F97316"},{label:"Fondo Emergencia",value:fe,color:"#F59E0B"},{label:"Hucha I+D",value:hid,color:"#06B6D4"},{label:"Urgencia",value:urg,color:"#EF4444"}];var total=segments.reduce(function(a,s){return a+Math.max(s.value,0)},0);var dpr=window.devicePixelRatio||1;var w=c.parentElement.clientWidth;var h=240;c.width=w*dpr;c.height=h*dpr;c.style.width=w+"px";c.style.height=h+"px";ctx.scale(dpr,dpr);var cx=w/2;var cy=h/2;var r=Math.min(w,h)/2-20;var lw=36;var angle=-Math.PI/2;segments.forEach(function(s){if(s.value<=0)return;var slice=(s.value/total)*Math.PI*2;ctx.beginPath();ctx.arc(cx,cy,r,angle,angle+slice);ctx.strokeStyle=s.color;ctx.lineWidth=lw;ctx.lineCap="butt";ctx.stroke();angle+=slice});ctx.fillStyle="#1A2B45";ctx.font="bold 18px 'Plus Jakarta Sans',sans-serif";ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText(fmt(total),cx,cy-8);ctx.font="12px 'Plus Jakarta Sans',sans-serif";ctx.fillStyle="#64748B";ctx.fillText("Total",cx,cy+12);var legend="";segments.forEach(function(s){if(s.value<=0)return;var pct=((s.value/total)*100).toFixed(1);legend+='<div class="legend-row"><span class="legend-dot" style="background:'+s.color+'"></span><span style="flex:1">'+s.label+'</span><span style="font-weight:600">'+fmt(s.value)+'</span><span style="color:var(--text-mid);width:50px;text-align:right">'+pct+'%</span></div>'});$("donutLegend").innerHTML=legend}
 
-function renderInvBars(){
-  const inv=Object.entries(DATA.inversiones);
-  const colorMap={
-    "Fondo BSG":"#047857","Fondo 75":"#059669","Fondo AI+75":"#10B981",
-    "Amundi S&P 500":"#34D399","Amundi Nasdaq 100":"#6EE7B7","Amundi MSCI":"#A7F3D0",
-    "PP ING":"#7C3AED","PP NN":"#A78BFA",
-    "Cronos":"#C2410C","Bitcoin":"#EA580C","Ethereum":"#F97316"
-  };
-  const maxVal=Math.max(...inv.map(([,i])=>Math.max(i.actual,i.inicial)))*1.1;
+function renderInvBars(){var inv=Object.entries(DATA.inversiones);var colorMap={"Fondo BSG":"#047857","Fondo 75":"#059669","Fondo AI+75":"#10B981","Amundi S&P 500":"#34D399","Amundi Nasdaq 100":"#6EE7B7","Amundi MSCI":"#A7F3D0","PP ING":"#7C3AED","PP NN":"#A78BFA","Cronos":"#C2410C","Bitcoin":"#EA580C","Ethereum":"#F97316"};var maxVal=Math.max.apply(null,inv.map(function(e){return Math.max(e[1].actual,e[1].inicial)}))*1.1;var blocks=[{title:"Fondos de Inversión",tipo:"fondo"},{title:"Planes de Pensiones",tipo:"pension"},{title:"Criptomonedas",tipo:"cripto"}];var html="";blocks.forEach(function(block){var items=inv.filter(function(e){return e[1].tipo===block.tipo});if(!items.length)return;var tIni=items.reduce(function(a,e){return a+e[1].inicial},0);var tAct=items.reduce(function(a,e){return a+e[1].actual},0);var tGain=tAct-tIni;var tPct=tIni?((tGain)/tIni)*100:0;var gc=tGain>=0?"var(--gain)":"var(--loss)";html+='<div class="block-header">'+block.title+'</div>';html+='<div class="block-summary">Invertido: '+fmt(tIni)+' · Actual: '+fmt(tAct)+' · <span style="color:'+gc+';font-weight:600">Ganancia: '+fmtDiff(tGain)+' ('+fmtPct(tPct)+')</span></div>';items.forEach(function(e){var name=e[0],item=e[1];var col=colorMap[name]||"#64748B";var diff=item.actual-item.inicial;var pct=item.inicial?((diff)/item.inicial)*100:0;var sign=diff>=0?"+":"";var pc=diff>=0?"var(--gain)":"var(--loss)";var wAct=Math.max((item.actual/maxVal)*100,1);var wIni=Math.max((item.inicial/maxVal)*100,1);var actInside=wAct>25;var iniInside=wIni>20;html+='<div style="margin-bottom:14px"><div style="font-size:13px;font-weight:600;margin-bottom:3px">'+name+': <span style="color:'+pc+'">'+sign+Math.round(diff)+'€ '+fmtPct(pct)+'</span></div><div style="position:relative;background:#e2e8f0;border-radius:5px;height:22px;margin-bottom:3px;overflow:visible"><div style="width:'+wAct+'%;background:'+col+';height:100%;border-radius:5px;position:absolute;top:0;left:0"></div><span style="position:absolute;'+(actInside?"left:6px;color:#fff":"left:"+wAct+"%;margin-left:6px;color:#1A2B45")+';top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;white-space:nowrap">'+fmtShort(item.actual)+'</span></div><div style="position:relative;background:#f1f5f9;border-radius:5px;height:18px;overflow:visible"><div style="width:'+wIni+'%;background:'+col+'44;height:100%;border-radius:5px;position:absolute;top:0;left:0"></div><span style="position:absolute;'+(iniInside?"left:6px;color:#555":"left:"+wIni+"%;margin-left:6px;color:#1A2B45")+';top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;white-space:nowrap">'+fmtShort(item.inicial)+'</span></div></div>'})});$("invDetailBlocks").innerHTML=html}
 
-  const blocks=[
-    {title:"Fondos de Inversión",tipo:"fondo"},
-    {title:"Planes de Pensiones",tipo:"pension"},
-    {title:"Criptomonedas",tipo:"cripto"}
-  ];
+/* ─── EVOLUCION TAB ─── */
+var evoCharts={};
+var EVO_COLORS={"Best Style":"#059669","NQ100":"#F97316","SP500":"#3B82F6","MSCI":"#8B5CF6","PP NN":"#7C3AED"};
 
-  let html="";
-
-  blocks.forEach(block=>{
-    const items=inv.filter(([,i])=>i.tipo===block.tipo);
-    if(!items.length)return;
-
-    const tIni=items.reduce((a,[,i])=>a+i.inicial,0);
-    const tAct=items.reduce((a,[,i])=>a+i.actual,0);
-    const tGain=tAct-tIni;
-    const tPct=tIni?((tGain)/tIni)*100:0;
-    const gc=tGain>=0?"var(--gain)":"var(--loss)";
-
-    html+=`<div class="block-header">${block.title}</div>`;
-    html+=`<div class="block-summary">Invertido: ${fmt(tIni)} · Actual: ${fmt(tAct)} · <span style="color:${gc};font-weight:600">Ganancia: ${fmtDiff(tGain)} (${fmtPct(tPct)})</span></div>`;
-
-    items.forEach(([name,item])=>{
-      const col=colorMap[name]||"#64748B";
-      const diff=item.actual-item.inicial;
-      const pct=item.inicial?((diff)/item.inicial)*100:0;
-      const sign=diff>=0?"+":"";
-      const pc=diff>=0?"var(--gain)":"var(--loss)";
-      const wAct=Math.max((item.actual/maxVal)*100,1);
-      const wIni=Math.max((item.inicial/maxVal)*100,1);
-      const actInside=wAct>25;
-      const iniInside=wIni>20;
-
-      html+=`<div style="margin-bottom:14px">
-        <div style="font-size:13px;font-weight:600;margin-bottom:3px">${name}: <span style="color:${pc}">${sign}${Math.round(diff)}€ ${fmtPct(pct)}</span></div>
-        <div style="position:relative;background:#e2e8f0;border-radius:5px;height:22px;margin-bottom:3px;overflow:visible">
-          <div style="width:${wAct}%;background:${col};height:100%;border-radius:5px;position:absolute;top:0;left:0"></div>
-          <span style="position:absolute;${actInside?"left:6px;color:#fff":"left:"+wAct+"%;margin-left:6px;color:#1A2B45"};top:50%;transform:translateY(-50%);font-size:11px;font-weight:700;white-space:nowrap">${fmtShort(item.actual)}</span>
-        </div>
-        <div style="position:relative;background:#f1f5f9;border-radius:5px;height:18px;overflow:visible">
-          <div style="width:${wIni}%;background:${col}44;height:100%;border-radius:5px;position:absolute;top:0;left:0"></div>
-          <span style="position:absolute;${iniInside?"left:6px;color:#555":"left:"+wIni+"%;margin-left:6px;color:#1A2B45"};top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;white-space:nowrap">${fmtShort(item.inicial)}</span>
-        </div>
-      </div>`;
-    });
-  });
-
-  $("invDetailBlocks").innerHTML=html;
-}
-
-async function fetchAportaciones(){
-  try{
-    const r=await fetch(`${API}?pass=${encodeURIComponent(PASS)}&action=getAportaciones`);
-    APORTACIONES=await r.json();
-    if(APORTACIONES&&!APORTACIONES.error){
-      const tab=$("tab-graficas");
-      if(tab&&tab.classList.contains("active"))renderAportaciones();
-    }
-  }catch(e){}
-}
-
-const APO_COLORS={
-  "Best Style":"#059669","NQ100":"#F97316","SP500":"#3B82F6","MSCI":"#8B5CF6","PP NN":"#7C3AED"
-};
-var apoCharts={};
-
-function renderAportaciones(){
+function renderEvolucion(){
   if(!APORTACIONES)return;
-  const container=$("aportacionesCharts");
-  if(!container)return;
-
-  const fundNames=["Best Style","NQ100","SP500","MSCI","PP NN"];
-  let html="";
+  var container=$("evolucionCharts");if(!container)return;
+  var fundNames=["Best Style","NQ100","SP500","MSCI","PP NN"];
+  var html="";
   fundNames.forEach(function(name){
-    html+=`<div class="card" style="margin-top:12px">
-      <div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>Aportaciones ${name}</div>
-      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px;font-size:11px;color:var(--color-text-secondary,#64748B)">
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#6B7280"></span>Precio compra</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#10B981"></span>Ganancia</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF4444"></span>Pérdida</span>
-        <span style="display:flex;align-items:center;gap:4px"><span style="width:18px;height:2px;background:${APO_COLORS[name]||"#3B82F6"}"></span>Precio actual</span>
-      </div>
-      <div style="position:relative;width:100%;height:280px">
-        <canvas id="apoChart_${name.replace(/ /g,'_')}" role="img" aria-label="Gráfico de aportaciones ${name}"></canvas>
-      </div>
-      <div id="apoStats_${name.replace(/ /g,'_')}" style="margin-top:8px"></div>
-    </div>`;
+    var fund=APORTACIONES[name];
+    if(!fund||!fund.purchases||fund.purchases.length===0||!fund.precioActual)return;
+    var safeId=name.replace(/ /g,'_');
+    var numBars=fund.purchases.length;
+    var minW=Math.max(numBars*50,400);
+    html+='<div class="card" style="margin-bottom:12px"><div class="card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>'+name+' — Precio actual: '+fmt(fund.precioActual)+'</div>';
+    html+='<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;font-size:11px;color:#64748B"><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#6B7280"></span>Precio compra</span><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#10B981"></span>Ganancia</span><span style="display:flex;align-items:center;gap:4px"><span style="width:10px;height:10px;border-radius:2px;background:#EF4444"></span>Pérdida</span><span style="display:flex;align-items:center;gap:4px"><span style="width:18px;height:2px;background:'+(EVO_COLORS[name]||"#3B82F6")+'"></span>Precio actual</span></div>';
+    html+='<div class="evo-scroll"><div class="evo-chart-inner" style="min-width:'+minW+'px"><canvas id="evoC_'+safeId+'"></canvas></div></div>';
+    html+='<div id="evoS_'+safeId+'" style="margin-top:8px"></div></div>';
   });
+  if(!html)html='<div class="card"><div style="text-align:center;padding:20px;color:var(--text-mid)">No hay datos de aportaciones</div></div>';
   container.innerHTML=html;
 
-  Object.keys(apoCharts).forEach(function(k){if(apoCharts[k])apoCharts[k].destroy()});
-  apoCharts={};
+  Object.keys(evoCharts).forEach(function(k){if(evoCharts[k])evoCharts[k].destroy()});
+  evoCharts={};
 
   fundNames.forEach(function(name){
-    const fund=APORTACIONES[name];
-    if(!fund||!fund.purchases||fund.purchases.length===0)return;
-    const purchases=fund.purchases;
-    const currentPrice=fund.precioActual;
-    if(!currentPrice)return;
-
-    const labels=purchases.map(function(p){return p.date});
-    const greyData=[],greenData=[],redData=[],lineData=[];
-
-    let totalInv=0,totalParts=0;
-    purchases.forEach(function(p){
-      totalInv+=p.apo;
-      totalParts+=p.par;
-      if(p.com<=currentPrice){
-        greyData.push(p.com);
-        greenData.push(currentPrice-p.com);
-        redData.push(0);
-      }else{
-        greyData.push(currentPrice);
-        greenData.push(0);
-        redData.push(p.com-currentPrice);
-      }
-      lineData.push(currentPrice);
-    });
-
-    const totalActual=totalParts*currentPrice;
-    const gain=totalActual-totalInv;
-    const pct=totalInv?(gain/totalInv)*100:0;
-    const gc=gain>=0?"#10B981":"#EF4444";
-    const sign=gain>=0?"+":"";
-
-    const statsEl=$("apoStats_"+name.replace(/ /g,'_'));
-    if(statsEl){
-      statsEl.innerHTML=`<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;font-size:11px">
-        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Invertido</div><div style="font-weight:600">${fmt(totalInv)}</div></div>
-        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Actual</div><div style="font-weight:600">${fmt(totalActual)}</div></div>
-        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Ganancia</div><div style="font-weight:600;color:${gc}">${sign}${Math.round(gain)} €</div></div>
-        <div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Rentab.</div><div style="font-weight:600;color:${gc}">${sign}${pct.toFixed(2)}%</div></div>
-      </div>`;
-    }
-
-    const allVals=purchases.map(function(p){return p.com}).concat([currentPrice]);
-    const minV=Math.min.apply(null,allVals)*0.85;
-    const maxV=Math.max.apply(null,allVals)*1.1;
-
-    const canvasId="apoChart_"+name.replace(/ /g,'_');
-    const canvas=document.getElementById(canvasId);
-    if(!canvas)return;
-
-    apoCharts[name]=new Chart(canvas,{
-      type:'bar',
-      data:{
-        labels:labels,
-        datasets:[
-          {label:'Precio compra',data:greyData,backgroundColor:'#6B728088',borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4},borderSkipped:false,order:2},
-          {label:'Ganancia',data:greenData,backgroundColor:'#10B981',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},
-          {label:'Pérdida',data:redData,backgroundColor:'#EF4444',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},
-          {label:'Precio actual',data:lineData,type:'line',borderColor:APO_COLORS[name]||'#3B82F6',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}
-        ]
-      },
-      options:{
-        responsive:true,
-        maintainAspectRatio:false,
-        scales:{
-          x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:45}},
-          y:{stacked:true,min:Math.floor(minV),max:Math.ceil(maxV),ticks:{callback:function(v){return v+' €'},font:{size:10}},grid:{color:'rgba(0,0,0,0.06)'}}
-        },
-        plugins:{
-          legend:{display:false},
-          tooltip:{
-            callbacks:{
-              title:function(items){return 'Compra '+items[0].label},
-              label:function(item){
-                var idx=item.dataIndex;var p=purchases[idx];
-                if(item.datasetIndex===0)return 'Precio compra: '+p.com.toFixed(2)+' €';
-                if(item.datasetIndex===1&&greenData[idx]>0)return 'Ganancia: +'+greenData[idx].toFixed(2)+' €';
-                if(item.datasetIndex===2&&redData[idx]>0)return 'Pérdida: -'+redData[idx].toFixed(2)+' €';
-                return '';
-              },
-              afterBody:function(items){var idx=items[0].dataIndex;var p=purchases[idx];return 'Aportación: '+p.apo+' € ('+p.par.toFixed(4)+' partic.)'}
-            }
-          }
-        }
-      }
-    });
+    var fund=APORTACIONES[name];
+    if(!fund||!fund.purchases||fund.purchases.length===0||!fund.precioActual)return;
+    var purchases=fund.purchases;var currentPrice=fund.precioActual;var safeId=name.replace(/ /g,'_');
+    var labels=purchases.map(function(p){return p.date});
+    var greyData=[],greenData=[],redData=[],lineData=[];
+    var totalInv=0,totalParts=0;
+    purchases.forEach(function(p){totalInv+=p.apo;totalParts+=p.par;if(p.com<=currentPrice){greyData.push(p.com);greenData.push(currentPrice-p.com);redData.push(0)}else{greyData.push(currentPrice);greenData.push(0);redData.push(p.com-currentPrice)}lineData.push(currentPrice)});
+    var totalActual=totalParts*currentPrice;var gain=totalActual-totalInv;var pct=totalInv?(gain/totalInv)*100:0;var gc=gain>=0?"#10B981":"#EF4444";var sign=gain>=0?"+":"";
+    var statsEl=$("evoS_"+safeId);
+    if(statsEl)statsEl.innerHTML='<div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;font-size:11px"><div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Invertido</div><div style="font-weight:600">'+fmt(totalInv)+'</div></div><div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Actual</div><div style="font-weight:600">'+fmt(totalActual)+'</div></div><div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Ganancia</div><div style="font-weight:600;color:'+gc+'">'+sign+Math.round(gain)+' €</div></div><div style="background:#F8FAFC;border-radius:6px;padding:6px 8px"><div style="color:#64748B">Rentab.</div><div style="font-weight:600;color:'+gc+'">'+sign+pct.toFixed(2)+'%</div></div></div>';
+    var allVals=purchases.map(function(p){return p.com}).concat([currentPrice]);
+    var minV=Math.min.apply(null,allVals)*0.85;var maxV=Math.max.apply(null,allVals)*1.1;
+    var canvas=document.getElementById("evoC_"+safeId);if(!canvas)return;
+    evoCharts[name]=new Chart(canvas,{type:'bar',data:{labels:labels,datasets:[{label:'Precio compra',data:greyData,backgroundColor:'#6B728088',borderRadius:{topLeft:0,topRight:0,bottomLeft:4,bottomRight:4},borderSkipped:false,order:2},{label:'Ganancia',data:greenData,backgroundColor:'#10B981',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},{label:'Pérdida',data:redData,backgroundColor:'#EF4444',borderRadius:{topLeft:4,topRight:4,bottomLeft:0,bottomRight:0},borderSkipped:false,order:2},{label:'Precio actual',data:lineData,type:'line',borderColor:EVO_COLORS[name]||'#3B82F6',borderWidth:2,borderDash:[6,4],pointRadius:0,fill:false,order:1}]},options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true,grid:{display:false},ticks:{font:{size:10},maxRotation:45,autoSkip:false}},y:{stacked:true,min:Math.floor(minV),max:Math.ceil(maxV),ticks:{callback:function(v){return v+' €'},font:{size:10}},grid:{color:'rgba(0,0,0,0.06)'}}},plugins:{legend:{display:false},tooltip:{callbacks:{title:function(items){return'Compra '+items[0].label},label:function(item){var idx=item.dataIndex;var p=purchases[idx];if(item.datasetIndex===0)return'Precio compra: '+p.com.toFixed(2)+' €';if(item.datasetIndex===1&&greenData[idx]>0)return'Ganancia: +'+greenData[idx].toFixed(2)+' €';if(item.datasetIndex===2&&redData[idx]>0)return'Pérdida: -'+redData[idx].toFixed(2)+' €';return''},afterBody:function(items){var idx=items[0].dataIndex;var p=purchases[idx];return'Aportación: '+p.apo+' € ('+p.par.toFixed(4)+' partic.)'}}}}}});
   });
 }
 
-if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(()=>{})}
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
 </script>
 </body>
 </html>
